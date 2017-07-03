@@ -1,0 +1,11 @@
+api:
+    resource: "@ApiBundle/Resources/config/routing.yml"
+    prefix:   /
+
+get_brands:
+    path: /ExportGetBrands
+    defaults: { _controller: ApiBundle:ExportGetBrands:getAll }
+
+test:
+    path: /test
+    defaults: { _controller: ApiBundle:Test:test }
