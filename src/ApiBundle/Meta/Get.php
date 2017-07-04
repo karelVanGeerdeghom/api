@@ -1,26 +1,8 @@
 <?php
 
-namespace ApiBundle\Entity;
+namespace ApiBundle\Meta;
 
-use ApiBundle\Entity\Attribute;
-
-/**
- * Base
- */
-class Base
-{
-	function __construct() {
-		foreach ($this->attributes as $attribute => $type) {
-			$this->$attribute = new Attribute($attribute, $type);
-		}
-	}
-
-	public function set(string $attribute, $value) {
-		if (in_array($attribute, $this->attributes)) {
-			$this->$attribute->set($value);
-		}		
-	}
-
+Trait Get {
 	public function get($data = null): array {
 		if (is_string($data) && array_key_exists($data, $this->attributes)) {
 			return $this->getSingle($data);
@@ -42,7 +24,15 @@ class Base
 	private function getMultiple(array $attributes): array {
 		$results = [];
 		foreach ($attributes as $attribute) {
-			$results[$attribute] = $this->$attribute->get();
+			if ($this->$attribute->group()) {
+				if (!array_key_exists($this->$attribute->group(), $results)) {
+					$results[$this->$attribute->group()] = [];
+				}
+
+				$results[$this->$attribute->group()][$attribute] = $this->$attribute->get();
+			} else {
+				$results[$attribute] = $this->$attribute->get();
+			}			
 		}
 
 		return $results;
