@@ -2,22 +2,16 @@
 
 namespace ApiBundle\Entity;
 
-use ApiBundle\Meta\Base;
+use ApiBundle\Meta\BaseEntity;
 
 /**
  * Brand
  */
-class Brand extends Base
+class Brand extends BaseEntity
 {
 	protected $attributes = [
-		'id' => [
-			'type' => 'id'
-		],
-		'url' => [
-			'type' => 'string'
-		],
-		'title_tid' => [
-			'type' => 'translation'
-		]
+		'id' => self::ID,
+		'url' => [],
+		'title_tid' => self::TRANSLATION
 	];
 }

@@ -2,17 +2,26 @@
 
 namespace ApiBundle\Meta;
 
-use ApiBundle\Meta\Attribute;
 use ApiBundle\Meta\Get;
 use ApiBundle\Meta\Set;
+use ApiBundle\Meta\Attribute;
 
 /**
- * Base
+ * BaseEntity
  */
-class Base
+class BaseEntity
 {
 	use Set;
 	use Get;
+
+	const ID = [
+		'type' => 'id'
+	];
+
+	const TRANSLATION = [
+		'type' => 'translation',
+		'meta' => ['label']
+	];
 
 	function __construct() {
 		foreach ($this->attributes as $attribute => $options) {

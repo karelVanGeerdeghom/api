@@ -5,21 +5,16 @@ Class Attribute {
 	private $id;
 	private $value = '';
 
-	private $filter = false;
+	private $type = false;
 	private $label = false;
 	private $group = false;
+	private $meta = false;
 
 	function __construct($id, $options) {
 		$this->id = $id;
 
-		if (array_key_exists('filter', $options)) {
-			$this->filter = $options['filter'];
-		}
-		if (array_key_exists('label', $options)) {
-			$this->label = $options['label'];
-		}
-		if (array_key_exists('group', $options)) {
-			$this->group = $options['group'];
+		foreach ($options as $key => $value) {
+			$this->$key = $value;
 		}
 	}
 
@@ -28,11 +23,11 @@ Class Attribute {
 	}
 
 	public function get() {
-		if ($this->label) {
-			return $this->getLabelValue();
+		if ($this->meta) {
+			return $this->getMetaValue();
+		} else {
+			return $this->getValue();
 		}
-
-		return $this->getValue();
 	}
 
 	public function group() {
@@ -43,10 +38,13 @@ Class Attribute {
 		return $this->value;
 	}
 
-	private function getLabelValue() {
-		return [
-			'label' => $this->id,
-			'value' => $this->value
-		];
+	private function getMetaValue() {
+		$return['value'] = $this->value;
+
+		foreach ($this->meta as $option) {
+			$return[$option] = '';
+		}
+
+		return $return;
 	}
 }
