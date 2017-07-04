@@ -29,16 +29,24 @@ Class Attribute {
 
 	public function get() {
 		if ($this->label) {
-			return [
-				'label' => $this->id,
-				'value' => $this->value
-			];
+			return $this->getLabelValue();
 		}
 
-		return $this->value;
+		return $this->getValue();
 	}
 
 	public function group() {
 		return $this->group;
+	}
+
+	private function getValue() {
+		return $this->value;
+	}
+
+	private function getLabelValue() {
+		return [
+			'label' => $this->id,
+			'value' => $this->value
+		];
 	}
 }

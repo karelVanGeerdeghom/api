@@ -9,7 +9,9 @@ use ApiBundle\Meta\Base;
 class Product extends Base
 {
 	protected $attributes = [
-		'id' => [],
+		'id' => [
+			'filter' => 'id'
+		],
 		'Brand_id' => [],
 		'fat_percentage' => [
 			'group' => 'percentage_values',
