@@ -27,7 +27,7 @@ class Product extends BaseEntity
 	];
 
 	const ENUM_VALUE = [
-		'type' => 'enum',
+		'type' => 'enum_value',
 		'meta' => ['label']
 	];
 
