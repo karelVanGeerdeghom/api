@@ -9,6 +9,8 @@ use ApiBundle\Meta\BaseEntity;
  */
 class Brand extends BaseEntity
 {
+	protected $tableName = 'Brand';
+
 	protected $attributes = [
 		'id' => self::ID,
 		'url' => [],

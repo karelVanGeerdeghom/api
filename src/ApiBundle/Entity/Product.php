@@ -31,6 +31,8 @@ class Product extends BaseEntity
 		'meta' => ['label']
 	];
 
+	protected $tableName = 'Recipe';
+
 	protected $attributes = [
 		'id' => self::ID,
 		'Brand_id' => [],

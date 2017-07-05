@@ -11,19 +11,17 @@ class ExportGetBrandsController extends Controller
 	public function getAllAction() {
 		$all = [];
 
-		$brand = new Brand();
-		$brand->set('id', 1);
-		$brand->set('url', 'http://localhost:8888/productdb-api-v3/web/app_dev.php/ExportGetBrands');
-		$brand->set('title_tid', 'Brand 1');
+		$connectionFactory = $this->get('doctrine.dbal.connection_factory');
+		$connection = $connectionFactory->createConnection(
+			['pdo' => new \PDO('mysql:host=localhost;dbname=bcproductdb_st', 'root', 'root')]
+		);
 
-		array_push($all, $brand->get());
-
-		$brand = new Brand();
-		$brand->set('id', 2);
-		$brand->set('url', 'http://localhost:8888/productdb-api-v3/web/app_dev.php/ExportGetBrands');
-		$brand->set('title_tid', 'Brand 2');
-
-		array_push($all, $brand->get());
+		$result = $connection->fetchAll('SELECT * FROM Brand');
+		foreach ($result as $row) {
+			$brand = new Brand();
+			$brand->set($row);
+			array_push($all, $brand->get());
+		}
 
 		return $all;
 	}
