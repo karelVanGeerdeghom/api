@@ -23,7 +23,7 @@ Class Attribute {
 		$this->value = $value;
 	}
 
-	public function get($meta = null) {
+	public function get($meta = null):array {
 		$data = [
 			'key' => $this->id,
 			'value' => $this->value,
