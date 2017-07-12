@@ -1,5 +1,4 @@
 <?php
-
 namespace ApiBundle\Entity;
 
 use ApiBundle\Meta\BaseEntity;
@@ -12,8 +11,8 @@ class Brand extends BaseEntity
 	protected $tableName = 'Brand';
 
 	protected $attributes = [
-		'id' => self::ID,
+		'id' => ['type' => 'id'],
 		'url' => [],
-		'title_tid' => self::TRANSLATION
+		'title_tid' => ['type' => 'translation']
 	];
 }

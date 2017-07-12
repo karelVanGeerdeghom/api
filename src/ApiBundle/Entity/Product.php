@@ -11,31 +11,37 @@ class Product extends BaseEntity
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',
 		'type' => 'float',
-		'meta' => ['label']
+		'extras' => ['ColumnTranslation']
 	];
 
 	const TASTE_VALUE = [
 		'group' => 'taste_values',
 		'type' => 'float',
-		'meta' => ['label', 'description']
+		'extras' => ['ColumnTranslation', 'FieldDescription']
 	];
 
 	const TASTE_BOOLEAN = [
 		'group' => 'taste_booleans',
 		'type' => 'boolean',
-		'meta' => ['label']
+		'extras' => ['ColumnTranslation']
 	];
 
 	const ENUM_VALUE = [
-		'type' => 'enum_value',
-		'meta' => ['label']
+		'type' => 'enum',
+		'extras' => ['ColumnTranslation', 'ValueTranslation']
 	];
 
 	protected $tableName = 'Recipe';
 
 	protected $attributes = [
-		'id' => self::ID,
+		'id' => ['type' => 'id'],
 		'Brand_id' => [],
+
+		'content_tid' => ['type' => 'translation'],
+		'description_tid' => [
+			'type' => 'translation',
+			'extras' => ['ColumnTranslation']
+		],
 
 		'cacao_percentage' => self::PERCENTAGE_VALUE,
 		'fat_percentage' => self::PERCENTAGE_VALUE,

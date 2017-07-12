@@ -1,19 +1,22 @@
 <?php
 namespace ApiBundle\Meta;
 
+use ApiBundle\Meta\Translation;
+
 Class Attribute {
 	private $id;
-	private $value = '';
+	private $value = null;
 
-	private $type = false;
-	private $label = false;
-	private $group = false;
-	private $meta = false;
+	private $type = null;
+	private $group = null;
+	private $extras = null;
 
-	function __construct($id, $options) {
+	private $get = [];
+
+	function __construct($id, $data) {
 		$this->id = $id;
 
-		foreach ($options as $key => $value) {
+		foreach ($data as $key => $value) {
 			$this->$key = $value;
 		}
 	}
@@ -22,29 +25,53 @@ Class Attribute {
 		$this->value = $value;
 	}
 
-	public function get() {
-		if ($this->meta) {
-			return $this->getMetaValue();
-		} else {
-			return $this->getValue();
+	public function get($meta = null) {
+		$data = [
+			'key' => $this->id,
+			'value' => $this->value,
+			'group' => $this->group
+		];
+
+		if ($this->extras) {
+			$data['value'] = [];
+
+			if ($this->type === 'translation') {
+				$data['key'] = substr($this->id, 0, -4);
+				$data['value']['value_tid'] = $this->value;
+			} else {
+				$data['value']['value'] = $this->value;
+			}
+
+			if ($meta) {
+				if (array_key_exists('ColumnTranslation', $meta) && in_array('ColumnTranslation', $this->extras)) {
+					$data['value']['label'] = null;
+					if (array_key_exists($this->id, $meta['ColumnTranslation'])) {
+						unset($data['value']['label']);
+						$data['value']['label_tid'] = $meta['ColumnTranslation'][$this->id];
+					}
+				}
+
+				if (array_key_exists('ValueTranslation', $meta) && in_array('ValueTranslation', $this->extras)) {
+					if (array_key_exists($this->value, $meta['ValueTranslation'])) {
+						unset($data['value']['value']);
+						$data['value']['value_tid'] = $meta['ValueTranslation'][$this->value];
+					}
+				}
+
+				if (array_key_exists('FieldDescription', $meta) && in_array('FieldDescription', $this->extras)) {
+					$data['value']['description'] = null;
+					if (array_key_exists($this->id, $meta['FieldDescription'])) {
+						unset($data['value']['description']);
+						$data['value']['description_tid'] = $meta['FieldDescription'][$this->id];
+					}
+				}				
+			}
 		}
-	}
 
-	public function group() {
-		return $this->group;
-	}
+		if (is_array($data['value'])) {
+			ksort($data['value']);
+		}		
 
-	private function getValue() {
-		return $this->value;
-	}
-
-	private function getMetaValue() {
-		$return['value'] = $this->value;
-
-		foreach ($this->meta as $option) {
-			$return[$option] = '';
-		}
-
-		return $return;
+		return $data;
 	}
 }
