@@ -4,9 +4,9 @@ namespace ApiBundle\Meta;
 use ApiBundle\Meta\Attribute;
 
 /**
- * BaseEntity
+ * Base
  */
-class BaseEntity
+class Base
 {
 	protected $meta = null;
 	protected $attributes = [];

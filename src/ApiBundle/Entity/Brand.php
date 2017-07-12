@@ -1,12 +1,12 @@
 <?php
 namespace ApiBundle\Entity;
 
-use ApiBundle\Meta\BaseEntity;
+use ApiBundle\Meta\Base;
 
 /**
  * Brand
  */
-class Brand extends BaseEntity
+class Brand extends Base
 {
 	protected $tableName = 'Brand';
 

@@ -1,12 +1,12 @@
 <?php
 namespace ApiBundle\Entity;
 
-use ApiBundle\Meta\BaseEntity;
+use ApiBundle\Meta\Base;
 
 /**
  * Product
  */
-class Product extends BaseEntity
+class Product extends Base
 {
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',

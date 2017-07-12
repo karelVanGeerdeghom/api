@@ -1,8 +1,6 @@
 <?php
 namespace ApiBundle\Meta;
 
-use ApiBundle\Meta\Translation;
-
 Class Attribute {
 	private $id;
 	private $value = null;
