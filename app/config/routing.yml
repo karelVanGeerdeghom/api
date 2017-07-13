@@ -6,6 +6,10 @@ get_brands:
     path: /ExportGetBrands
     defaults: { _controller: ApiBundle:ExportGetBrands:getAll }
 
+get_product_details:
+    path: /GetProductDetails
+    defaults: { _controller: ApiBundle:GetProductDetails:getAll }
+
 test:
     path: /test
     defaults: { _controller: ApiBundle:Test:test }

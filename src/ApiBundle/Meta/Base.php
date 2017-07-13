@@ -72,6 +72,18 @@ class Base
 		return $this->relations;
 	}
 
+	public function getByType(string $type) {
+		$results = [];
+
+		foreach ($this->attributes as $attribute) {
+			if ($this->$attribute->getType() === $type) {
+				array_push($results, $attribute);
+			}
+		}
+
+		return $results;
+	}
+
 	private function setSingle(string $attribute, $value) {
 		if (array_key_exists($attribute, $this->attributes)) {
 			$this->$attribute->set($value);

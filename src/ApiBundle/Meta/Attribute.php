@@ -63,6 +63,10 @@ Class Attribute {
 		return $data;
 	}
 
+	public function getType() {
+		return $this->type;
+	}
+
 	private function getGroup() {
 		return $this->group;
 	}
