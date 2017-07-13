@@ -3,6 +3,11 @@ namespace ApiBundle\Entity;
 
 use ApiBundle\Meta\Base;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="ApiBundle\Repository\ProductRepository")
+ */
 class Product extends Base
 {
 	const TRANSLATION = [
@@ -32,6 +37,13 @@ class Product extends Base
 		'type' => 'enum',
 		'meta' => ['ColumnTranslation', 'ValueTranslation']
 	];
+
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
 
 	protected $table = 'Recipe';
 
