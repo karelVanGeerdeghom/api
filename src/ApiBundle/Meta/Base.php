@@ -3,22 +3,17 @@ namespace ApiBundle\Meta;
 
 use ApiBundle\Meta\Attribute;
 
-/**
- * Base
- */
 class Base
 {
+	protected $table = null;
 	protected $meta = null;
 	protected $attributes = [];
+	protected $relations = [];
 
 	function __construct() {
 		foreach ($this->attributes as $attribute => $properties) {
 			$this->$attribute = new Attribute($attribute, $properties);
 		}
-	}
-
-	public function setMeta($meta = null) {
-		$this->meta = $meta;
 	}
 
 	public function set() {
@@ -33,7 +28,7 @@ class Base
 		}
 	}
 
-	public function get($data = null): array {
+	public function get($data = null) {
 		if (is_string($data) && array_key_exists($data, $this->attributes)) {
 			return $this->getSingle($data);
 		}
@@ -47,26 +42,69 @@ class Base
 		}
 	}
 
-	private function setSingle($attribute, $value) {
+	public function export($data = null): array {
+		if (is_string($data) && array_key_exists($data, $this->attributes)) {
+			return $this->exportSingle($data);
+		}
+
+		if (is_array($data) && count(array_intersect(array_keys($this->attributes), $data)) > 0) {
+			return $this->exportMultiple(array_intersect(array_keys($this->attributes), $data));
+		}
+
+		if ($data === null) {
+			return $this->exportMultiple(array_keys($this->attributes));
+		}
+	}
+
+	public function setMeta($meta = null) {
+		$this->meta = $meta;
+	}
+
+	public function getTable() {
+		if ($this->table) {
+			return $this->table;
+		}
+		
+		return (new \ReflectionClass($this))->getShortName();
+	}
+
+	public function getRelations(): array {
+		return $this->relations;
+	}
+
+	private function setSingle(string $attribute, $value) {
 		if (array_key_exists($attribute, $this->attributes)) {
 			$this->$attribute->set($value);
 		}
 	}
 
-	private function setMultiple($data) {
+	private function setMultiple(array $data) {
 		foreach ($data as $attribute => $value) {
 			$this->setSingle($attribute, $value);
 		}
 	}
 
-	private function getSingle(string $attribute): array {
-		return $this->$attribute->get($this->meta);
+	private function getSingle(string $attribute) {
+		return $this->$attribute->get();
 	}
 
 	private function getMultiple(array $attributes): array {
 		$results = [];
 		foreach ($attributes as $attribute) {
-			$attributeData = $this->$attribute->get($this->meta);
+			$results[$attribute] = $this->$attribute->get();
+		}
+
+		return $results;
+	}
+
+	private function exportSingle(string $attribute): array {
+		return $this->$attribute->export($this->meta);
+	}
+
+	private function exportMultiple(array $attributes): array {
+		$results = [];
+		foreach ($attributes as $attribute) {
+			$attributeData = $this->$attribute->export($this->meta);
 
 			$reference = &$results;
 			if ($attributeData['group']) {

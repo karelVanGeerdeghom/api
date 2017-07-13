@@ -3,11 +3,12 @@ namespace ApiBundle\Entity;
 
 use ApiBundle\Meta\Base;
 
-class Brand extends Base
+class Testimonial extends Base
 {
 	protected $attributes = [
 		'id' => ['type' => 'id'],
-		'url' => [],
-		'title_tid' => ['type' => 'translation']
+		'Brand_id' => [],
+		'Country_id' => [],
+		'text_tid' => ['type' => 'translation']
 	];
 }
