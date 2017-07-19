@@ -1,15 +1,10 @@
 <?php
-namespace ApiBundle\Entity;
+
+namespace ApiBundle\Type;
 
 use ApiBundle\Meta\Base;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Entity(repositoryClass="ApiBundle\Repository\ProductRepository")
- */
-class Product extends Base
-{
+class Product extends Base {
 	const TRANSLATION = [
 		'type' => 'translation',
 		'meta' => ['ColumnTranslation']
@@ -17,38 +12,36 @@ class Product extends Base
 
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',
-		'type' => 'float',
+		'filter' => 'float',
 		'meta' => ['ColumnTranslation']
 	];
 
 	const TASTE_VALUE = [
 		'group' => 'taste_values',
-		'type' => 'float',
+		'filter' => 'float',
 		'meta' => ['ColumnTranslation', 'FieldDescription']
 	];
 
 	const TASTE_BOOLEAN = [
 		'group' => 'taste_booleans',
-		'type' => 'boolean',
+		'filter' => 'boolean',
+		'meta' => ['ColumnTranslation']
+	];
+
+	const BOOLEAN_VALUE = [
+		'filter' => 'boolean',
 		'meta' => ['ColumnTranslation']
 	];
 
 	const ENUM_VALUE = [
-		'type' => 'enum',
+		'filter' => 'enum',
 		'meta' => ['ColumnTranslation', 'ValueTranslation']
 	];
-
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
 
 	protected $table = 'Recipe';
 
 	protected $attributes = [
-		'id' => ['type' => 'id'],
+		'id' => [],
 		'Brand_id' => [],
 		// TRANSLATIONS
 		'content_tid' => ['type' => 'translation'],
@@ -104,7 +97,7 @@ class Product extends Base
 		'aeration_level' => self::PERCENTAGE_VALUE,
 		'coffee' => self::PERCENTAGE_VALUE,
 		'paillete_pur_beurre_percentage' => self::PERCENTAGE_VALUE,
-		// BOOLEAN VALUES
+		// TASTE BOOLEANS
 		'taste_almond' => self::TASTE_BOOLEAN,
 		'taste_apple' => self::TASTE_BOOLEAN,
 		'taste_banana' => self::TASTE_BOOLEAN,
@@ -137,7 +130,6 @@ class Product extends Base
 		'taste_vanilla' => self::TASTE_BOOLEAN,
 		'taste_white_chocolate' => self::TASTE_BOOLEAN,
 		// TASTES
-		'sour' => self::TASTE_VALUE,
 		'bitter' => self::TASTE_VALUE,
 		'caramel' => self::TASTE_VALUE,
 		'cocoa_taste' => self::TASTE_VALUE,
@@ -145,11 +137,35 @@ class Product extends Base
 		'floral' => self::TASTE_VALUE,
 		'milk' => self::TASTE_VALUE,
 		'roasted' => self::TASTE_VALUE,
+		'sour' => self::TASTE_VALUE,
 		'spicy' => self::TASTE_VALUE,
 		'sweet' => self::TASTE_VALUE,
 		'vanilla' => self::TASTE_VALUE,
 		'vegetal' => self::TASTE_VALUE,
 		'woody' => self::TASTE_VALUE,
+		// BOOLEAN VALUES
+		'add_prefix' => self::BOOLEAN_VALUE,
+		'azo' => self::BOOLEAN_VALUE,
+		'bio' => self::BOOLEAN_VALUE,
+		'cocoa_horizons_program' => self::BOOLEAN_VALUE,
+		'decantation' => self::BOOLEAN_VALUE,
+		'fairtrade_sourcing_prog_cocoa' => self::BOOLEAN_VALUE,
+		'fairtrade' => self::BOOLEAN_VALUE,
+		'from_natural_origin' => self::BOOLEAN_VALUE,
+		'lenotre' => self::BOOLEAN_VALUE,
+		'made_with_100percent_purecocoa_butter' => self::BOOLEAN_VALUE,
+		'made_with_finest_cocoa_beans' => self::BOOLEAN_VALUE,
+		'made_with_natural_vanilla' => self::BOOLEAN_VALUE,
+		'new' => self::BOOLEAN_VALUE,
+		'non_azo' => self::BOOLEAN_VALUE,
+		'organic' => self::BOOLEAN_VALUE,
+		'rain_forest_alliance' => self::BOOLEAN_VALUE,
+		'standard' => self::BOOLEAN_VALUE,
+		'sustainable_cocoa' => self::BOOLEAN_VALUE,
+		'sustainable_palm_mass_balance' => self::BOOLEAN_VALUE,
+		'sustainable_palm_traceable' => self::BOOLEAN_VALUE,
+		'utz_mass_balance_full_100percent' => self::BOOLEAN_VALUE,
+		'without_licithine' => self::BOOLEAN_VALUE,
 		// ENUMS
 		'based' => self::ENUM_VALUE,
 		'chocolate_type' => self::ENUM_VALUE,
@@ -157,9 +173,9 @@ class Product extends Base
 		'fluidity' => self::ENUM_VALUE,
 		'melting_profile' => self::ENUM_VALUE,
 		'ph' => self::ENUM_VALUE,
-		'roast_level' => self::ENUM_VALUE,
 		'prominent_descriptor' => self::ENUM_VALUE,
 		'provenance' => self::ENUM_VALUE,
+		'roast_level' => self::ENUM_VALUE,
 		'size_type' => self::ENUM_VALUE,
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE

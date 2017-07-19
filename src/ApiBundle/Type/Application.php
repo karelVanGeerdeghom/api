@@ -1,14 +1,15 @@
 <?php
-namespace ApiBundle\Entity;
+
+namespace ApiBundle\Type;
 
 use ApiBundle\Meta\Base;
 
-class Technique extends Base
+class Application extends Base
 {
 	protected $attributes = [
 		'id' => ['type' => 'id'],
 		'Brand_id' => [],
 		'title_tid' => ['type' => 'translation'],
-		'url_tid' => ['type' => 'translation']
+		'type' => []
 	];
 }

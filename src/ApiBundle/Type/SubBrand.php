@@ -1,5 +1,6 @@
 <?php
-namespace ApiBundle\Entity;
+
+namespace ApiBundle\Type;
 
 use ApiBundle\Meta\Base;
 
