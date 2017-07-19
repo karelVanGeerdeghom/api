@@ -77,20 +77,6 @@ class ColorEntity
      */
     private $id;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ProductEntity", mappedBy="color")
-     */
-    private $recipe;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->recipe = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 }
 

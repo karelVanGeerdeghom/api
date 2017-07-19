@@ -63,20 +63,6 @@ class SubbrandEntity
      */
     private $id;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ProductEntity", mappedBy="subbrand")
-     */
-    private $recipe;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->recipe = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 }
 
