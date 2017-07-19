@@ -4,13 +4,19 @@ namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use ApiBundle\Controller\BaseController;
+
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/Test
 
-class TestController extends Controller {
+class TestController extends BaseController {
 	public function testAction() : array {
 		$answer = [];
 
+		$appId = 17;
+		$brandId = 1;
+
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
+		$repository->setAppId($appId);
 		$meta = $repository->getMeta();
 
 		$columnTranslations = $meta['ColumnTranslation'];
@@ -37,7 +43,8 @@ class TestController extends Controller {
 			]
 		];
 
-		$products = $repository->findByBrand(1);
+		$products = $repository->findByBrand($brandId);
+		$ids = array_keys($products);
 		foreach ($products as $id => $product) {
 			foreach ($product->getFilterTypes() as $filterType) {
 				$values = $product->getByFilterType($filterType);
@@ -73,7 +80,7 @@ class TestController extends Controller {
 								$answer[$key]['options']['max'] = $value;
 							}
 						break;
-						case 'enum':
+						case 'enum_value':
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [];
 							}
@@ -89,29 +96,5 @@ class TestController extends Controller {
 		}
 
 		return $answer;
-	}
-
-	private function getColumnLabel($key, $columnTranslations) {
-		if (array_key_exists($key, $columnTranslations)) {
-			return 't(' . $columnTranslations[$key] . ')';
-		}
-
-		return $key;
-	}
-
-	private function getValueLabel($key, $value, $valueTranslations, $valueLabels) {
-		if (array_key_exists($key, $valueTranslations)) {
-			if (array_key_exists($value, $valueTranslations[$key])) {
-				return 't(' . $valueTranslations[$key][$value] . ')';
-			}
-		}
-
-		if (array_key_exists($key, $valueLabels)) {
-			if (array_key_exists($value, $valueLabels[$key])) {
-				return $valueLabels[$key][$value];
-			}
-		}
-
-		return $value;
 	}
 }

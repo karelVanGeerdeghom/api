@@ -34,8 +34,13 @@ class Product extends Base {
 	];
 
 	const ENUM_VALUE = [
-		'filter' => 'enum',
+		'filter' => 'enum_value',
 		'meta' => ['ColumnTranslation', 'ValueTranslation']
+	];
+
+	const ENUM_RELATION = [
+		'filter' => 'enum_relation',
+		''
 	];
 
 	protected $table = 'Recipe';
@@ -166,7 +171,7 @@ class Product extends Base {
 		'sustainable_palm_traceable' => self::BOOLEAN_VALUE,
 		'utz_mass_balance_full_100percent' => self::BOOLEAN_VALUE,
 		'without_licithine' => self::BOOLEAN_VALUE,
-		// ENUMS
+		// ENUM VALUES
 		'based' => self::ENUM_VALUE,
 		'chocolate_type' => self::ENUM_VALUE,
 		'cocoa_intensity' => self::ENUM_VALUE,
@@ -178,7 +183,14 @@ class Product extends Base {
 		'roast_level' => self::ENUM_VALUE,
 		'size_type' => self::ENUM_VALUE,
 		'texture' => self::ENUM_VALUE,
-		'vegetable_fat' => self::ENUM_VALUE
+		'vegetable_fat' => self::ENUM_VALUE,
+		// ENUM RELATIONS
+		'colors' => self::ENUM_RELATION,
+		'seasons' => self::ENUM_RELATION,
+		'segments' => self::ENUM_RELATION,
+		'subbrands' => self::ENUM_RELATION,
+		'techiques' => self::ENUM_RELATION,
+		'testimonials' => self::ENUM_RELATION
 	];
 
 	protected $relations = [
