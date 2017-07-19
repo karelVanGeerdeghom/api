@@ -1,13 +1,13 @@
 <?php
-namespace ApiBundle\Entity;
+
+namespace ApiBundle\Type;
 
 use ApiBundle\Meta\Base;
 
-class Brand extends Base
+class Season extends Base
 {
 	protected $attributes = [
 		'id' => ['type' => 'id'],
-		'url' => [],
 		'title_tid' => ['type' => 'translation']
 	];
 }

@@ -3,8 +3,7 @@ namespace ApiBundle\Meta;
 
 use ApiBundle\Meta\Attribute;
 
-class Base
-{
+class Base {
 	protected $table = null;
 	protected $meta = null;
 	protected $attributes = [];
@@ -42,7 +41,7 @@ class Base
 		}
 	}
 
-	public function export($data = null): array {
+	public function export($data = null) : array {
 		if (is_string($data) && array_key_exists($data, $this->attributes)) {
 			return $this->exportSingle($data);
 		}
@@ -60,7 +59,11 @@ class Base
 		$this->meta = $meta;
 	}
 
-	public function getTable() {
+	public function getMeta() : ?array {
+		return $this->meta;
+	}
+
+	public function getTable() : string {
 		if ($this->table) {
 			return $this->table;
 		}
@@ -68,16 +71,36 @@ class Base
 		return (new \ReflectionClass($this))->getShortName();
 	}
 
-	public function getRelations(): array {
+	public function getRelations() : array {
 		return $this->relations;
 	}
 
-	public function getByType(string $type) {
+	public function getFilterTypes() : array {
+		$filterTypes = [];
+
+		foreach ($this->attributes as $attribute => $properties) {
+			$filterType = $this->$attribute->getFilterType();
+
+			if ($filterType && !in_array($filterType, $filterTypes)) {
+				array_push($filterTypes, $filterType);
+			}
+		}
+
+		return $filterTypes;
+	}
+
+	public function getByFilterType(string $filterType) : array {
 		$results = [];
 
-		foreach ($this->attributes as $attribute) {
-			if ($this->$attribute->getType() === $type) {
-				array_push($results, $attribute);
+		foreach ($this->attributes as $attribute => $properties) {
+			if ($this->$attribute->getFilterType() === $filterType) {
+				$filterValue = $this->$attribute->get();
+				if ($filterValue) {
+					if (!is_bool($filterValue)) {
+						$filterValue = (string)$filterValue;
+					}
+					$results[$attribute] = $filterValue;
+				}
 			}
 		}
 
@@ -100,7 +123,7 @@ class Base
 		return $this->$attribute->get();
 	}
 
-	private function getMultiple(array $attributes): array {
+	private function getMultiple(array $attributes) : array {
 		$results = [];
 		foreach ($attributes as $attribute) {
 			$results[$attribute] = $this->$attribute->get();
@@ -109,11 +132,11 @@ class Base
 		return $results;
 	}
 
-	private function exportSingle(string $attribute): array {
+	private function exportSingle(string $attribute) : array {
 		return $this->$attribute->export($this->meta);
 	}
 
-	private function exportMultiple(array $attributes): array {
+	private function exportMultiple(array $attributes) : array {
 		$results = [];
 		foreach ($attributes as $attribute) {
 			$attributeData = $this->$attribute->export($this->meta);

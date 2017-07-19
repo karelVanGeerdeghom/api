@@ -7,6 +7,7 @@ Class Attribute {
 
 	private $type = null;
 	private $group = null;
+	private $filter = null;
 	private $meta = null;
 
 	function __construct($id, $data) {
@@ -18,14 +19,16 @@ Class Attribute {
 	}
 
 	public function set($value) {
-		$this->value = $value;
+		if ($value !== '-1' && $value !== -1) {
+			$this->value = $value;
+		}		
 	}
 
 	public function get() {
 		return $this->value;
 	}
 
-	public function export($meta = null):array {
+	public function export($meta = null) : array {
 		$data = [
 			'key' => $this->getKey(),
 			'value' => $this->getValue(),
@@ -63,11 +66,15 @@ Class Attribute {
 		return $data;
 	}
 
-	public function getType() {
+	public function getType() : ?string {
 		return $this->type;
 	}
 
-	private function getGroup() {
+	public function getFilterType() : ?string {
+		return $this->filter;
+	}
+
+	private function getGroup() : ?string {
 		return $this->group;
 	}
 
