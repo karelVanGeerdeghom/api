@@ -13,7 +13,7 @@ class TestController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 18;
+		$brandId = 5;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
@@ -94,20 +94,16 @@ class TestController extends BaseController {
 								$answer[$key]['options'] = [];
 							}
 
-							// foreach ($value as $relation) {
-							// 	if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
-							// 		$answer[$key]['options'][$relation['id']] = $relation['title'];
-							// 	}
-							// }
-
-							print($key . ' => ' . json_encode($value) . '<br>');
+							foreach ($value as $relation) {
+								if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
+									$answer[$key]['options'][$relation['id']] = $relation['title'];
+								}
+							}
 						}
  					}
 				}
 			}
 		}
-
-		die();
 
 		return $answer;
 	}

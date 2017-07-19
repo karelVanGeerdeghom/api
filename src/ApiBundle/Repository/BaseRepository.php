@@ -94,27 +94,4 @@ class BaseRepository extends EntityRepository {
 
 		return $result;
 	}
-
-	// protected function camelCaseToUnderscore(array $array) : array {
-	// 	$result = [];
-
-	// 	foreach ($array as $key => $value) {
-	// 		switch ($key) {
-	// 			case 'madeWith100percentPurecocoaButter':
-	// 				$result['made_with_100percent_purecocoa_butter'] = $value;
-	// 				break;
-	// 			case 'utzMassBalanceFull100percent':
-	// 				$result['utz_mass_balance_full_100percent'] = $value;
-	// 				break;
-	// 			case 'brandId':
-	// 				$result['Brand_id'] = $value;
-	// 				break;
-	// 			default:
-	// 				$result[strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($key)))] = $value;
-	// 				break;
-	// 		}
-	// 	}
-
-	// 	return $result;
-	// }
 }

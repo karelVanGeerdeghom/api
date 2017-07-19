@@ -17,7 +17,7 @@ class ColorEntity
      *
      * @ORM\Column(name="commercial_tid", type="integer", nullable=true)
      */
-    private $commercialTid;
+    private $titleTid;
 
     /**
      * @var integer
