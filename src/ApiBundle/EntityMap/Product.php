@@ -1,6 +1,6 @@
 <?php
 
-namespace ApiBundle\Type;
+namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
@@ -183,37 +183,37 @@ class Product extends Base {
 		'applications' => [
 			'filter' => 'enum_relation',
 			'relation' => 'application',
-			'class' => 'ApiBundle\\Type\\Application'
+			'class' => 'ApiBundle\\EntityMap\\Application'
 		],
 		'colors' => [
 			'filter' => 'enum_relation',
 			'relation' => 'color',
-			'class' => 'ApiBundle\\Type\\Color'
+			'class' => 'ApiBundle\\EntityMap\\Color'
 		],
 		'seasons' => [
 			'filter' => 'enum_relation',
 			'relation' => 'season',
-			'class' => 'ApiBundle\\Type\\Season'
+			'class' => 'ApiBundle\\EntityMap\\Season'
 		],
 		'segments' => [
 			'filter' => 'enum_relation',
 			'relation' => 'segment',
-			'class' => 'ApiBundle\\Type\\Segment'
+			'class' => 'ApiBundle\\EntityMap\\Segment'
 		],
 		'subbrands' => [
 			'filter' => 'enum_relation',
 			'relation' => 'subbrand',
-			'class' => 'ApiBundle\\Type\\SubBrand'
+			'class' => 'ApiBundle\\EntityMap\\SubBrand'
 		],
 		'techniques' => [
 			'filter' => 'enum_relation',
 			'relation' => 'technique',
-			'class' => 'ApiBundle\\Type\\Technique'
+			'class' => 'ApiBundle\\EntityMap\\Technique'
 		],
 		// 'testimonials' => [
 		// 	'filter' => 'enum_relation',
 		// 	'relation' => 'testimonial',
-		// 	'class' => 'ApiBundle\\Type\\Testimonial'
+		// 	'class' => 'ApiBundle\\EntityMap\\Testimonial'
 		// ]
 	];
 }

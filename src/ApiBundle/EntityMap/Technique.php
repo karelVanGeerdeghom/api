@@ -1,16 +1,15 @@
 <?php
 
-namespace ApiBundle\Type;
+namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class Color extends Base
+class Technique extends Base
 {
 	protected $attributes = [
 		'id' => ['type' => 'id'],
+		'Brand_id' => [],
 		'title_tid' => ['type' => 'translation'],
-		'internal_tid' => ['type' => 'translation'],
-		'hex_light' => [],
-		'hex_dark' => []
+		'url_tid' => ['type' => 'translation']
 	];
 }

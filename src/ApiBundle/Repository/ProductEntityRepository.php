@@ -12,7 +12,7 @@ class ProductEntityRepository extends BaseRepository {
 	protected $locale = null;
 
 	protected $table = 'Recipe';
-	protected $class = 'ApiBundle\\Type\\Product';
+	protected $class = 'ApiBundle\\EntityMap\\Product';
 
 	public function findById($id) {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
