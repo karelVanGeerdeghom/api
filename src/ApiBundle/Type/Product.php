@@ -38,11 +38,6 @@ class Product extends Base {
 		'meta' => ['ColumnTranslation', 'ValueTranslation']
 	];
 
-	const ENUM_RELATION = [
-		'filter' => 'enum_relation',
-		''
-	];
-
 	protected $table = 'Recipe';
 
 	protected $attributes = [
@@ -185,21 +180,40 @@ class Product extends Base {
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE,
 		// ENUM RELATIONS
-		'colors' => self::ENUM_RELATION,
-		'seasons' => self::ENUM_RELATION,
-		'segments' => self::ENUM_RELATION,
-		'subbrands' => self::ENUM_RELATION,
-		'techiques' => self::ENUM_RELATION,
-		'testimonials' => self::ENUM_RELATION
-	];
-
-	protected $relations = [
-		'Color',
-		'Season',
-		'Segment',
-		'SubBrand',
-		'Technique',
-		'Testimonial',
-		'Video'
+		'applications' => [
+			'filter' => 'enum_relation',
+			'relation' => 'application',
+			'class' => 'ApiBundle\\Type\\Application'
+		],
+		'colors' => [
+			'filter' => 'enum_relation',
+			'relation' => 'color',
+			'class' => 'ApiBundle\\Type\\Color'
+		],
+		'seasons' => [
+			'filter' => 'enum_relation',
+			'relation' => 'season',
+			'class' => 'ApiBundle\\Type\\Season'
+		],
+		'segments' => [
+			'filter' => 'enum_relation',
+			'relation' => 'segment',
+			'class' => 'ApiBundle\\Type\\Segment'
+		],
+		'subbrands' => [
+			'filter' => 'enum_relation',
+			'relation' => 'subbrand',
+			'class' => 'ApiBundle\\Type\\SubBrand'
+		],
+		'techniques' => [
+			'filter' => 'enum_relation',
+			'relation' => 'technique',
+			'class' => 'ApiBundle\\Type\\Technique'
+		],
+		// 'testimonials' => [
+		// 	'filter' => 'enum_relation',
+		// 	'relation' => 'testimonial',
+		// 	'class' => 'ApiBundle\\Type\\Testimonial'
+		// ]
 	];
 }

@@ -5,7 +5,7 @@ namespace ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BaseController extends Controller {
-	protected function getColumnLabel(string $column, array $columnTranslations) : string {
+	protected function getColumnLabel(string $column, array $columnTranslations) {
 		if (array_key_exists($column, $columnTranslations)) {
 			return 't(' . $columnTranslations[$column] . ')';
 		}
@@ -13,7 +13,7 @@ class BaseController extends Controller {
 		return $this->getTitle($column);
 	}
 
-	protected function getValueLabel(string $column, string $value, array $valueTranslations, array $valueLabels = []) : string {
+	protected function getValueLabel(string $column, string $value, array $valueTranslations, array $valueLabels = []) {
 		if (array_key_exists($column, $valueTranslations)) {
 			if (array_key_exists($value, $valueTranslations[$column])) {
 				return 't(' . $valueTranslations[$column][$value] . ')';

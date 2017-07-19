@@ -7,7 +7,6 @@ class Base {
 	protected $table = null;
 	protected $meta = null;
 	protected $attributes = [];
-	protected $relations = [];
 
 	function __construct() {
 		foreach ($this->attributes as $attribute => $properties) {
@@ -72,7 +71,15 @@ class Base {
 	}
 
 	public function getRelations() : array {
-		return $this->relations;
+		$relations = [];
+
+		foreach ($this->attributes as $attribute => $properties) {
+			if (array_key_exists('filter', $properties) && $properties['filter'] === 'enum_relation') {
+				$relations[$properties['relation']] = $properties['class'];
+			}
+		}
+
+		return $relations;
 	}
 
 	public function getFilterTypes() : array {
@@ -96,7 +103,7 @@ class Base {
 			if ($this->$attribute->getFilterType() === $filterType) {
 				$filterValue = $this->$attribute->get();
 				if ($filterValue) {
-					if (!is_bool($filterValue)) {
+					if (!is_bool($filterValue) && !is_array($filterValue)) {
 						$filterValue = (string)$filterValue;
 					}
 					$results[$attribute] = $filterValue;

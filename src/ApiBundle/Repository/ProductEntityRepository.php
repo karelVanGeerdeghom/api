@@ -15,10 +15,24 @@ class ProductEntityRepository extends BaseRepository {
 	protected $class = 'ApiBundle\\Type\\Product';
 
 	public function findById($id) {
-		$result = $this->getEntityManager()
-						->createQuery('SELECT r FROM ApiBundle:ProductEntity r WHERE r.id = :id')
-						->setParameter('id', $id)
-						->getOneOrNullResult(Query::HYDRATE_ARRAY);
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
+		$query = $queryBuilder
+					->addSelect('ApiBundle:ApplicationEntity')
+					->leftJoin('ApiBundle:ProductEntity.application', 'ApiBundle:ApplicationEntity')
+					->addSelect('ApiBundle:ColorEntity')
+					->leftJoin('ApiBundle:ProductEntity.color', 'ApiBundle:ColorEntity')
+					->addSelect('ApiBundle:SeasonEntity')
+					->leftJoin('ApiBundle:ProductEntity.season', 'ApiBundle:SeasonEntity')
+					->addSelect('ApiBundle:SegmentEntity')
+					->leftJoin('ApiBundle:ProductEntity.segment', 'ApiBundle:SegmentEntity')
+					->addSelect('ApiBundle:SubbrandEntity')
+					->leftJoin('ApiBundle:ProductEntity.subbrand', 'ApiBundle:SubbrandEntity')
+					->addSelect('ApiBundle:TechniqueEntity')
+					->leftJoin('ApiBundle:ProductEntity.technique', 'ApiBundle:TechniqueEntity')
+					->where('ApiBundle:ProductEntity.id = :id')
+					->setParameter('id', $id)
+					->getQuery();
+		$result = $query->getOneOrNullResult(Query::HYDRATE_ARRAY);
 
 		if ($result) {
 			return $this->convertOne($result);
@@ -28,10 +42,24 @@ class ProductEntityRepository extends BaseRepository {
 	}
 
 	public function findByBrand($brandId) {
-		$results = $this->getEntityManager()
-						->createQuery('SELECT r FROM ApiBundle:ProductEntity r WHERE r.brandId = :brandId')
-						->setParameter('brandId', $brandId)
-						->getResult(Query::HYDRATE_ARRAY);
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
+		$query = $queryBuilder
+					->addSelect('ApiBundle:ApplicationEntity')
+					->leftJoin('ApiBundle:ProductEntity.application', 'ApiBundle:ApplicationEntity')
+					->addSelect('ApiBundle:ColorEntity')
+					->leftJoin('ApiBundle:ProductEntity.color', 'ApiBundle:ColorEntity')
+					->addSelect('ApiBundle:SeasonEntity')
+					->leftJoin('ApiBundle:ProductEntity.season', 'ApiBundle:SeasonEntity')
+					->addSelect('ApiBundle:SegmentEntity')
+					->leftJoin('ApiBundle:ProductEntity.segment', 'ApiBundle:SegmentEntity')
+					->addSelect('ApiBundle:SubbrandEntity')
+					->leftJoin('ApiBundle:ProductEntity.subbrand', 'ApiBundle:SubbrandEntity')
+					->addSelect('ApiBundle:TechniqueEntity')
+					->leftJoin('ApiBundle:ProductEntity.technique', 'ApiBundle:TechniqueEntity')
+					->where('ApiBundle:ProductEntity.brandId = :brandId')
+					->setParameter('brandId', $brandId)
+					->getQuery();
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
 
 		return $this->convertAll($results);
 	}

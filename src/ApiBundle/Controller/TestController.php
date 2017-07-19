@@ -9,11 +9,11 @@ use ApiBundle\Controller\BaseController;
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/Test
 
 class TestController extends BaseController {
-	public function testAction() : array {
+	public function testAction() {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 1;
+		$brandId = 18;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
@@ -44,7 +44,6 @@ class TestController extends BaseController {
 		];
 
 		$products = $repository->findByBrand($brandId);
-		$ids = array_keys($products);
 		foreach ($products as $id => $product) {
 			foreach ($product->getFilterTypes() as $filterType) {
 				$values = $product->getByFilterType($filterType);
@@ -90,10 +89,25 @@ class TestController extends BaseController {
 
 							}
 						break;
+						case 'enum_relation': {
+							if (!array_key_exists('options', $answer[$key])) {
+								$answer[$key]['options'] = [];
+							}
+
+							// foreach ($value as $relation) {
+							// 	if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
+							// 		$answer[$key]['options'][$relation['id']] = $relation['title'];
+							// 	}
+							// }
+
+							print($key . ' => ' . json_encode($value) . '<br>');
+						}
  					}
 				}
 			}
 		}
+
+		die();
 
 		return $answer;
 	}

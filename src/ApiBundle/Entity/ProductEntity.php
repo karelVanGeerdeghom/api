@@ -1094,6 +1094,108 @@ class ProductEntity
      */
     private $id;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipeapplication",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Application_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $application;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ColorEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipecolor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Color_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $color;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SeasonEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipeseason",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Season_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $season;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SegmentEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipesegment",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Segment_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $segment;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SubbrandEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipesubbrand",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Subbrand_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $subbrand;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\TechniqueEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipetechnique",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Technique_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    public $technique;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->application = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->color = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->season = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->segment = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subbrand = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->technique = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 }
 
