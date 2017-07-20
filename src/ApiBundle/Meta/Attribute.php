@@ -78,7 +78,7 @@ Class Attribute {
 		return $this->group;
 	}
 
-	private function getKey() {
+	private function getKey() : string {
 		if ($this->type === 'translation') {
 			return substr($this->id, 0, -4);
 		}

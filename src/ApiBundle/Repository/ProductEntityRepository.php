@@ -16,31 +16,13 @@ class ProductEntityRepository extends BaseRepository {
 
 	public function findById($id) {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+
 		$query = $queryBuilder
-					->addSelect('ApiBundle:ApplicationEntity')
-					->leftJoin('ApiBundle:ProductEntity.application', 'ApiBundle:ApplicationEntity')
-
-					->addSelect('ApiBundle:ColorEntity')
-					->leftJoin('ApiBundle:ProductEntity.color', 'ApiBundle:ColorEntity')
-
-					->addSelect('ApiBundle:SeasonEntity')
-					->leftJoin('ApiBundle:ProductEntity.season', 'ApiBundle:SeasonEntity')
-
-					->addSelect('ApiBundle:SegmentEntity')
-					->leftJoin('ApiBundle:ProductEntity.segment', 'ApiBundle:SegmentEntity')
-
-					->addSelect('ApiBundle:SubbrandEntity')
-					->leftJoin('ApiBundle:ProductEntity.subbrand', 'ApiBundle:SubbrandEntity')
-
-					->addSelect('ApiBundle:TechniqueEntity')
-					->leftJoin('ApiBundle:ProductEntity.technique', 'ApiBundle:TechniqueEntity')
-
-					->addSelect('ApiBundle:TestimonialEntity')
-					->leftJoin('ApiBundle:ProductEntity.testimonial', 'ApiBundle:TestimonialEntity')
-
 					->where('ApiBundle:ProductEntity.id = :id')
 					->setParameter('id', $id)
 					->getQuery();
+
 		$result = $query->getOneOrNullResult(Query::HYDRATE_ARRAY);
 
 		if ($result) {
@@ -52,33 +34,62 @@ class ProductEntityRepository extends BaseRepository {
 
 	public function findByBrand($brandId) {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+
 		$query = $queryBuilder
-					->addSelect('ApiBundle:ApplicationEntity')
-					->leftJoin('ApiBundle:ProductEntity.application', 'ApiBundle:ApplicationEntity')
-
-					->addSelect('ApiBundle:ColorEntity')
-					->leftJoin('ApiBundle:ProductEntity.color', 'ApiBundle:ColorEntity')
-
-					->addSelect('ApiBundle:SeasonEntity')
-					->leftJoin('ApiBundle:ProductEntity.season', 'ApiBundle:SeasonEntity')
-
-					->addSelect('ApiBundle:SegmentEntity')
-					->leftJoin('ApiBundle:ProductEntity.segment', 'ApiBundle:SegmentEntity')
-
-					->addSelect('ApiBundle:SubbrandEntity')
-					->leftJoin('ApiBundle:ProductEntity.subbrand', 'ApiBundle:SubbrandEntity')
-
-					->addSelect('ApiBundle:TechniqueEntity')
-					->leftJoin('ApiBundle:ProductEntity.technique', 'ApiBundle:TechniqueEntity')
-
-					->addSelect('ApiBundle:TestimonialEntity')
-					->leftJoin('ApiBundle:ProductEntity.testimonial', 'ApiBundle:TestimonialEntity')
-
 					->where('ApiBundle:ProductEntity.brandId = :brandId')
 					->setParameter('brandId', $brandId)
 					->getQuery();
+
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
 
 		return $this->convertAll($results);
+	}
+
+	public function findByFilters(array $filters) {
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:ProductEntity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addFilters($queryBuilder, $filters);
+
+		$query = $queryBuilder
+					->getQuery();
+
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
+
+		return $this->convertAll($results);
+	}
+
+	private function addRelations($queryBuilder) {
+		return $queryBuilder
+				->addSelect('ApiBundle:ApplicationEntity')
+				->leftJoin('ApiBundle:ProductEntity.application', 'ApiBundle:ApplicationEntity')
+
+				->addSelect('ApiBundle:ColorEntity')
+				->leftJoin('ApiBundle:ProductEntity.color', 'ApiBundle:ColorEntity')
+
+				->addSelect('ApiBundle:SeasonEntity')
+				->leftJoin('ApiBundle:ProductEntity.season', 'ApiBundle:SeasonEntity')
+
+				->addSelect('ApiBundle:SegmentEntity')
+				->leftJoin('ApiBundle:ProductEntity.segment', 'ApiBundle:SegmentEntity')
+
+				->addSelect('ApiBundle:SubbrandEntity')
+				->leftJoin('ApiBundle:ProductEntity.subbrand', 'ApiBundle:SubbrandEntity')
+
+				->addSelect('ApiBundle:TechniqueEntity')
+				->leftJoin('ApiBundle:ProductEntity.technique', 'ApiBundle:TechniqueEntity')
+
+				->addSelect('ApiBundle:TestimonialEntity')
+				->leftJoin('ApiBundle:ProductEntity.testimonial', 'ApiBundle:TestimonialEntity');
+	}
+
+	private function addFilters($queryBuilder, $filters) {
+		foreach ($filters as $filter) {
+			$queryBuilder
+				->andWhere($filter['where'])
+				->setParameter($filter['parameter'], $filter['value']);
+		}
+
+		return $queryBuilder;
 	}
 }

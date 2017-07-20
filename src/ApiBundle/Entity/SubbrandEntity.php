@@ -27,34 +27,6 @@ class SubbrandEntity
     private $titleTid;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="added", type="datetime", nullable=true)
-     */
-    private $added;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="added_user", type="integer", nullable=true)
-     */
-    private $addedUser;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updated", type="datetime", nullable=true)
-     */
-    private $updated;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="updated_user", type="integer", nullable=true)
-     */
-    private $updatedUser;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")

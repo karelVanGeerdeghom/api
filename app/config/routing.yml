@@ -10,6 +10,10 @@ get_product_details:
     path: /GetProductDetails
     defaults: { _controller: ApiBundle:GetProductDetails:getAll }
 
+get_product_filters:
+    path: /GetProductFilters
+    defaults: { _controller: ApiBundle:GetProductFilters:getAll }
+
 test:
     path: /test
     defaults: { _controller: ApiBundle:Test:test }

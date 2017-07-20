@@ -62,14 +62,6 @@ class Base {
 		return $this->meta;
 	}
 
-	public function getTable() : string {
-		if ($this->table) {
-			return $this->table;
-		}
-		
-		return (new \ReflectionClass($this))->getShortName();
-	}
-
 	public function getRelations() : array {
 		$relations = [];
 
