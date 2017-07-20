@@ -34,7 +34,7 @@ class Product extends Base {
 	];
 
 	const ENUM_VALUE = [
-		'filter' => 'enum_value',
+		'filter' => 'enum',
 		'meta' => ['ColumnTranslation', 'ValueTranslation']
 	];
 
@@ -181,32 +181,32 @@ class Product extends Base {
 		'vegetable_fat' => self::ENUM_VALUE,
 		// ENUM RELATIONS
 		'applications' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'application',
 			'class' => 'ApiBundle\\EntityMap\\Application'
 		],
 		'colors' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'color',
 			'class' => 'ApiBundle\\EntityMap\\Color'
 		],
 		'seasons' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'season',
 			'class' => 'ApiBundle\\EntityMap\\Season'
 		],
 		'segments' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'segment',
 			'class' => 'ApiBundle\\EntityMap\\Segment'
 		],
 		'subbrands' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'subbrand',
 			'class' => 'ApiBundle\\EntityMap\\SubBrand'
 		],
 		'techniques' => [
-			'filter' => 'enum_relation',
+			'filter' => 'enum',
 			'relation' => 'technique',
 			'class' => 'ApiBundle\\EntityMap\\Technique'
 		],

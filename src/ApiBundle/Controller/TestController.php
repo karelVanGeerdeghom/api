@@ -13,7 +13,7 @@ class TestController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 18;
+		$brandId = 1;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
@@ -51,22 +51,19 @@ class TestController extends BaseController {
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {
 						$answer[$key] = [
-							'label' => $this->getColumnLabel($key, $columnTranslations)
+							'label' => $this->getColumnLabel($key, $columnTranslations),
+							'type' => $filter
 						];
 					}
 
 					switch ($filter) {
 						case 'boolean':
-							$answer[$key]['type'] = 'boolean';
-
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = 'false';
 							}
 							$answer[$key]['options'] = 'true';
 						break;
 						case 'float':
-							$answer[$key]['type'] = 'boolean';
-
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [
 									'min' => '',
@@ -80,28 +77,22 @@ class TestController extends BaseController {
 								$answer[$key]['options']['max'] = $value;
 							}
 						break;
-						case 'enum_value':
-							$answer[$key]['type'] = 'enum';
-
+						case 'enum':
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [];
 							}
-							if (!array_key_exists($value, $answer[$key]['options'])) {
+
+							if (!is_array($value) && !array_key_exists($value, $answer[$key]['options'])) {
 								$answer[$key]['options'][$value] = $this->getValueLabel($key, $value, $valueTranslations, $valueLabels);
 							}
-						break;
-						case 'enum_relation': {
-							$answer[$key]['type'] = 'enum';
-
-							if (!array_key_exists('options', $answer[$key])) {
-								$answer[$key]['options'] = [];
-							}
-							foreach ($value as $relation) {
-								if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
-									$answer[$key]['options'][$relation['id']] = $relation['title'];
+							if (is_array($value)) {
+								foreach ($value as $relation) {
+									if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
+										$answer[$key]['options'][$relation['id']] = $relation['title'];
+									}
 								}
 							}
-						}
+						break;
  					}
 				}
 			}
