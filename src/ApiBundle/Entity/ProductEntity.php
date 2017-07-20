@@ -1182,7 +1182,22 @@ class ProductEntity
      *   }
      * )
      */
-    public $technique;
+    private $technique;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\TestimonialEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="recipetestimonial",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Testimonial_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $testimonial;
 
     /**
      * Constructor
@@ -1195,6 +1210,7 @@ class ProductEntity
         $this->segment = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subbrand = new \Doctrine\Common\Collections\ArrayCollection();
         $this->technique = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->testimonial = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

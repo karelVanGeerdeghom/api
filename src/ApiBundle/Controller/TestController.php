@@ -13,7 +13,7 @@ class TestController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 5;
+		$brandId = 6;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);

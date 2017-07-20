@@ -210,10 +210,10 @@ class Product extends Base {
 			'relation' => 'technique',
 			'class' => 'ApiBundle\\EntityMap\\Technique'
 		],
-		// 'testimonials' => [
-		// 	'filter' => 'enum_relation',
-		// 	'relation' => 'testimonial',
-		// 	'class' => 'ApiBundle\\EntityMap\\Testimonial'
-		// ]
+		'testimonials' => [
+			'filter' => 'enum_relation',
+			'relation' => 'testimonial',
+			'class' => 'ApiBundle\\EntityMap\\Testimonial'
+		]
 	];
 }

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class GetProductDetailsController extends Controller {
 	public function getAllAction() {
 		$answer = [];
-		$id = 8436;
+		$id = 9887;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$product = $repository->findById($id);
