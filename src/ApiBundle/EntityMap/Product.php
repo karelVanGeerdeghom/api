@@ -211,7 +211,6 @@ class Product extends Base {
 			'class' => 'ApiBundle\\EntityMap\\Technique'
 		],
 		'testimonials' => [
-			'filter' => 'enum_relation',
 			'relation' => 'testimonial',
 			'class' => 'ApiBundle\\EntityMap\\Testimonial'
 		]

@@ -74,7 +74,7 @@ class Base {
 		$relations = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			if (array_key_exists('filter', $properties) && $properties['filter'] === 'enum_relation') {
+			if (array_key_exists('relation', $properties)) {
 				$relations[$properties['relation']] = $properties['class'];
 			}
 		}
@@ -82,25 +82,25 @@ class Base {
 		return $relations;
 	}
 
-	public function getFilterTypes() : array {
-		$filterTypes = [];
+	public function getFilters() : array {
+		$filters = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			$filterType = $this->$attribute->getFilterType();
+			$filter = $this->$attribute->getFilter();
 
-			if ($filterType && !in_array($filterType, $filterTypes)) {
-				array_push($filterTypes, $filterType);
+			if ($filter && !in_array($filter, $filters)) {
+				array_push($filters, $filter);
 			}
 		}
 
-		return $filterTypes;
+		return $filters;
 	}
 
-	public function getByFilterType(string $filterType) : array {
+	public function getByFilter(string $filter) : array {
 		$results = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			if ($this->$attribute->getFilterType() === $filterType) {
+			if ($this->$attribute->getFilter() === $filter) {
 				$filterValue = $this->$attribute->get();
 				if ($filterValue) {
 					if (!is_bool($filterValue) && !is_array($filterValue)) {

@@ -13,7 +13,7 @@ class TestController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 6;
+		$brandId = 18;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
@@ -45,33 +45,34 @@ class TestController extends BaseController {
 
 		$products = $repository->findByBrand($brandId);
 		foreach ($products as $id => $product) {
-			foreach ($product->getFilterTypes() as $filterType) {
-				$values = $product->getByFilterType($filterType);
+			foreach ($product->getFilters() as $filter) {
+				$values = $product->getByFilter($filter);
 
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {
 						$answer[$key] = [
-							'label' => $this->getColumnLabel($key, $columnTranslations),
-							'type' => $filterType
+							'label' => $this->getColumnLabel($key, $columnTranslations)
 						];
 					}
 
-					switch ($filterType) {
+					switch ($filter) {
 						case 'boolean':
+							$answer[$key]['type'] = 'boolean';
+
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = 'false';
 							}
-
 							$answer[$key]['options'] = 'true';
 						break;
 						case 'float':
+							$answer[$key]['type'] = 'boolean';
+
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [
 									'min' => '',
 									'max' => ''
 								];
 							}
-
 							if ($answer[$key]['options']['min'] === '' || $value < $answer[$key]['options']['min']) {
 								$answer[$key]['options']['min'] = $value;
 							}
@@ -80,20 +81,21 @@ class TestController extends BaseController {
 							}
 						break;
 						case 'enum_value':
+							$answer[$key]['type'] = 'enum';
+
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [];
 							}
-
 							if (!array_key_exists($value, $answer[$key]['options'])) {
 								$answer[$key]['options'][$value] = $this->getValueLabel($key, $value, $valueTranslations, $valueLabels);
-
 							}
 						break;
 						case 'enum_relation': {
+							$answer[$key]['type'] = 'enum';
+
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = [];
 							}
-
 							foreach ($value as $relation) {
 								if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
 									$answer[$key]['options'][$relation['id']] = $relation['title'];

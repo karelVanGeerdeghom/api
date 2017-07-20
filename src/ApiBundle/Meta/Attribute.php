@@ -70,7 +70,7 @@ Class Attribute {
 		return $this->type;
 	}
 
-	public function getFilterType() : ?string {
+	public function getFilter() : ?string {
 		return $this->filter;
 	}
 
