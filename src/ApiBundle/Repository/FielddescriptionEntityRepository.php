@@ -5,7 +5,8 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class FielddescriptionEntityRepository extends EntityRepository {
+class FielddescriptionEntityRepository extends EntityRepository
+{
 	public function findByTable(string $table) : array {
 		$fieldDescriptions = [];
 

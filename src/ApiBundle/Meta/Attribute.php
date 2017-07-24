@@ -1,7 +1,9 @@
 <?php
+
 namespace ApiBundle\Meta;
 
-Class Attribute {
+Class Attribute
+{
 	private $id;
 	private $value = null;
 

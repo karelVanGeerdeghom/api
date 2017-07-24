@@ -5,7 +5,8 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class ColumntranslationEntityRepository extends EntityRepository {
+class ColumntranslationEntityRepository extends EntityRepository
+{
 	public function findByAppTable($appId, string $table) : array {
 		$columnTranslations = [];
 

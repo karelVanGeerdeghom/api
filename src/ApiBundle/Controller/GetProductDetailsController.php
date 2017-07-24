@@ -1,23 +1,23 @@
 <?php
+
 namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/GetProductDetails
 
-class GetProductDetailsController extends Controller {
-	public function getAllAction() {
+class GetProductDetailsController extends Controller
+{
+	public function getAction() {
 		$answer = [];
 		$id = 9887;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
-		$product = $repository->findById($id);
 
-		return $product;
-
-		if ($product) {
+		$products = $repository->findById($id);
+		foreach ($products as $id => $product) {
 			$product->setMeta($repository->getMeta());
-			$answer = $product->export();
+			array_push($answer, $product->export());
 		}
 
 		return $answer;

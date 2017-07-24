@@ -4,7 +4,8 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class Product extends Base {
+class Product extends Base
+{
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',
 		'filter' => 'float',

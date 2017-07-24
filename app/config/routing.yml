@@ -1,23 +1,3 @@
 api:
     resource: "@ApiBundle/Resources/config/routing.yml"
     prefix:   /
-
-get_brands:
-    path: /ExportGetBrands
-    defaults: { _controller: ApiBundle:ExportGetBrands:getAll }
-
-get_product_details:
-    path: /GetProductDetails
-    defaults: { _controller: ApiBundle:GetProductDetails:getAll }
-
-get_product_filters:
-    path: /GetProductFilters
-    defaults: { _controller: ApiBundle:GetProductFilters:getAll }
-
-search_products:
-    path: /SearchProducts
-    defaults: { _controller: ApiBundle:SearchProducts:getAll }
-
-test:
-    path: /test
-    defaults: { _controller: ApiBundle:Test:test }

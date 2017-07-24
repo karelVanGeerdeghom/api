@@ -1,10 +1,8 @@
 <?php
 
-namespace ApiBundle\Controller;
+namespace ApiBundle\Meta;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class BaseController extends Controller
+Trait Label
 {
 	protected function getColumnLabel(string $column, array $columnTranslations) {
 		if (array_key_exists($column, $columnTranslations)) {

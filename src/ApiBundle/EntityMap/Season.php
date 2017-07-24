@@ -7,7 +7,7 @@ use ApiBundle\Meta\Base;
 class Season extends Base
 {
 	protected $attributes = [
-		'id' => ['type' => 'id'],
+		'id' => [],
 		'title_tid' => ['type' => 'translation']
 	];
 }

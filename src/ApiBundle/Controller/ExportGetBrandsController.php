@@ -2,13 +2,14 @@
 namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use ApiBundle\EntityMap\Brand;
 
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/ExportGetBrands
 
 class ExportGetBrandsController extends Controller
 {
-	public function getAllAction() {
+	public function getAction() {
 		$all = [];
 
 		$connectionFactory = $this->get('doctrine.dbal.connection_factory');

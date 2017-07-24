@@ -4,7 +4,8 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class ValuetranslationEntityRepository extends EntityRepository {
+class ValuetranslationEntityRepository extends EntityRepository
+{
 	public function findByAppTable($appId, string $table) : array {
 		$valueTranslations = [];
 

@@ -1,9 +1,11 @@
 <?php
+
 namespace ApiBundle\Meta;
 
 use ApiBundle\Meta\Attribute;
 
-class Base {
+class Base
+{
 	const TRANSLATION = [
 		'type' => 'translation',
 		'meta' => ['ColumnTranslation']

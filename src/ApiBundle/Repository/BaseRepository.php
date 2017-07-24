@@ -5,7 +5,8 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-class BaseRepository extends EntityRepository {
+class BaseRepository extends EntityRepository
+{
 	protected $appId = null;
 	protected $locale = null;
 
@@ -20,13 +21,9 @@ class BaseRepository extends EntityRepository {
 					->setParameter('id', $id)
 					->getQuery();
 
-		$result = $query->getOneOrNullResult(Query::HYDRATE_ARRAY);
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
 
-		if ($result) {
-			return $this->convertOne($result);
-		}
-
-		return null;
+		return $this->convertAll($results);
 	}
 
 	public function findByBrand($brandId) {

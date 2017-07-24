@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/SearchProducts
 
-class SearchProductsController extends Controller {
-	public function getAllAction() {
+class SearchProductsController extends Controller
+{
+	public function getAction() {
 		$answer = [];
 
 		$filters = $_GET;

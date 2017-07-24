@@ -4,12 +4,15 @@ namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use ApiBundle\Controller\BaseController;
+use ApiBundle\Meta\Label;
 
 // http://localhost:8888/productdb-api-v3/web/app_dev.php/GetProductFilters
 
-class GetProductFiltersController extends BaseController {
-	public function getAllAction() {
+class GetProductFiltersController extends Controller
+{
+	use Label;
+
+	public function getAction() {
 		$answer = [];
 
 		$appId = 17;

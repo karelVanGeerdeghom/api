@@ -4,8 +4,6 @@ namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use ApiBundle\Repository\ProductEntityRepository;
-
 /**
  * ProductEntity
  *
