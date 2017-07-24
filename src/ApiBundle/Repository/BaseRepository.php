@@ -3,8 +3,61 @@
 namespace ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class BaseRepository extends EntityRepository {
+	protected $appId = null;
+	protected $locale = null;
+
+	protected $filters = [];
+
+	public function findById($id) {
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+
+		$query = $queryBuilder
+					->where('ApiBundle:' . $this->class . 'Entity.id = :id')
+					->setParameter('id', $id)
+					->getQuery();
+
+		$result = $query->getOneOrNullResult(Query::HYDRATE_ARRAY);
+
+		if ($result) {
+			return $this->convertOne($result);
+		}
+
+		return null;
+	}
+
+	public function findByBrand($brandId) {
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+
+		$query = $queryBuilder
+					->where('ApiBundle:' . $this->class . 'Entity.brandId = :brandId')
+					->setParameter('brandId', $brandId)
+					->getQuery();
+
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
+
+		return $this->convertAll($results);
+	}
+
+	public function findByFilters($get) {
+		$this->createFilters($get);
+
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addFilters($queryBuilder);
+
+		$query = $queryBuilder
+					->getQuery();
+
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
+
+		return $this->convertAll($results);
+	}
+
 	public function getMeta() : array {
 		$columnTranslation = $this->getEntityManager()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable($this->appId, $this->table);
 		$valueTranslation = $this->getEntityManager()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable($this->appId, $this->table);
@@ -25,17 +78,93 @@ class BaseRepository extends EntityRepository {
 		$this->locale = $locale;
 	}
 
-	protected function convertOne(array $data) {
+	private function getClass() {
+		$className = 'ApiBundle\\EntityMap\\' . $this->class;
+
+		return new $className();
+	}
+
+	private function addRelations($queryBuilder) {
+		$item = $this->getClass();
+
+		foreach ($item->getRelations() as $relation => $class) {
+			$queryBuilder = $queryBuilder
+								->addSelect('ApiBundle:' . $class . 'Entity')
+								->leftJoin('ApiBundle:' . $this->class . 'Entity.' . $relation, 'ApiBundle:' . $class . 'Entity');
+		}
+
+		return $queryBuilder;
+	}
+
+	private function addFilters($queryBuilder) {
+		foreach ($this->filters as $filter) {
+			$queryBuilder
+				->andWhere($filter['where'])
+				->setParameter($filter['parameter'], $filter['value']);
+		}
+
+		return $queryBuilder;
+	}
+
+	private function createFilters($get) {
+		foreach ($get as $key => $value) {
+			$this->createFilter($key, $value);
+		}
+	}
+
+	private function createFilter($key, $value) {
+		$parameter = $this->underscoreToCamelCase($key);
+		if (is_array($value)) {
+			if (array_key_exists('min', $value) || array_key_exists('max', $value)) {
+				if (array_key_exists('min', $value)) {
+					$filter = [
+						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' <= :' . $parameter,
+						'parameter' => $this->underscoreToCamelCase($key),
+						'value' => $value['min']
+					];
+
+					array_push($this->filters, $filter);
+				}
+				if (array_key_exists('max', $value)) {
+					$filter = [
+						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' >= :' . $parameter,
+						'parameter' => $this->underscoreToCamelCase($key),
+						'value' => $value['max']
+					];
+
+					array_push($this->filters, $filter);
+				}
+			} else {
+				$filter = [
+					'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' IN (:' . $parameter . ')',
+					'parameter' => $this->underscoreToCamelCase($key),
+					'value' => $value
+				];
+
+				array_push($this->filters, $filter);
+			}
+		} else {
+			$filter = [
+				'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' = :' . $parameter,
+				'parameter' => $this->underscoreToCamelCase($key),
+				'value' => $value
+			];
+
+			array_push($this->filters, $filter);
+		}
+	}
+
+	private function convertOne(array $data) {
 		$data = $this->camelCaseToUnderscore($data);
 		$data = $this->convertRelations($data);
 
-		$item = new $this->class();
+		$item = $this->getClass();
 		$item->set($data);
 
 		return $item;
 	}
 
-	protected function convertAll(array $results) {
+	private function convertAll(array $results) {
 		$items = [];
 
 		foreach ($results as $data) {
@@ -45,8 +174,8 @@ class BaseRepository extends EntityRepository {
 		return $items;
 	}
 
-	protected function convertRelations(array $data) {
-		$item = new $this->class();
+	private function convertRelations(array $data) {
+		$item = $this->getClass();
 
 		foreach ($item->getRelations() as $relation => $class) {
 			if (array_key_exists($relation, $data)) {
@@ -55,7 +184,8 @@ class BaseRepository extends EntityRepository {
 				}
 
 				foreach ($data[$relation] as $relationData) {
-					$relationItem = new $class;
+					$className = 'ApiBundle\\EntityMap\\' . $class;
+					$relationItem = new $className;
 					$relationItem->set($relationData);
 
 					array_push($data[$relation . 's'], $relationItem->export());
@@ -68,7 +198,7 @@ class BaseRepository extends EntityRepository {
 		return $data;
 	}
 
-	protected function camelCaseToUnderscore(array $array) : array {
+	private function camelCaseToUnderscore(array $array) : array {
 		$result = [];
 
 		foreach ($array as $key => $value) {
@@ -93,5 +223,11 @@ class BaseRepository extends EntityRepository {
 		}
 
 		return $result;
+	}
+
+	private function underscoreToCamelCase(string $string) : string {
+		return lcfirst(preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
+			return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
+		}, $string));
 	}
 }

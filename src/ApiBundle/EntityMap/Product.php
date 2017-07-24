@@ -179,40 +179,40 @@ class Product extends Base {
 		'size_type' => self::ENUM_VALUE,
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE,
-		// ENUM RELATIONS
+		// RELATIONS
 		'applications' => [
 			'filter' => 'enum',
 			'relation' => 'application',
-			'class' => 'ApiBundle\\EntityMap\\Application'
+			'class' => 'Application'
 		],
 		'colors' => [
 			'filter' => 'enum',
 			'relation' => 'color',
-			'class' => 'ApiBundle\\EntityMap\\Color'
+			'class' => 'Color'
 		],
 		'seasons' => [
 			'filter' => 'enum',
 			'relation' => 'season',
-			'class' => 'ApiBundle\\EntityMap\\Season'
+			'class' => 'Season'
 		],
 		'segments' => [
 			'filter' => 'enum',
 			'relation' => 'segment',
-			'class' => 'ApiBundle\\EntityMap\\Segment'
+			'class' => 'Segment'
 		],
 		'subbrands' => [
 			'filter' => 'enum',
 			'relation' => 'subbrand',
-			'class' => 'ApiBundle\\EntityMap\\SubBrand'
+			'class' => 'Subbrand'
 		],
 		'techniques' => [
 			'filter' => 'enum',
 			'relation' => 'technique',
-			'class' => 'ApiBundle\\EntityMap\\Technique'
+			'class' => 'Technique'
 		],
 		'testimonials' => [
 			'relation' => 'testimonial',
-			'class' => 'ApiBundle\\EntityMap\\Testimonial'
+			'class' => 'Testimonial'
 		]
 	];
 }

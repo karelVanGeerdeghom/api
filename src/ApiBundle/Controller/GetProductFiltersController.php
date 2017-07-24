@@ -13,7 +13,7 @@ class GetProductFiltersController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 18;
+		$brandId = 5;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);

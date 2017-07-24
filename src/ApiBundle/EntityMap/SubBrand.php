@@ -4,10 +4,8 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class SubBrand extends Base
+class Subbrand extends Base
 {
-	protected $table = 'Subbrand';
-
 	protected $attributes = [
 		'id' => ['type' => 'id'],
 		'Brand_id' => [],
