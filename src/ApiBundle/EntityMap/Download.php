@@ -9,8 +9,6 @@ class Download extends Base
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
-		'alignment_hor' => [],
-		'alignment_ver' => [],
 		// TRANSLATIONS
 		'title_tid' => self::TRANSLATION,
 		'file_tid' => self::TRANSLATION,
@@ -20,5 +18,8 @@ class Download extends Base
 		'offset_top_tid' => ['type' => 'translation'],
 		'preview_tid' => ['type' => 'translation'],
 		'specs_tid' => ['type' => 'translation']
+		// VALUES
+		'alignment_hor' => [],
+		'alignment_ver' => []
 	];
 }

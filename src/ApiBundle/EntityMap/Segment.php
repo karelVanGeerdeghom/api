@@ -9,6 +9,7 @@ class Segment extends Base
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
+		// TRANSLATIONS
 		'title_tid' => ['type' => 'translation']
 	];
 }

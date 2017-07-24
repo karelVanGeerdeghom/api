@@ -9,7 +9,9 @@ class Application extends Base
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
-		'title_tid' => ['type' => 'translation'],
+		// TRANSLATIONS
+		'title_tid' => self::TRANSLATION,
+		// VALUES
 		'type' => []
 	];
 }

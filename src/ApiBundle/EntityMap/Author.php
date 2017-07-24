@@ -8,12 +8,13 @@ class Author extends Base
 {
 	protected $attributes = [
 		'id' => [],
-		'name' => [
-			'meta' => ['ColumnTranslation']
-		],
 		// TRANSLATIONS
 		'description_tid' => self::TRANSLATION,
 		'function_tid' => self::TRANSLATION,
+		// VALUES
+		'name' => [
+			'meta' => ['ColumnTranslation']
+		],
 		// RELATIONS
 		'downloads' => [
 			'relation' => 'download',

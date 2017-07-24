@@ -10,6 +10,7 @@ class Testimonial extends Base
 		'id' => [],
 		'Brand_id' => [],
 		'Country_id' => [],
+		// TRANSLATIONS
 		'text_tid' => ['type' => 'translation']
 	];
 }
