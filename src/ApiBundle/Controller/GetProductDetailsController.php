@@ -13,6 +13,8 @@ class GetProductDetailsController extends Controller {
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$product = $repository->findById($id);
 
+		return $product;
+
 		if ($product) {
 			$product->setMeta($repository->getMeta());
 			$answer = $product->export();

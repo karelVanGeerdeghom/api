@@ -5,11 +5,6 @@ namespace ApiBundle\EntityMap;
 use ApiBundle\Meta\Base;
 
 class Product extends Base {
-	const TRANSLATION = [
-		'type' => 'translation',
-		'meta' => ['ColumnTranslation']
-	];
-
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',
 		'filter' => 'float',

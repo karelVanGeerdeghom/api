@@ -14,6 +14,10 @@ get_product_filters:
     path: /GetProductFilters
     defaults: { _controller: ApiBundle:GetProductFilters:getAll }
 
+search_products:
+    path: /SearchProducts
+    defaults: { _controller: ApiBundle:SearchProducts:getAll }
+
 test:
     path: /test
     defaults: { _controller: ApiBundle:Test:test }

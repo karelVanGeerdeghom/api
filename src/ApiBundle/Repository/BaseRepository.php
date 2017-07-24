@@ -43,8 +43,8 @@ class BaseRepository extends EntityRepository {
 		return $this->convertAll($results);
 	}
 
-	public function findByFilters($get) {
-		$this->createFilters($get);
+	public function findByFilters($request) {
+		$this->createFilters($request);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
@@ -106,19 +106,32 @@ class BaseRepository extends EntityRepository {
 		return $queryBuilder;
 	}
 
-	private function createFilters($get) {
-		foreach ($get as $key => $value) {
-			$this->createFilter($key, $value);
+	private function createFilters($request) {
+		$item = $this->getClass();
+		$relations = $item->getRelations();
+
+		foreach ($request as $key => $value) {
+			if (array_key_exists(substr($key, 0, -1), $relations)) {
+				$this->createFilter($key, $value, $relations[substr($key, 0, -1)]);
+			} else {
+				$this->createFilter($key, $value);
+			}			
 		}
 	}
 
-	private function createFilter($key, $value) {
+	private function createFilter($key, $value, $relation = null) {
 		$parameter = $this->underscoreToCamelCase($key);
+
+		$compareKey = $this->class . 'Entity.' . $parameter;
+		if ($relation) {
+			$compareKey = $relation . 'Entity.id';
+		}
+
 		if (is_array($value)) {
 			if (array_key_exists('min', $value) || array_key_exists('max', $value)) {
 				if (array_key_exists('min', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' >= :' . $parameter . '_min',
+						'where' => 'ApiBundle:' . $compareKey . ' >= :' . $parameter . '_min',
 						'parameter' => $parameter . '_min',
 						'value' => $value['min']
 					];
@@ -127,7 +140,7 @@ class BaseRepository extends EntityRepository {
 				}
 				if (array_key_exists('max', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' <= :' . $parameter . '_max',
+						'where' => 'ApiBundle:' . $compareKey . ' <= :' . $parameter . '_max',
 						'parameter' => $parameter . '_max',
 						'value' => $value['max']
 					];
@@ -136,7 +149,7 @@ class BaseRepository extends EntityRepository {
 				}
 			} else {
 				$filter = [
-					'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' IN (:' . $parameter . ')',
+					'where' => 'ApiBundle:' . $compareKey . ' IN (:' . $parameter . ')',
 					'parameter' => $this->underscoreToCamelCase($key),
 					'value' => $value
 				];
@@ -145,9 +158,9 @@ class BaseRepository extends EntityRepository {
 			}
 		} else {
 			$filter = [
-				'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' = :' . $parameter,
+				'where' => 'ApiBundle:' . $compareKey . ' = :' . $parameter,
 				'parameter' => $this->underscoreToCamelCase($key),
-				'value' => $value === 'true' ? 1 : $value
+				'value' => $value
 			];
 
 			array_push($this->filters, $filter);
@@ -208,16 +221,16 @@ class BaseRepository extends EntityRepository {
 				switch ($key) {
 					case 'madeWith100percentPurecocoaButter':
 						$result['made_with_100percent_purecocoa_butter'] = $value;
-						break;
+					break;
 					case 'utzMassBalanceFull100percent':
 						$result['utz_mass_balance_full_100percent'] = $value;
-						break;
+					break;
 					case 'brandId':
 						$result['Brand_id'] = $value;
-						break;
+					break;
 					default:
 						$result[strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($key)))] = $value;
-						break;
+					break;
 				}				
 			}
 		}

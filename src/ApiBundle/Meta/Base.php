@@ -4,6 +4,11 @@ namespace ApiBundle\Meta;
 use ApiBundle\Meta\Attribute;
 
 class Base {
+	const TRANSLATION = [
+		'type' => 'translation',
+		'meta' => ['ColumnTranslation']
+	];
+
 	protected $table = null;
 	protected $meta = null;
 	protected $attributes = [];

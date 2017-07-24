@@ -13,7 +13,13 @@ class GetProductFiltersController extends BaseController {
 		$answer = [];
 
 		$appId = 17;
-		$brandId = 5;
+
+		$filters = $_GET;
+		if (count($filters) === 0) {
+			$filters = [
+				'Brand_id' => 5
+			];
+		}
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
@@ -43,7 +49,7 @@ class GetProductFiltersController extends BaseController {
 			]
 		];
 
-		$products = $repository->findByBrand($brandId);
+		$products = $repository->findByFilters($filters);
 		foreach ($products as $id => $product) {
 			foreach ($product->getFilters() as $filter) {
 				$values = $product->getByFilter($filter);
