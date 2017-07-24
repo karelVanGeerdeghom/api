@@ -2,7 +2,7 @@
 
 namespace ApiBundle\Meta;
 
-Trait Label
+trait Label
 {
 	protected function getColumnLabel(string $column, array $columnTranslations) : string {
 		if (array_key_exists($column, $columnTranslations)) {

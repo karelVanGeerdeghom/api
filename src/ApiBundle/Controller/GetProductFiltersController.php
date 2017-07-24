@@ -92,7 +92,7 @@ class GetProductFiltersController extends Controller
 							}
 
 							if (!is_array($value) && !array_key_exists($value, $answer[$key]['options'])) {
-								$answer[$key]['options'][$value] = $this->getValueLabel($key, $value, $valueTranslations, $valueLabels);
+								$answer[$key]['options'][strtolower($value)] = $this->getValueLabel($key, $value, $valueTranslations, $valueLabels);
 							}
 							if (is_array($value)) {
 								foreach ($value as $relation) {

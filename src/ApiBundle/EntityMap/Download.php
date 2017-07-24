@@ -17,7 +17,7 @@ class Download extends Base
 		'offset_left_tid' => ['type' => 'translation'],
 		'offset_top_tid' => ['type' => 'translation'],
 		'preview_tid' => ['type' => 'translation'],
-		'specs_tid' => ['type' => 'translation']
+		'specs_tid' => ['type' => 'translation'],
 		// VALUES
 		'alignment_hor' => [],
 		'alignment_ver' => []

@@ -2,7 +2,7 @@
 
 namespace ApiBundle\Meta;
 
-Class Attribute
+class Attribute
 {
 	private $id;
 	private $value = null;
@@ -87,7 +87,7 @@ Class Attribute
 	}
 
 	private function getValue() {
-		if ($this->type === 'translation') {
+		if ($this->type === 'translation' && $this->value) {
 			return 't(' . $this->value . ')';
 		}
 
