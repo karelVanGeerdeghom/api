@@ -12,7 +12,7 @@ class BaseRepository extends EntityRepository
 
 	protected $filters = [];
 
-	public function findById($id) {
+	public function findById(string $id) : array {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 
@@ -26,7 +26,7 @@ class BaseRepository extends EntityRepository
 		return $this->convertAll($results);
 	}
 
-	public function findByBrand($brandId) {
+	public function findByBrand(string $brandId) : array {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 
@@ -40,7 +40,7 @@ class BaseRepository extends EntityRepository
 		return $this->convertAll($results);
 	}
 
-	public function findByFilters($request) {
+	public function findByFilters(array $request) : array {
 		$this->createFilters($request);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
@@ -67,11 +67,11 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
-	public function setAppId($appId) {
+	public function setAppId(string $appId) {
 		$this->appId = $appId;
 	}
 
-	public function setLocale($locale) {
+	public function setLocale(string $locale) {
 		$this->locale = $locale;
 	}
 
@@ -103,7 +103,7 @@ class BaseRepository extends EntityRepository
 		return $queryBuilder;
 	}
 
-	private function createFilters($request) {
+	private function createFilters(array $request) {
 		$item = $this->getClass();
 		$relations = $item->getRelations();
 
@@ -116,7 +116,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function createFilter($key, $value, $relation = null) {
+	private function createFilter(string $key, $value, $relation = null) {
 		$parameter = $this->underscoreToCamelCase($key);
 
 		$compareKey = $this->class . 'Entity.' . $parameter;
@@ -166,7 +166,9 @@ class BaseRepository extends EntityRepository
 
 	private function convertOne(array $data) {
 		$data = $this->camelCaseToUnderscore($data);
-		$data = $this->convertRelations($data);
+		
+		$this->convertRelations($data);
+		$this->nullifyData($data);
 
 		$item = $this->getClass();
 		$item->set($data);
@@ -174,7 +176,7 @@ class BaseRepository extends EntityRepository
 		return $item;
 	}
 
-	private function convertAll(array $results) {
+	private function convertAll(array $results) : array {
 		$items = [];
 
 		foreach ($results as $data) {
@@ -184,7 +186,19 @@ class BaseRepository extends EntityRepository
 		return $items;
 	}
 
-	private function convertRelations(array $data) {
+	private function nullifyData(array &$data) {
+		foreach ($data as $key => $value) {
+			if (is_array($value)) {
+				$this->nullifyData($value);
+			} else {
+				if ($value === '-1' || $value === -1) {
+					$data[$key] = null;
+				}
+			}
+		}
+	}
+
+	private function convertRelations(array &$data) {
 		$item = $this->getClass();
 
 		foreach ($item->getRelations() as $relation => $class) {
@@ -204,14 +218,12 @@ class BaseRepository extends EntityRepository
 				unset($data[$relation]);
 			}
 		}
-
-		return $data;
 	}
 
-	private function camelCaseToUnderscore(array $array) : array {
+	private function camelCaseToUnderscore(array $data) : array {
 		$result = [];
 
-		foreach ($array as $key => $value) {
+		foreach ($data as $key => $value) {
 			if (is_array($value)) {
 				$result[$key] = $this->camelCaseToUnderscore($value);
 			} else {

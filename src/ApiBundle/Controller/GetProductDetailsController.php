@@ -10,6 +10,7 @@ class GetProductDetailsController extends Controller
 {
 	public function getAction() {
 		$answer = [];
+
 		$id = 9887;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');

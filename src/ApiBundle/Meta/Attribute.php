@@ -21,9 +21,7 @@ Class Attribute
 	}
 
 	public function set($value) {
-		if ($value !== '-1' && $value !== -1) {
-			$this->value = $value;
-		}
+		$this->value = $value;
 	}
 
 	public function get() {
