@@ -110,8 +110,6 @@ class BaseRepository extends EntityRepository {
 		foreach ($get as $key => $value) {
 			$this->createFilter($key, $value);
 		}
-
-		// print_r($this->filters);
 	}
 
 	private function createFilter($key, $value) {
@@ -120,8 +118,8 @@ class BaseRepository extends EntityRepository {
 			if (array_key_exists('min', $value) || array_key_exists('max', $value)) {
 				if (array_key_exists('min', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' <= :' . $parameter,
-						'parameter' => $this->underscoreToCamelCase($key),
+						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' >= :' . $parameter . '_min',
+						'parameter' => $parameter . '_min',
 						'value' => $value['min']
 					];
 
@@ -129,8 +127,8 @@ class BaseRepository extends EntityRepository {
 				}
 				if (array_key_exists('max', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' >= :' . $parameter,
-						'parameter' => $this->underscoreToCamelCase($key),
+						'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' <= :' . $parameter . '_max',
+						'parameter' => $parameter . '_max',
 						'value' => $value['max']
 					];
 

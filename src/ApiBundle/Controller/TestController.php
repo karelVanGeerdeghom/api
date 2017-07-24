@@ -13,32 +13,6 @@ use ApiBundle\Controller\BaseController;
 class TestController extends BaseController {
 	public function testAction() {
 		$answer = [];
-		$id = 9887;
-
-//		fluidity[]=2&fluidity[]=5&roasted[min]=2
-
-		$filters = [
-			[
-				'where' => 'ApiBundle:ProductEntity.brandId = :brandId',
-				'parameter' => 'brandId',
-				'value' => 18
-			],
-			[
-				'where' => 'ApiBundle:ProductEntity.cocoaFatfreeCocoa < :cocoaFatfreeCocoa',
-				'parameter' => 'cocoaFatfreeCocoa',
-				'value' => 20
-			],
-			[
-				'where' => 'ApiBundle:ProductEntity.chocolateType IN (:chocolateType)',
-				'parameter' => 'chocolateType',
-				'value' => ['Dark', 'Milk']
-			],
-			[
-				'where' => 'ApiBundle:ProductEntity.chocolateType = :chocolateType',
-				'parameter' => 'chocolateType',
-				'value' => 'Milk'
-			],
-		];
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$meta = $repository->getMeta();
@@ -46,7 +20,7 @@ class TestController extends BaseController {
 
 		foreach ($products as $id => $product) {
 			$product->setMeta($meta);
-			array_push($answer, $product->export());
+			$answer[$id] = $product->export();
 		}
 
 		return $answer;
