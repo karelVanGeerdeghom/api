@@ -110,6 +110,8 @@ class BaseRepository extends EntityRepository {
 		foreach ($get as $key => $value) {
 			$this->createFilter($key, $value);
 		}
+
+		// print_r($this->filters);
 	}
 
 	private function createFilter($key, $value) {
@@ -147,7 +149,7 @@ class BaseRepository extends EntityRepository {
 			$filter = [
 				'where' => 'ApiBundle:' . $this->class . 'Entity.' . $parameter . ' = :' . $parameter,
 				'parameter' => $this->underscoreToCamelCase($key),
-				'value' => $value
+				'value' => $value === 'true' ? 1 : $value
 			];
 
 			array_push($this->filters, $filter);

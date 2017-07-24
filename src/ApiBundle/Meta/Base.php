@@ -95,9 +95,6 @@ class Base {
 			if ($this->$attribute->getFilter() === $filter) {
 				$filterValue = $this->$attribute->get();
 				if ($filterValue) {
-					if (!is_bool($filterValue) && !is_array($filterValue)) {
-						$filterValue = (string)$filterValue;
-					}
 					$results[$attribute] = $filterValue;
 				}
 			}

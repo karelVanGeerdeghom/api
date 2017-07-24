@@ -71,10 +71,10 @@ class GetProductFiltersController extends BaseController {
 								];
 							}
 							if ($answer[$key]['options']['min'] === '' || $value < $answer[$key]['options']['min']) {
-								$answer[$key]['options']['min'] = $value;
+								$answer[$key]['options']['min'] = (string)$value;
 							}
 							if ($answer[$key]['options']['max'] === '' || $value > $answer[$key]['options']['max']) {
-								$answer[$key]['options']['max'] = $value;
+								$answer[$key]['options']['max'] = (string)$value;
 							}
 						break;
 						case 'enum':
