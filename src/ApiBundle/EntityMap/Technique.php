@@ -10,7 +10,7 @@ class Technique extends Base
 		'id' => [],
 		'Brand_id' => [],
 		// TRANSLATIONS
-		'title_tid' => ['type' => 'translation'],
-		'url_tid' => ['type' => 'translation']
+		'title_tid' => self::TRANSLATION,
+		'url_tid' => self::TRANSLATION
 	];
 }

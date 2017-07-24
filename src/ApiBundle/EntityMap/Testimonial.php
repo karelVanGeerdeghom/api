@@ -11,6 +11,6 @@ class Testimonial extends Base
 		'Brand_id' => [],
 		'Country_id' => [],
 		// TRANSLATIONS
-		'text_tid' => ['type' => 'translation']
+		'text_tid' => self::TRANSLATION
 	];
 }
