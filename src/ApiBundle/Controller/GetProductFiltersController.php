@@ -26,7 +26,7 @@ class GetProductFiltersController extends Controller
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
-		$labels = $repository->getLabels();
+		$labels = $repository->getLabels($repository->getTable());
 
 		$columnTranslations = $labels['ColumnTranslation'];
 		$valueTranslations = $labels['ValueTranslation'];

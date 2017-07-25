@@ -81,10 +81,10 @@ class BaseRepository extends EntityRepository
 		return $ids;
 	}
 
-	public function getLabels() : array {
-		$columnTranslation = $this->getEntityManager()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable($this->appId, $this->table);
-		$valueTranslation = $this->getEntityManager()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable($this->appId, $this->table);
-		$fieldDescription = $this->getEntityManager()->getRepository('ApiBundle:FielddescriptionEntity')->findByTable($this->table);
+	public function getLabels(string $table) : array {
+		$columnTranslation = $this->getEntityManager()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable($this->appId, $table);
+		$valueTranslation = $this->getEntityManager()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable($this->appId, $table);
+		$fieldDescription = $this->getEntityManager()->getRepository('ApiBundle:FielddescriptionEntity')->findByTable($table);
 
 		return [
 			'ColumnTranslation' => $columnTranslation,
@@ -99,6 +99,10 @@ class BaseRepository extends EntityRepository
 
 	public function setLocale(string $locale) {
 		$this->locale = $locale;
+	}
+
+	public function getTable() : string {
+		return $this->table;
 	}
 
 	private function getClass() {
@@ -204,9 +208,9 @@ class BaseRepository extends EntityRepository
 
 	private function convertOne(array $data) {
 		$data = $this->camelCaseToUnderscore($data);
-		
+		$data = $this->nullifyData($data);
+
 		$this->convertRelations($data);
-		$this->nullifyData($data);
 
 		$item = $this->getClass();
 		$item->set($data);
@@ -237,6 +241,9 @@ class BaseRepository extends EntityRepository
 				foreach ($data[$relation] as $relationData) {
 					$className = 'ApiBundle\\EntityMap\\' . $properties['class'];
 					$relationItem = new $className;
+
+					$labels = $this->getLabels($relationItem->getTable());
+					$relationItem->setLabels($labels);
 					$relationItem->set($relationData);
 
 					array_push($relations, $relationItem->export());
@@ -247,15 +254,17 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function nullifyData(array &$data) {
+	private function nullifyData(array $data) {
+		$result = [];
+
 		foreach ($data as $key => $value) {
 			if (is_array($value)) {
-				$this->nullifyData($value);
+				$result[$key] = $this->nullifyData($value);
 			} else {
-				if ($value === '-1' || $value === -1) {
-					$data[$key] = null;
-				}
+				$result[$key] = $value === '-1' || $value === -1 ? null : $value;
 			}
 		}
+
+		return $result;
 	}
 }

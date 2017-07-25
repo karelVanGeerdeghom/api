@@ -61,6 +61,14 @@ class Base
 		}
 	}
 
+	public function getTable() : string {
+		if ($this->table) {
+			return $this->table;
+		}
+
+		return (new \ReflectionClass($this))->getShortName();
+	}
+
 	public function setLabels($labels = null) {
 		$this->labels = $labels;
 	}

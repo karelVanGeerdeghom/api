@@ -16,10 +16,11 @@ class GetAuthorDetailsController extends Controller
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:AuthorEntity');
 		$repository->setAppId($appId);
+		$labels = $repository->getLabels($repository->getTable());
 
 		$authors = $repository->findByIds($ids);
 		foreach ($authors as $id => $author) {
-			$author->setLabels($repository->getLabels());
+			$author->setLabels($labels);
 			array_push($answer, $author->export());
 		}
 

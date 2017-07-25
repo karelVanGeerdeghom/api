@@ -12,12 +12,15 @@ class GetProductDetailsController extends Controller
 		$answer = [];
 
 		$ids = [9887];
+		$appId = 5;
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
+		$repository->setAppId($appId);
+		$labels = $repository->getLabels($repository->getTable());
 
 		$products = $repository->findByIds($ids);
 		foreach ($products as $id => $product) {
-			$product->setLabels($repository->getLabels());
+			$product->setLabels($labels);
 			array_push($answer, $product->export());
 		}
 

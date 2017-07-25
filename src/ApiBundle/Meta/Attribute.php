@@ -36,7 +36,7 @@ class Attribute
 		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
 		$key = $this->key ? $this->key : $key;
 
-		return $key;
+		return strtolower($key);
 	}
 
 	public function getValue($labels = null) {
@@ -48,9 +48,9 @@ class Attribute
 			];
 
 			if (array_key_exists('ColumnTranslation', $labels) && in_array('ColumnTranslation', $this->labels)) {
-				$value['key'] = null;
+				$value['label'] = null;
 				if (array_key_exists($this->id, $labels['ColumnTranslation'])) {
-					$value['key'] = 't(' . $labels['ColumnTranslation'][$this->id] . ')';
+					$value['label'] = 't(' . $labels['ColumnTranslation'][$this->id] . ')';
 				}
 			}
 

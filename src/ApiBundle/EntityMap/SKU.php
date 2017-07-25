@@ -6,21 +6,31 @@ use ApiBundle\Meta\Base;
 
 class SKU extends Base
 {
+	protected $table = 'Product';
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
 		// TRANSLATIONS
-		'cluster_tid' => self::TRANSLATION,
-		'GPC_info_tid' => self::TRANSLATION,
-		'SAP_tid' => self::TRANSLATION,
-		'SAP2_tid' => self::TRANSLATION,
+		'cluster_tid' => ['translation' => true],
+		'GPC_info_tid' => ['translation' => true],
+		'SAP_tid' => ['translation' => true],
+		'SAP2_tid' => ['translation' => true],
 		// VALUES
 		'packaging_type' => [],
-		'SAP_code' => [],
-		'shelflife' => [],
-		'sku' => [],
+		'SAP_code' => [
+			'labels' => ['ColumnTranslation']
+		],
+		'shelflife' => [
+			'labels' => ['ColumnTranslation']
+		],
+		'sku' => [
+			'labels' => ['ColumnTranslation']
+		],
 		'sortorder' => [],
 		'halal' => [],
-		'kosher' => []
+		'kosher' => [
+			'labels' => ['ColumnTranslation']
+		]
 	];
 }
