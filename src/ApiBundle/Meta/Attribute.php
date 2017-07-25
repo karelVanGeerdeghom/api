@@ -11,6 +11,9 @@ class Attribute
 	private $group = null;
 	private $filter = null;
 	private $meta = null;
+	private $class = null;
+	private $relation = null;
+	private $label = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -32,7 +35,8 @@ class Attribute
 		$data = [
 			'key' => $this->getKey(),
 			'value' => $this->getValue(),
-			'group' => $this->getGroup()
+			'group' => $this->getGroup(),
+			'label' => $this->getLabel()
 		];
 
 		if ($meta && $this->meta) {
@@ -72,6 +76,18 @@ class Attribute
 
 	public function getFilter() : ?string {
 		return $this->filter;
+	}
+
+	public function getRelation() : ?string {
+		return $this->relation;
+	}
+
+	public function getClass() : ?string {
+		return $this->class;
+	}
+
+	public function getLabel() : ?string {
+		return $this->label;
 	}
 
 	private function getGroup() : ?string {

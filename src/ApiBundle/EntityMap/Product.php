@@ -176,43 +176,51 @@ class Product extends Base
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE,
 		// RELATIONS
-		'applications' => [
+		'application' => [
+			'class' => 'Application',
 			'filter' => 'enum',
-			'relation' => 'application',
-			'class' => 'Application'
+			'relation' => true,
+			'label' => 'applications'
 		],
-		'colors' => [
+		'color' => [
+			'class' => 'Color',
 			'filter' => 'enum',
-			'relation' => 'color',
-			'class' => 'Color'
+			'relation' => true,
+			'label' => 'colors'
 		],
-		'seasons' => [
+		'season' => [
+			'class' => 'Season',
 			'filter' => 'enum',
-			'relation' => 'season',
-			'class' => 'Season'
+			'relation' => true,
+			'label' => 'seasons'
 		],
-		'skus' => [
-			'relation' => 'sku',
-			'class' => 'SKU'
+		'sku' => [
+			'class' => 'SKU',
+			'relation' => true,
+			'label' => 'availabilities'
 		],
-		'segments' => [
+		'segment' => [
+			'class' => 'Segment',
 			'filter' => 'enum',
-			'relation' => 'segment',
-			'class' => 'Segment'
+			'relation' => true,
+			'label' => 'segments'
 		],
-		'subbrands' => [
+		'subbrand' => [
+			'class' => 'Subbrand',
 			'filter' => 'enum',
-			'relation' => 'subbrand',
-			'class' => 'Subbrand'
+			'relation' => true,
+			'label' => 'subbrands'
 		],
-		'techniques' => [
+		'technique' => [
+			'class' => 'Technique',
 			'filter' => 'enum',
-			'relation' => 'technique',
-			'class' => 'Technique'
+			'relation' => true,
+			'label' => 'techniques'
 		],
-		'testimonials' => [
-			'relation' => 'testimonial',
-			'class' => 'Testimonial'
+		'testimonial' => [
+			'class' => 'Testimonial',
+			'relation' => true,
+			'label' => 'testimonials'
 		]
 	];
 }

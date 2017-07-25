@@ -73,8 +73,11 @@ class Base
 		$relations = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			if (array_key_exists('relation', $properties)) {
-				$relations[$properties['relation']] = $properties['class'];
+			if ($this->$attribute->getRelation()) {
+				$relations[$attribute] = [
+					'class' => $this->$attribute->getClass(),
+					'label' => $this->$attribute->getLabel()
+				];
 			}
 		}
 
@@ -143,6 +146,7 @@ class Base
 		$results = [];
 		foreach ($attributes as $attribute) {
 			$attributeData = $this->$attribute->export($this->meta);
+			$key = $attributeData['key'];
 
 			$reference = &$results;
 			if ($attributeData['group']) {
@@ -153,7 +157,11 @@ class Base
 				$reference = &$results[$attributeData['group']];
 			}
 
-			$reference = array_merge($reference, [$attributeData['key'] => $attributeData['value']]);
+			if ($attributeData['label']) {
+				$key = $attributeData['label'];
+			}
+
+			$reference = array_merge($reference, [$key => $attributeData['value']]);
 		}
 
 		return $results;

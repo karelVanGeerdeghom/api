@@ -22,7 +22,7 @@ class BaseRepository extends EntityRepository
 					->getQuery();
 
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
-
+// return $results;
 		return $this->convertAll($results);
 	}
 
@@ -84,10 +84,10 @@ class BaseRepository extends EntityRepository
 	private function addRelations($queryBuilder) {
 		$item = $this->getClass();
 
-		foreach ($item->getRelations() as $relation => $class) {
+		foreach ($item->getRelations() as $relation => $properties) {
 			$queryBuilder = $queryBuilder
-								->addSelect('ApiBundle:' . $class . 'Entity')
-								->leftJoin('ApiBundle:' . $this->class . 'Entity.' . $relation, 'ApiBundle:' . $class . 'Entity');
+								->addSelect('ApiBundle:' . $properties['class'] . 'Entity')
+								->leftJoin('ApiBundle:' . $this->class . 'Entity.' . $relation, 'ApiBundle:' . $properties['class'] . 'Entity');
 		}
 
 		return $queryBuilder;
@@ -108,8 +108,8 @@ class BaseRepository extends EntityRepository
 		$relations = $item->getRelations();
 
 		foreach ($request as $key => $value) {
-			if (array_key_exists(substr($key, 0, -1), $relations)) {
-				$this->createFilter($key, $value, $relations[substr($key, 0, -1)]);
+			if (array_key_exists($key, $relations)) {
+				$this->createFilter($key, $value, $relations[$key]['class']);
 			} else {
 				$this->createFilter($key, $value);
 			}			
@@ -201,21 +201,23 @@ class BaseRepository extends EntityRepository
 	private function convertRelations(array &$data) {
 		$item = $this->getClass();
 
-		foreach ($item->getRelations() as $relation => $class) {
+		foreach ($item->getRelations() as $relation => $properties) {
+
 			if (array_key_exists($relation, $data)) {
-				if (!array_key_exists($relation . 's', $data)) {
-					$data[$relation . 's'] = [];
+				if (!array_key_exists($relation, $data)) {
+					$data[$relation] = [];
 				}
 
+				$relations = [];
 				foreach ($data[$relation] as $relationData) {
-					$className = 'ApiBundle\\EntityMap\\' . $class;
+					$className = 'ApiBundle\\EntityMap\\' . $properties['class'];
 					$relationItem = new $className;
 					$relationItem->set($relationData);
 
-					array_push($data[$relation . 's'], $relationItem->export());
+					array_push($relations, $relationItem->export());
 				}
 
-				unset($data[$relation]);
+				$data[$relation] = $relations;
 			}
 		}
 	}
@@ -230,28 +232,31 @@ class BaseRepository extends EntityRepository
 				switch ($key) {
 					case 'madeWith100percentPurecocoaButter':
 						$result['made_with_100percent_purecocoa_butter'] = $value;
-					break;
+						break;
 					case 'utzMassBalanceFull100percent':
 						$result['utz_mass_balance_full_100percent'] = $value;
-					break;
+						break;
 					case 'brandId':
 						$result['Brand_id'] = $value;
-					break;
+						break;
+					case 'countryId':
+						$result['Country_id'] = $value;
+						break;
 					case 'gpcInfoTid':
 						$result['GPC_info_tid'] = $value;
-					break;
+						break;
 					case 'sapTid':
 						$result['SAP_tid'] = $value;
-					break;
+						break;
 					case 'sap2Tid':
 						$result['SAP2_tid'] = $value;
-					break;
+						break;
 					case 'sapCode':
 						$result['SAP_code'] = $value;
-					break;
+						break;
 					default:
 						$result[strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($key)))] = $value;
-					break;
+						break;
 				}				
 			}
 		}
