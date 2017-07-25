@@ -17,7 +17,7 @@ class BaseRepository extends EntityRepository
 		$queryBuilder = $this->addRelations($queryBuilder);
 
 		$query = $queryBuilder
-					->where('ApiBundle:' . $this->class . 'Entity.id = :id')
+					->andWhere('ApiBundle:' . $this->class . 'Entity.id = :id')
 					->setParameter('id', $id)
 					->getQuery();
 
@@ -236,6 +236,18 @@ class BaseRepository extends EntityRepository
 					break;
 					case 'brandId':
 						$result['Brand_id'] = $value;
+					break;
+					case 'gpcInfoTid':
+						$result['GPC_info_tid'] = $value;
+					break;
+					case 'sapTid':
+						$result['SAP_tid'] = $value;
+					break;
+					case 'sap2Tid':
+						$result['SAP2_tid'] = $value;
+					break;
+					case 'sapCode':
+						$result['SAP_code'] = $value;
 					break;
 					default:
 						$result[strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($key)))] = $value;

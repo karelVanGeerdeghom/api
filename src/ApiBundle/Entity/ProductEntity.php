@@ -1067,6 +1067,13 @@ class ProductEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\SKUEntity", mappedBy="recipe", cascade={"persist"})
+     */
+    private $sku;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationEntity", inversedBy="recipe", fetch="EAGER")
      * @ORM\JoinTable(name="recipeapplication",
      *   joinColumns={
@@ -1174,6 +1181,7 @@ class ProductEntity
      */
     public function __construct()
     {
+        $this->sku = new \Doctrine\Common\Collections\ArrayCollection();
         $this->application = new \Doctrine\Common\Collections\ArrayCollection();
         $this->color = new \Doctrine\Common\Collections\ArrayCollection();
         $this->season = new \Doctrine\Common\Collections\ArrayCollection();

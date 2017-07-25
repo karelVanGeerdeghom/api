@@ -191,6 +191,10 @@ class Product extends Base
 			'relation' => 'season',
 			'class' => 'Season'
 		],
+		'skus' => [
+			'relation' => 'sku',
+			'class' => 'SKU'
+		],
 		'segments' => [
 			'filter' => 'enum',
 			'relation' => 'segment',
