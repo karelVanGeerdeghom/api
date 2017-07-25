@@ -31,47 +31,45 @@ class Attribute
 		return $this->value;
 	}
 
-	public function export($meta = null) : array {
-		$data = [
-			'key' => $this->getKey(),
-			'value' => $this->getValue(),
-			'group' => $this->getGroup(),
-			'label' => $this->getLabel()
-		];
+	public function getKey() : string {
+		$key = $this->type === 'translation' ? substr($this->id, 0, -4) : $this->id;
+		$key = $this->label ? $this->label : $key;
+
+		return $key;
+	}
+
+	public function getValue($meta = null) {
+		$value = $this->type === 'translation' && $this->value ? 't(' . $this->value . ')' : $this->value;
 
 		if ($meta && $this->meta) {
-			$data['value'] = [
-				'value' => $this->getValue()
+			$value = [
+				'value' => $value
 			];
 
 			if (array_key_exists('ColumnTranslation', $meta) && in_array('ColumnTranslation', $this->meta)) {
-				$data['value']['label'] = null;
+				$value['label'] = null;
 				if (array_key_exists($this->id, $meta['ColumnTranslation'])) {
-					$data['value']['label'] = 't(' . $meta['ColumnTranslation'][$this->id] . ')';
+					$value['label'] = 't(' . $meta['ColumnTranslation'][$this->id] . ')';
 				}
 			}
 
 			if (array_key_exists('ValueTranslation', $meta) && in_array('ValueTranslation', $this->meta)) {
 				if (array_key_exists($this->id, $meta['ValueTranslation']) && array_key_exists($this->value, $meta['ValueTranslation'][$this->id])) {
-					$data['value']['value'] = 't(' . $meta['ValueTranslation'][$this->id][$this->value] . ')';
+					$value['value'] = 't(' . $meta['ValueTranslation'][$this->id][$this->value] . ')';
 				}
 			}
 
 			if (array_key_exists('FieldDescription', $meta) && in_array('FieldDescription', $this->meta)) {
-				$data['value']['description'] = null;
+				$value['description'] = null;
 				if (array_key_exists($this->id, $meta['FieldDescription'])) {
-					$data['value']['description'] = 't(' . $meta['FieldDescription'][$this->id] . ')';
+					$value['description'] = 't(' . $meta['FieldDescription'][$this->id] . ')';
 				}
 			}
 
-			ksort($data['value']);
-		}		
+			ksort($value);
+		}
 
-		return $data;
-	}
-
-	public function getType() : ?string {
-		return $this->type;
+		return $value;
 	}
 
 	public function getFilter() : ?string {
@@ -82,31 +80,7 @@ class Attribute
 		return $this->relation;
 	}
 
-	public function getClass() : ?string {
-		return $this->class;
-	}
-
-	public function getLabel() : ?string {
-		return $this->label;
-	}
-
-	private function getGroup() : ?string {
+	public function getGroup() : ?string {
 		return $this->group;
-	}
-
-	private function getKey() : string {
-		if ($this->type === 'translation') {
-			return substr($this->id, 0, -4);
-		}
-
-		return $this->id;
-	}
-
-	private function getValue() {
-		if ($this->type === 'translation' && $this->value) {
-			return 't(' . $this->value . ')';
-		}
-
-		return $this->value;
 	}
 }

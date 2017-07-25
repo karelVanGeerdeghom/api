@@ -75,8 +75,8 @@ class Base
 		foreach ($this->attributes as $attribute => $properties) {
 			if ($this->$attribute->getRelation()) {
 				$relations[$attribute] = [
-					'class' => $this->$attribute->getClass(),
-					'label' => $this->$attribute->getLabel()
+					'class' => $properties['class'],
+					'label' => $properties['label']
 				];
 			}
 		}
@@ -139,29 +139,24 @@ class Base
 	}
 
 	private function exportSingle(string $attribute) : array {
-		return $this->$attribute->export($this->meta);
+		return $this->$attribute->getValue($this->meta);
 	}
 
 	private function exportMultiple(array $attributes) : array {
 		$results = [];
-		foreach ($attributes as $attribute) {
-			$attributeData = $this->$attribute->export($this->meta);
-			$key = $attributeData['key'];
 
+		foreach ($attributes as $attribute) {
 			$reference = &$results;
-			if ($attributeData['group']) {
-				if (!array_key_exists($attributeData['group'], $results)) {
-					$results[$attributeData['group']] = [];
+
+			if ($this->$attribute->getGroup()) {
+				if (!array_key_exists($this->$attribute->getGroup(), $results)) {
+					$results[$this->$attribute->getGroup()] = [];
 				}
 
-				$reference = &$results[$attributeData['group']];
+				$reference = &$results[$this->$attribute->getGroup()];
 			}
 
-			if ($attributeData['label']) {
-				$key = $attributeData['label'];
-			}
-
-			$reference = array_merge($reference, [$key => $attributeData['value']]);
+			$reference = array_merge($reference, [$this->$attribute->getKey() => $this->$attribute->getValue($this->meta)]);
 		}
 
 		return $results;
