@@ -84,6 +84,21 @@ class Base
 		return $relations;
 	}
 
+	public function getFilterRelations() : array {
+		$relations = [];
+
+		foreach ($this->attributes as $attribute => $properties) {
+			if ($this->$attribute->getFilterRelation()) {
+				$relations[$attribute] = [
+					'class' => $properties['class'],
+					'label' => $properties['label']
+				];
+			}
+		}
+
+		return $relations;
+	}
+
 	public function getFilters() : array {
 		$filters = [];
 

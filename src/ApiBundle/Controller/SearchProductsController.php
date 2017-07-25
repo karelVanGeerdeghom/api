@@ -19,8 +19,7 @@ class SearchProductsController extends Controller
 		}
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
-		$products = $repository->findByFilters($filters);
 
-		return array_keys($products);
+		return $repository->findIdsByFilters($filters);
 	}
 }

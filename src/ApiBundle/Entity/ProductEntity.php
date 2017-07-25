@@ -1075,8 +1075,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="RecipeApplication
-",
+     * @ORM\JoinTable(name="RecipeApplication",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },

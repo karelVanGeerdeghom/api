@@ -11,11 +11,11 @@ class GetProductDetailsController extends Controller
 	public function getAction() {
 		$answer = [];
 
-		$id = 9887;
+		$ids = [9887];
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 
-		$products = $repository->findById($id);
+		$products = $repository->findByIds($ids);
 		foreach ($products as $id => $product) {
 			$product->setMeta($repository->getMeta());
 			array_push($answer, $product->export());

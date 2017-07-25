@@ -81,6 +81,14 @@ class Attribute
 		return $this->relation;
 	}
 
+	public function getFilterRelation() : ?string {
+		if ($this->filter && $this->relation) {
+			return $this->relation;
+		}
+
+		return null;
+	}
+
 	public function getGroup() : ?string {
 		return $this->group;
 	}

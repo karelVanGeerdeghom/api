@@ -20,7 +20,7 @@ class GetProductFiltersController extends Controller
 		$filters = $_GET;
 		if (count($filters) === 0) {
 			$filters = [
-				'Brand_id' => 5
+				'Brand_id' => 16
 			];
 		}
 

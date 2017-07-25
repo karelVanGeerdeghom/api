@@ -5,20 +5,24 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
+use ApiBundle\Meta\Naming;
+
 class BaseRepository extends EntityRepository
 {
+	use Naming;
+
 	protected $appId = null;
 	protected $locale = null;
 
 	protected $filters = [];
 
-	public function findById(string $id) : array {
+	public function findByIds(array $ids) : array {
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 
 		$query = $queryBuilder
-					->andWhere('ApiBundle:' . $this->class . 'Entity.id = :id')
-					->setParameter('id', $id)
+					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
+					->setParameter('id', $ids)
 					->getQuery();
 
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
@@ -44,15 +48,37 @@ class BaseRepository extends EntityRepository
 		$this->createFilters($request);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
-		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addFilterRelations($queryBuilder);
 		$queryBuilder = $this->addFilters($queryBuilder);
 
 		$query = $queryBuilder
 					->getQuery();
 
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
-return $results;
+
 		return $this->convertAll($results);
+	}
+
+	public function findIdsByFilters(array $request) : array {
+		$this->createFilters($request);
+
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addFilterRelations($queryBuilder);
+		$queryBuilder = $this->addFilters($queryBuilder);
+
+		$query = $queryBuilder
+					->distinct()
+					->select('ApiBundle:' . $this->class . 'Entity.id')
+					->getQuery();
+
+		$results = $query->getResult(Query::HYDRATE_ARRAY);
+
+		$ids = [];
+		foreach ($results as $result) {
+			array_push($ids, $result['id']);
+		}
+
+		return $ids;
 	}
 
 	public function getMeta() : array {
@@ -85,6 +111,18 @@ return $results;
 		$item = $this->getClass();
 
 		foreach ($item->getRelations() as $relation => $properties) {
+			$queryBuilder = $queryBuilder
+								->addSelect('ApiBundle:' . $properties['class'] . 'Entity')
+								->leftJoin('ApiBundle:' . $this->class . 'Entity.' . $relation, 'ApiBundle:' . $properties['class'] . 'Entity');
+		}
+
+		return $queryBuilder;
+	}
+
+	private function addFilterRelations($queryBuilder) {
+		$item = $this->getClass();
+
+		foreach ($item->getFilterRelations() as $relation => $properties) {
 			$queryBuilder = $queryBuilder
 								->addSelect('ApiBundle:' . $properties['class'] . 'Entity')
 								->leftJoin('ApiBundle:' . $this->class . 'Entity.' . $relation, 'ApiBundle:' . $properties['class'] . 'Entity');
@@ -202,7 +240,6 @@ return $results;
 		$item = $this->getClass();
 
 		foreach ($item->getRelations() as $relation => $properties) {
-
 			if (array_key_exists($relation, $data)) {
 				if (!array_key_exists($relation, $data)) {
 					$data[$relation] = [];
@@ -220,53 +257,5 @@ return $results;
 				$data[$relation] = $relations;
 			}
 		}
-	}
-
-	private function camelCaseToUnderscore(array $data) : array {
-		$result = [];
-
-		foreach ($data as $key => $value) {
-			if (is_array($value)) {
-				$result[$key] = $this->camelCaseToUnderscore($value);
-			} else {
-				switch ($key) {
-					case 'madeWith100percentPurecocoaButter':
-						$result['made_with_100percent_purecocoa_butter'] = $value;
-						break;
-					case 'utzMassBalanceFull100percent':
-						$result['utz_mass_balance_full_100percent'] = $value;
-						break;
-					case 'brandId':
-						$result['Brand_id'] = $value;
-						break;
-					case 'countryId':
-						$result['Country_id'] = $value;
-						break;
-					case 'gpcInfoTid':
-						$result['GPC_info_tid'] = $value;
-						break;
-					case 'sapTid':
-						$result['SAP_tid'] = $value;
-						break;
-					case 'sap2Tid':
-						$result['SAP2_tid'] = $value;
-						break;
-					case 'sapCode':
-						$result['SAP_code'] = $value;
-						break;
-					default:
-						$result[strtolower(preg_replace('/[A-Z]/', '_\\0', lcfirst($key)))] = $value;
-						break;
-				}				
-			}
-		}
-
-		return $result;
-	}
-
-	private function underscoreToCamelCase(string $string) : string {
-		return lcfirst(preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
-			return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
-		}, $string));
 	}
 }

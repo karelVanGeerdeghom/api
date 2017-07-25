@@ -12,12 +12,12 @@ class GetAuthorDetailsController extends Controller
 		$answer = [];
 
 		$appId = 5;
-		$id = 1;
+		$ids = [1];
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:AuthorEntity');
 		$repository->setAppId($appId);
 
-		$authors = $repository->findById($id);
+		$authors = $repository->findByIds($ids);
 		foreach ($authors as $id => $author) {
 			$author->setMeta($repository->getMeta());
 			array_push($answer, $author->export());
