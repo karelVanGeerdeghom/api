@@ -26,10 +26,10 @@ class GetProductFiltersController extends Controller
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 		$repository->setAppId($appId);
-		$meta = $repository->getMeta();
+		$labels = $repository->getLabels();
 
-		$columnTranslations = $meta['ColumnTranslation'];
-		$valueTranslations = $meta['ValueTranslation'];
+		$columnTranslations = $labels['ColumnTranslation'];
+		$valueTranslations = $labels['ValueTranslation'];
 		$valueLabels = [
 			'fluidity' => [
 				'1' => 'Very low fluidity',
@@ -60,7 +60,7 @@ class GetProductFiltersController extends Controller
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {
 						$answer[$key] = [
-							'label' => $this->getColumnLabel($key, $columnTranslations),
+							'key' => $this->getColumnLabel($key, $columnTranslations),
 							'type' => $filter
 						];
 					}

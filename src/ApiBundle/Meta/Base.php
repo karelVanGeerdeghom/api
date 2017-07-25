@@ -8,11 +8,11 @@ class Base
 {
 	const TRANSLATION = [
 		'translation' => true,
-		'meta' => ['ColumnTranslation']
+		'labels' => ['ColumnTranslation']
 	];
 
 	protected $table = null;
-	protected $meta = null;
+	protected $labels = null;
 	protected $attributes = [];
 
 	function __construct() {
@@ -61,12 +61,12 @@ class Base
 		}
 	}
 
-	public function setMeta($meta = null) {
-		$this->meta = $meta;
+	public function setLabels($labels = null) {
+		$this->labels = $labels;
 	}
 
-	public function getMeta() : ?array {
-		return $this->meta;
+	public function getLabels() : ?array {
+		return $this->labels;
 	}
 
 	public function getRelations() : array {
@@ -76,7 +76,7 @@ class Base
 			if ($this->$attribute->getRelation()) {
 				$relations[$attribute] = [
 					'class' => $properties['class'],
-					'label' => $properties['label']
+					'key' => $properties['key']
 				];
 			}
 		}
@@ -91,7 +91,7 @@ class Base
 			if ($this->$attribute->getFilterRelation()) {
 				$relations[$attribute] = [
 					'class' => $properties['class'],
-					'label' => $properties['label']
+					'key' => $properties['key']
 				];
 			}
 		}
@@ -154,7 +154,7 @@ class Base
 	}
 
 	private function exportSingle(string $attribute) : array {
-		return $this->$attribute->getValue($this->meta);
+		return $this->$attribute->getValue($this->labels);
 	}
 
 	private function exportMultiple(array $attributes) : array {
@@ -171,7 +171,7 @@ class Base
 				$reference = &$results[$this->$attribute->getGroup()];
 			}
 
-			$reference = array_merge($reference, [$this->$attribute->getKey() => $this->$attribute->getValue($this->meta)]);
+			$reference = array_merge($reference, [$this->$attribute->getKey() => $this->$attribute->getValue($this->labels)]);
 		}
 
 		return $results;

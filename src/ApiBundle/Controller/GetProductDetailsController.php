@@ -17,7 +17,7 @@ class GetProductDetailsController extends Controller
 
 		$products = $repository->findByIds($ids);
 		foreach ($products as $id => $product) {
-			$product->setMeta($repository->getMeta());
+			$product->setLabels($repository->getLabels());
 			array_push($answer, $product->export());
 		}
 

@@ -19,7 +19,7 @@ class GetAuthorDetailsController extends Controller
 
 		$authors = $repository->findByIds($ids);
 		foreach ($authors as $id => $author) {
-			$author->setMeta($repository->getMeta());
+			$author->setLabels($repository->getLabels());
 			array_push($answer, $author->export());
 		}
 

@@ -13,7 +13,7 @@ class Author extends Base
 		'function_tid' => self::TRANSLATION,
 		// VALUES
 		'name' => [
-			'meta' => ['ColumnTranslation']
+			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS
 		'downloads' => [

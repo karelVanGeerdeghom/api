@@ -13,8 +13,8 @@ class Attribute
 	private $class = null;
 	private $filter = null;
 	private $group = null;
-	private $label = null;
-	private $meta = null;
+	private $key = null;
+	private $labels = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -34,36 +34,36 @@ class Attribute
 
 	public function getKey() : string {
 		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
-		$key = $this->label ? $this->label : $key;
+		$key = $this->key ? $this->key : $key;
 
 		return $key;
 	}
 
-	public function getValue($meta = null) {
+	public function getValue($labels = null) {
 		$value = $this->translation && $this->value ? 't(' . $this->value . ')' : $this->value;
 
-		if ($meta && $this->meta) {
+		if ($labels && $this->labels) {
 			$value = [
 				'value' => $value
 			];
 
-			if (array_key_exists('ColumnTranslation', $meta) && in_array('ColumnTranslation', $this->meta)) {
-				$value['label'] = null;
-				if (array_key_exists($this->id, $meta['ColumnTranslation'])) {
-					$value['label'] = 't(' . $meta['ColumnTranslation'][$this->id] . ')';
+			if (array_key_exists('ColumnTranslation', $labels) && in_array('ColumnTranslation', $this->labels)) {
+				$value['key'] = null;
+				if (array_key_exists($this->id, $labels['ColumnTranslation'])) {
+					$value['key'] = 't(' . $labels['ColumnTranslation'][$this->id] . ')';
 				}
 			}
 
-			if (array_key_exists('ValueTranslation', $meta) && in_array('ValueTranslation', $this->meta)) {
-				if (array_key_exists($this->id, $meta['ValueTranslation']) && array_key_exists($this->value, $meta['ValueTranslation'][$this->id])) {
-					$value['value'] = 't(' . $meta['ValueTranslation'][$this->id][$this->value] . ')';
+			if (array_key_exists('ValueTranslation', $labels) && in_array('ValueTranslation', $this->labels)) {
+				if (array_key_exists($this->id, $labels['ValueTranslation']) && array_key_exists($this->value, $labels['ValueTranslation'][$this->id])) {
+					$value['value'] = 't(' . $labels['ValueTranslation'][$this->id][$this->value] . ')';
 				}
 			}
 
-			if (array_key_exists('FieldDescription', $meta) && in_array('FieldDescription', $this->meta)) {
+			if (array_key_exists('FieldDescription', $labels) && in_array('FieldDescription', $this->labels)) {
 				$value['description'] = null;
-				if (array_key_exists($this->id, $meta['FieldDescription'])) {
-					$value['description'] = 't(' . $meta['FieldDescription'][$this->id] . ')';
+				if (array_key_exists($this->id, $labels['FieldDescription'])) {
+					$value['description'] = 't(' . $labels['FieldDescription'][$this->id] . ')';
 				}
 			}
 

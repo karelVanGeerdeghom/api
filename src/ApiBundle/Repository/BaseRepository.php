@@ -81,7 +81,7 @@ class BaseRepository extends EntityRepository
 		return $ids;
 	}
 
-	public function getMeta() : array {
+	public function getLabels() : array {
 		$columnTranslation = $this->getEntityManager()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable($this->appId, $this->table);
 		$valueTranslation = $this->getEntityManager()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable($this->appId, $this->table);
 		$fieldDescription = $this->getEntityManager()->getRepository('ApiBundle:FielddescriptionEntity')->findByTable($this->table);
@@ -224,18 +224,6 @@ class BaseRepository extends EntityRepository
 		return $items;
 	}
 
-	private function nullifyData(array &$data) {
-		foreach ($data as $key => $value) {
-			if (is_array($value)) {
-				$this->nullifyData($value);
-			} else {
-				if ($value === '-1' || $value === -1) {
-					$data[$key] = null;
-				}
-			}
-		}
-	}
-
 	private function convertRelations(array &$data) {
 		$item = $this->getClass();
 
@@ -255,6 +243,18 @@ class BaseRepository extends EntityRepository
 				}
 
 				$data[$relation] = $relations;
+			}
+		}
+	}
+
+	private function nullifyData(array &$data) {
+		foreach ($data as $key => $value) {
+			if (is_array($value)) {
+				$this->nullifyData($value);
+			} else {
+				if ($value === '-1' || $value === -1) {
+					$data[$key] = null;
+				}
 			}
 		}
 	}

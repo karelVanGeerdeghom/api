@@ -9,29 +9,29 @@ class Product extends Base
 	const PERCENTAGE_VALUE = [
 		'group' => 'percentage_values',
 		'filter' => 'float',
-		'meta' => ['ColumnTranslation']
+		'labels' => ['ColumnTranslation']
 	];
 
 	const TASTE_VALUE = [
 		'group' => 'taste_values',
 		'filter' => 'float',
-		'meta' => ['ColumnTranslation', 'FieldDescription']
+		'labels' => ['ColumnTranslation', 'FieldDescription']
 	];
 
 	const TASTE_BOOLEAN = [
 		'group' => 'taste_booleans',
 		'filter' => 'boolean',
-		'meta' => ['ColumnTranslation']
+		'labels' => ['ColumnTranslation']
 	];
 
 	const BOOLEAN_VALUE = [
 		'filter' => 'boolean',
-		'meta' => ['ColumnTranslation']
+		'labels' => ['ColumnTranslation']
 	];
 
 	const ENUM_VALUE = [
 		'filter' => 'enum',
-		'meta' => ['ColumnTranslation', 'ValueTranslation']
+		'labels' => ['ColumnTranslation', 'ValueTranslation']
 	];
 
 	protected $table = 'Recipe';
@@ -180,47 +180,47 @@ class Product extends Base
 			'class' => 'Application',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'applications'
+			'key' => 'applications'
 		],
 		'color' => [
 			'class' => 'Color',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'colors'
+			'key' => 'colors'
 		],
 		'season' => [
 			'class' => 'Season',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'seasons'
+			'key' => 'seasons'
 		],
 		'sku' => [
 			'class' => 'SKU',
 			'relation' => true,
-			'label' => 'availabilities'
+			'key' => 'availabilities'
 		],
 		'segment' => [
 			'class' => 'Segment',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'segments'
+			'key' => 'segments'
 		],
 		'subbrand' => [
 			'class' => 'Subbrand',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'subbrands'
+			'key' => 'subbrands'
 		],
 		'technique' => [
 			'class' => 'Technique',
 			'filter' => 'enum',
 			'relation' => true,
-			'label' => 'techniques'
+			'key' => 'techniques'
 		],
 		'testimonial' => [
 			'class' => 'Testimonial',
 			'relation' => true,
-			'label' => 'testimonials'
+			'key' => 'testimonials'
 		]
 	];
 }
