@@ -7,7 +7,7 @@ use ApiBundle\Meta\Attribute;
 class Base
 {
 	const TRANSLATION = [
-		'type' => 'translation',
+		'translation' => true,
 		'meta' => ['ColumnTranslation']
 	];
 

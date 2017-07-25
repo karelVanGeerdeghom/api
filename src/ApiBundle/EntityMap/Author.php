@@ -9,7 +9,7 @@ class Author extends Base
 	protected $attributes = [
 		'id' => [],
 		// TRANSLATIONS
-		'description_tid' => ['type' => 'translation'],
+		'description_tid' => ['translation' => true],
 		'function_tid' => self::TRANSLATION,
 		// VALUES
 		'name' => [

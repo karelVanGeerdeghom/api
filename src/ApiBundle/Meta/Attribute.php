@@ -7,13 +7,14 @@ class Attribute
 	private $id;
 	private $value = null;
 
-	private $type = null;
-	private $group = null;
-	private $filter = null;
-	private $meta = null;
+	private $relation = false;
+	private $translation = false;
+
 	private $class = null;
-	private $relation = null;
+	private $filter = null;
+	private $group = null;
 	private $label = null;
+	private $meta = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -32,14 +33,14 @@ class Attribute
 	}
 
 	public function getKey() : string {
-		$key = $this->type === 'translation' ? substr($this->id, 0, -4) : $this->id;
+		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
 		$key = $this->label ? $this->label : $key;
 
 		return $key;
 	}
 
 	public function getValue($meta = null) {
-		$value = $this->type === 'translation' && $this->value ? 't(' . $this->value . ')' : $this->value;
+		$value = $this->translation && $this->value ? 't(' . $this->value . ')' : $this->value;
 
 		if ($meta && $this->meta) {
 			$value = [

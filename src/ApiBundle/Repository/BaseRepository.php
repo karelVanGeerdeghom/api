@@ -22,7 +22,7 @@ class BaseRepository extends EntityRepository
 					->getQuery();
 
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
-// return $results;
+
 		return $this->convertAll($results);
 	}
 
@@ -51,7 +51,7 @@ class BaseRepository extends EntityRepository
 					->getQuery();
 
 		$results = $query->getResult(Query::HYDRATE_ARRAY);
-
+return $results;
 		return $this->convertAll($results);
 	}
 

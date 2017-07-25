@@ -1075,7 +1075,8 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipeapplication",
+     * @ORM\JoinTable(name="RecipeApplication
+",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1090,7 +1091,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ColorEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipecolor",
+     * @ORM\JoinTable(name="RecipeColor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1105,7 +1106,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SeasonEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipeseason",
+     * @ORM\JoinTable(name="RecipeSeason",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1120,7 +1121,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SegmentEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipesegment",
+     * @ORM\JoinTable(name="RecipeSegment",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1135,7 +1136,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SubbrandEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipesubbrand",
+     * @ORM\JoinTable(name="RecipeSubbrand",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1150,7 +1151,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\TechniqueEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipetechnique",
+     * @ORM\JoinTable(name="RecipeTechnique",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },
@@ -1165,7 +1166,7 @@ class ProductEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\TestimonialEntity", inversedBy="recipe", fetch="EAGER")
-     * @ORM\JoinTable(name="recipetestimonial",
+     * @ORM\JoinTable(name="RecipeTestimonial",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
      *   },

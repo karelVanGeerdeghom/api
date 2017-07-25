@@ -13,17 +13,21 @@ class TestController extends Controller
 	public function testAction() {
 		$answer = [];
 
-		// $product = new Product();
-		// return $product->getRelations();
+		$filters = $_GET;
+		if (count($filters) === 0) {
+			$filters = [
+				'Brand_id' => 1
+			];
+		}
 
 		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
 
-		$products = $repository->findById(9887);
-
+		$products = $repository->findByFilters($filters);
+return $products;
 		foreach ($products as $id => $product) {
-			$product->setMeta($repository->getMeta());
 			array_push($answer, $product->export());
 		}
+
 
 		return $answer;
 	}

@@ -10,6 +10,6 @@ class Segment extends Base
 		'id' => [],
 		'Brand_id' => [],
 		// TRANSLATIONS
-		'title_tid' => ['type' => 'translation']
+		'title_tid' => ['translation' => true]
 	];
 }
