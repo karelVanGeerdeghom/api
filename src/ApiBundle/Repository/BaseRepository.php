@@ -241,10 +241,10 @@ class BaseRepository extends EntityRepository
 				foreach ($data[$relation] as $relationData) {
 					$className = 'ApiBundle\\EntityMap\\' . $properties['class'];
 					$relationItem = new $className;
+					$relationItem->set($relationData);
 
 					$labels = $this->getLabels($relationItem->getTable());
 					$relationItem->setLabels($labels);
-					$relationItem->set($relationData);
 
 					array_push($relations, $relationItem->export());
 				}

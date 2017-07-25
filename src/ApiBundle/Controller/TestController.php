@@ -11,12 +11,9 @@ use ApiBundle\EntityMap\Author;
 class TestController extends Controller
 {
 	public function testAction() {
-		$answer = [];
+		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
+		$products = $repository->findByBrand(18);
 
-		$author = new Author();
-
-		return $author->getTable();
-
-		return $answer;
+		return $products;
 	}
 }
