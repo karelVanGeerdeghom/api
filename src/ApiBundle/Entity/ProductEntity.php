@@ -1067,13 +1067,6 @@ class ProductEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\SKUEntity", mappedBy="recipe", cascade={"persist"})
-     */
-    private $sku;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationEntity", inversedBy="recipe", fetch="EAGER")
      * @ORM\JoinTable(name="RecipeApplication",
      *   joinColumns={
@@ -1104,6 +1097,21 @@ class ProductEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ProductDownloadEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\JoinTable(name="RecipeDownload",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Download_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $download;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
      * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SeasonEntity", inversedBy="recipe", fetch="EAGER")
      * @ORM\JoinTable(name="RecipeSeason",
      *   joinColumns={
@@ -1130,6 +1138,13 @@ class ProductEntity
      * )
      */
     private $segment;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\SKUEntity", mappedBy="recipe", cascade={"persist"})
+     */
+    private $sku;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -1181,11 +1196,12 @@ class ProductEntity
      */
     public function __construct()
     {
-        $this->sku = new \Doctrine\Common\Collections\ArrayCollection();
         $this->application = new \Doctrine\Common\Collections\ArrayCollection();
         $this->color = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->download = new \Doctrine\Common\Collections\ArrayCollection();
         $this->season = new \Doctrine\Common\Collections\ArrayCollection();
         $this->segment = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sku = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subbrand = new \Doctrine\Common\Collections\ArrayCollection();
         $this->technique = new \Doctrine\Common\Collections\ArrayCollection();
         $this->testimonial = new \Doctrine\Common\Collections\ArrayCollection();

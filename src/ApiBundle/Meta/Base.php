@@ -31,6 +31,8 @@ class Base
 		if (count($arguments) === 1) {
 			$this->setMultiple($arguments[0]);
 		}
+
+		return $this;
 	}
 
 	public function get($data = null) {

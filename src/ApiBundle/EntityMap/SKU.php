@@ -31,6 +31,22 @@ class SKU extends Base
 		'halal' => [],
 		'kosher' => [
 			'labels' => ['ColumnTranslation']
+		],
+		// RELATIONS
+		'download' => [
+			'relation' => 'download',
+			'class' => 'SKUDownload',
+			'key' => 'downloads'
+		],
+		'packaging' => [
+			'class' => 'Packaging',
+			'relation' => true,
+			'key' => 'packagings'
+		],
+		'shape' => [
+			'class' => 'Shape',
+			'relation' => true,
+			'key' => 'shapes'
 		]
 	];
 }

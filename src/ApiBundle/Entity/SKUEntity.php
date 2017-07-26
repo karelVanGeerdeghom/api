@@ -115,6 +115,48 @@ class SKUEntity
      */
     private $recipe;
 
+    /**
+     * @var \ApiBundle\Entity\PackagingEntity
+     *
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\PackagingEntity")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Packaging_id", referencedColumnName="id")
+     * })
+     */
+    private $packaging;
+
+    /**
+     * @var \ApiBundle\Entity\ShapeEntity
+     *
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\ShapeEntity")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Shape_id", referencedColumnName="id")
+     * })
+     */
+    private $shape;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SKUDownloadEntity", inversedBy="product", fetch="EAGER")
+     * @ORM\JoinTable(name="ProductDownload",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Product_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Download_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $download;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->download = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 }
 

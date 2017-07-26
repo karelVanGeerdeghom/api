@@ -188,6 +188,11 @@ class Product extends Base
 			'relation' => true,
 			'key' => 'colors'
 		],
+		'download' => [
+			'relation' => 'download',
+			'class' => 'ProductDownload',
+			'key' => 'downloads'
+		],
 		'season' => [
 			'class' => 'Season',
 			'filter' => 'enum',
