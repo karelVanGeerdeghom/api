@@ -2,7 +2,7 @@
 
 namespace ApiBundle\Meta;
 
-trait Naming
+trait Name
 {
 	protected function camelCaseToUnderscore(array $data) : array {
 		$result = [];

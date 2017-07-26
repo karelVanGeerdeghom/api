@@ -5,11 +5,11 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
-use ApiBundle\Meta\Naming;
+use ApiBundle\Meta\Name;
 
 class BaseRepository extends EntityRepository
 {
-	use Naming;
+	use Name;
 
 	protected $appId = null;
 	protected $locale = null;
