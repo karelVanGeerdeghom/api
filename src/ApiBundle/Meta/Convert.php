@@ -21,13 +21,28 @@ trait Convert
 		$data = $this->nullifyData($data);
 
 		$item = $this->getClass($class);
-		$export = $item->set($data)->export();
+		$export = $item
+					->set($data)
+					->setLabels($this->getLabels($item->getTable()))
+					->export();
 
 		foreach ($subItemData as $subClass => $subItems) {
 			$export[$subClass] = $this->convertAll(ucfirst($subClass), $subItems);
 		}
 
 		return $export;
+	}
+
+	protected function getLabels(string $table) : array {
+		$columnTranslation = $this->getDoctrine()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable(5, $table);
+		$valueTranslation = $this->getDoctrine()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable(5, $table);
+		$fieldDescription = $this->getDoctrine()->getRepository('ApiBundle:FielddescriptionEntity')->findByTable($table);
+
+		return [
+			'ColumnTranslation' => $columnTranslation,
+			'ValueTranslation' => $valueTranslation,
+			'FieldDescription' => $fieldDescription
+		];
 	}
 
 	protected function getClass($class) {

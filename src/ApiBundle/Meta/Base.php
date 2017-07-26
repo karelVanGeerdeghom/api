@@ -73,6 +73,8 @@ class Base
 
 	public function setLabels($labels = null) {
 		$this->labels = $labels;
+
+		return $this;
 	}
 
 	public function getLabels() : ?array {
