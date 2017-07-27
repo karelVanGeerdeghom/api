@@ -77,11 +77,11 @@ class Attribute
 		return $this->filter;
 	}
 
-	public function getRelation() : ?string {
-		return $this->relation;
-	}
-
-	public function getFilterRelation() : ?string {
+	public function getRelation(bool $isFilter = false) : ?string {
+		if ($isFilter === false) {
+			return $this->relation;
+		}
+		
 		if ($this->filter && $this->relation) {
 			return $this->relation;
 		}

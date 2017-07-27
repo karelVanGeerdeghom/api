@@ -42,7 +42,7 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findByFilters(array $filters) : array {
-		$this->createFilterRelations($this->class);
+		$this->createRelations($this->class, true);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
@@ -57,25 +57,14 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
-	public function createRelations(string $class) {
+	public function createRelations(string $class, bool $isFilter = false) {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
-		foreach ($item->getRelations() as $relation => $properties) {
+		foreach ($item->getRelations($isFilter) as $relation => $properties) {
 			$this->createRelation($class, $relation, $properties['class']);
 
-			$this->createRelations($properties['class']);
-		}
-	}
-
-	public function createFilterRelations(string $class) {
-		$className = 'ApiBundle\\EntityMap\\' . $class;
-		$item = new $className();
-
-		foreach ($item->getFilterRelations() as $relation => $properties) {
-			$this->createRelation($class, $relation, $properties['class']);
-
-			$this->createFilterRelations($properties['class']);
+			$this->createRelations($properties['class'], $isFilter);
 		}
 	}
 
