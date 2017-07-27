@@ -60,7 +60,7 @@ class GetProductFiltersController extends Controller
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {
 						$answer[$key] = [
-							'key' => $this->getColumnLabel($key, $columnTranslations),
+							'key' => $this->getColumnTranslationLabel($key, $columnTranslations),
 							'type' => $filter
 						];
 					}
@@ -92,7 +92,7 @@ class GetProductFiltersController extends Controller
 							}
 
 							if (!is_array($value) && !array_key_exists($value, $answer[$key]['options'])) {
-								$answer[$key]['options'][strtolower($value)] = $this->getValueLabel($key, $value, $valueTranslations, $valueLabels);
+								$answer[$key]['options'][strtolower($value)] = $this->getValueTranslationLabel($key, $value, $valueTranslations, $valueLabels);
 							}
 							if (is_array($value)) {
 								foreach ($value as $relation) {

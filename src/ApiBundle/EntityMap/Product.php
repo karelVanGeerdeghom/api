@@ -178,10 +178,21 @@ class Product extends Base
 		// RELATIONS
 		'sku' => [
 			'class' => 'SKU',
-			'filter' => 'relation',
 			'relation' => true,
+			'relationFilter' => true,
 			'key' => 'availabilities'
 		],
+		'download' => [
+			'class' => 'ProductDownload',
+			'relation' => true,
+			'key' => 'downloads'
+		],
+		'testimonial' => [
+			'class' => 'Testimonial',
+			'relation' => true,
+			'key' => 'testimonials'
+		],
+		// FILTER RELATION
 		'application' => [
 			'class' => 'Application',
 			'filter' => 'enum',
@@ -193,11 +204,6 @@ class Product extends Base
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'colors'
-		],
-		'download' => [
-			'relation' => 'download',
-			'class' => 'ProductDownload',
-			'key' => 'downloads'
 		],
 		'season' => [
 			'class' => 'Season',
@@ -222,11 +228,6 @@ class Product extends Base
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'techniques'
-		],
-		'testimonial' => [
-			'class' => 'Testimonial',
-			'relation' => true,
-			'key' => 'testimonials'
 		]
 	];
 }

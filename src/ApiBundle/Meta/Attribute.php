@@ -32,14 +32,14 @@ class Attribute
 		return $this->value;
 	}
 
-	public function getKey() : string {
+	public function getKeyLabel() : string {
 		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
 		$key = $this->key ? $this->key : $key;
 
 		return strtolower($key);
 	}
 
-	public function getValue($labels = null) {
+	public function getValueLabel($labels = null) {
 		$value = $this->translation && $this->value ? 't(' . $this->value . ')' : $this->value;
 
 		if ($labels && $this->labels) {
@@ -73,8 +73,16 @@ class Attribute
 		return $value;
 	}
 
+	public function getClass() : ?string {
+		return $this->class;
+	}
+
 	public function getFilter() : ?string {
 		return $this->filter;
+	}
+
+	public function getKey(): ?string {
+		return $this->key;
 	}
 
 	public function getRelation(bool $isFilter = false) : ?string {

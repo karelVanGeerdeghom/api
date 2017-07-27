@@ -87,13 +87,22 @@ class Base
 		foreach ($this->attributes as $attribute => $properties) {
 			if ($this->$attribute->getRelation($isFilter)) {
 				$relations[$attribute] = [
-					'class' => $properties['class'],
-					'key' => $properties['key']
+					'class' => $this->$attribute->getClass(),
+					'key' => $this->$attribute->getKey(),
+					'filter' => $this->$attribute->getFilter()
 				];
 			}
 		}
 
 		return $relations;
+	}
+
+	public function getRelationFilters() : array {
+		$filters = [];
+
+		foreach ($this->attributes as $attribute => $properties) {
+			
+		}
 	}
 
 	public function getFilters() : array {
@@ -151,7 +160,7 @@ class Base
 	}
 
 	private function exportSingle(string $attribute) : array {
-		return $this->$attribute->getValue($this->labels);
+		return $this->$attribute->getValueLabel($this->labels);
 	}
 
 	private function exportMultiple(array $attributes) : array {
@@ -168,7 +177,7 @@ class Base
 				$reference = &$results[$this->$attribute->getGroup()];
 			}
 
-			$reference = array_merge($reference, [$this->$attribute->getKey() => $this->$attribute->getValue($this->labels)]);
+			$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
 		}
 
 		return $results;

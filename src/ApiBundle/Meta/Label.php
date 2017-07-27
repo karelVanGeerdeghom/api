@@ -4,7 +4,7 @@ namespace ApiBundle\Meta;
 
 trait Label
 {
-	protected function getColumnLabel(string $column, array $columnTranslations) : string {
+	protected function getColumnTranslationLabel(string $column, array $columnTranslations) : string {
 		if (array_key_exists($column, $columnTranslations)) {
 			return 't(' . $columnTranslations[$column] . ')';
 		}
@@ -12,7 +12,7 @@ trait Label
 		return $this->getTitle($column);
 	}
 
-	protected function getValueLabel(string $column, string $value, array $valueTranslations, array $valueLabels = []) : string {
+	protected function getValueTranslationLabel(string $column, string $value, array $valueTranslations, array $valueLabels = []) : string {
 		if (array_key_exists($column, $valueTranslations)) {
 			if (array_key_exists($value, $valueTranslations[$column])) {
 				return 't(' . $valueTranslations[$column][$value] . ')';

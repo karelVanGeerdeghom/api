@@ -8,6 +8,7 @@ use Doctrine\ORM\Query;
 class BaseRepository extends EntityRepository
 {
 	protected $relations = [];
+	protected $filters = [];
 
 	public function findByIds(array $ids) : array {
 		$this->createRelations($this->class);
@@ -41,9 +42,15 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
-	public function findByFilters(array $filters) : array {
+	public function findByFilters(array $parameters) : array {
 		$this->createRelations($this->class, true);
+		$this->createFilters($this->class, $parameters);
 
+		$className = 'ApiBundle\\EntityMap\\Product';
+		$item = new $className();
+return $item->getRelations(true);
+
+return $this->filters;
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 
@@ -57,7 +64,7 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
-	public function createRelations(string $class, bool $isFilter = false) {
+	private function createRelations(string $class, bool $isFilter = false) {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
@@ -68,7 +75,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	public function createRelation(string $joinee, string $relation, string $joiner) {
+	private function createRelation(string $joinee, string $relation, string $joiner) {
 		$data = [
 			'select' => 'ApiBundle:' . $joiner . 'Entity',
 			'join' => 'ApiBundle:' . $joinee . 'Entity.' . $relation,
@@ -86,5 +93,73 @@ class BaseRepository extends EntityRepository
 		}
 
 		return $queryBuilder;
+	}
+
+	private function createFilters(string $class, array $request) {
+		$className = 'ApiBundle\\EntityMap\\' . $class;
+		$item = new $className();
+
+		$relations = $item->getRelations(true);
+		foreach ($request as $key => $value) {
+			if (array_key_exists($key, $relations)) {
+				$this->createFilter($key, $value, $relations[$key]['class']);
+			} else {
+				$this->createFilter($key, $value);
+			}
+		}
+	}
+
+	private function createFilter(string $key, $value, $relation = null) {
+		$parameter = $this->underscoreToCamelCase($key);
+
+		$compareKey = $this->class . 'Entity.' . $parameter;
+		if ($relation) {
+			$compareKey = $relation . 'Entity.id';
+		}
+
+		if (is_array($value)) {
+			if (array_key_exists('min', $value) || array_key_exists('max', $value)) {
+				if (array_key_exists('min', $value)) {
+					$filter = [
+						'where' => 'ApiBundle:' . $compareKey . ' >= :' . $parameter . '_min',
+						'parameter' => $parameter . '_min',
+						'value' => $value['min']
+					];
+
+					array_push($this->filters, $filter);
+				}
+				if (array_key_exists('max', $value)) {
+					$filter = [
+						'where' => 'ApiBundle:' . $compareKey . ' <= :' . $parameter . '_max',
+						'parameter' => $parameter . '_max',
+						'value' => $value['max']
+					];
+
+					array_push($this->filters, $filter);
+				}
+			} else {
+				$filter = [
+					'where' => 'ApiBundle:' . $compareKey . ' IN (:' . $parameter . ')',
+					'parameter' => $this->underscoreToCamelCase($key),
+					'value' => $value
+				];
+
+				array_push($this->filters, $filter);
+			}
+		} else {
+			$filter = [
+				'where' => 'ApiBundle:' . $compareKey . ' = :' . $parameter,
+				'parameter' => $this->underscoreToCamelCase($key),
+				'value' => $value
+			];
+
+			array_push($this->filters, $filter);
+		}
+	}
+
+	private function underscoreToCamelCase(string $string) : string {
+		return lcfirst(preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
+			return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
+		}, $string));
 	}
 }

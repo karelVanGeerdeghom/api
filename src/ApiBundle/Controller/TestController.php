@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ApiBundle\Meta\Convert;
 
-// http://localhost:8888/productdb-api-v3/web/app_dev.php/Test
+// http://localhost:8888/productdb-api-v3/web/app_dev.php/Test?Brand_id=1&application=122&color=1&&kosher=true
 // php bin/console doctrine:mapping:convert annotation ./src
 
 class TestController extends Controller
