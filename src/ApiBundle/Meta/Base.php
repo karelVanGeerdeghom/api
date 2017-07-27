@@ -89,7 +89,7 @@ class Base
 				$relations[$attribute] = [
 					'class' => $this->$attribute->getClass(),
 					'key' => $this->$attribute->getKey(),
-					'filter' => $this->$attribute->getFilter()
+					'filter' => $this->$attribute->getFilterType()
 				];
 			}
 		}
@@ -97,33 +97,25 @@ class Base
 		return $relations;
 	}
 
-	public function getRelationFilters() : array {
-		$filters = [];
+	public function getFilterTypes() : array {
+		$filterTypes = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			
-		}
-	}
+			$filter = $this->$attribute->getFilterType();
 
-	public function getFilters() : array {
-		$filters = [];
-
-		foreach ($this->attributes as $attribute => $properties) {
-			$filter = $this->$attribute->getFilter();
-
-			if ($filter && !in_array($filter, $filters)) {
-				array_push($filters, $filter);
+			if ($filter && !in_array($filter, $filterTypes)) {
+				array_push($filterTypes, $filter);
 			}
 		}
 
-		return $filters;
+		return $filterTypes;
 	}
 
-	public function getByFilter(string $filter) : array {
+	public function getByFilterType(string $filter) : array {
 		$results = [];
 
 		foreach ($this->attributes as $attribute => $properties) {
-			if ($this->$attribute->getFilter() === $filter) {
+			if ($this->$attribute->getFilterType() === $filter) {
 				$filterValue = $this->$attribute->get();
 				if ($filterValue) {
 					$results[$attribute] = $filterValue;
@@ -132,6 +124,18 @@ class Base
 		}
 
 		return $results;
+	}
+
+	public function getFilters() {
+		$filters = [];
+
+		foreach ($this->attributes as $attribute => $properties) {
+			if ($this->$attribute->getFilterType()) {
+				array_push($filters, $attribute);
+			}
+		}
+
+		return $filters;
 	}
 
 	private function setSingle(string $attribute, $value) {

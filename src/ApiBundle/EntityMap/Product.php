@@ -178,8 +178,8 @@ class Product extends Base
 		// RELATIONS
 		'sku' => [
 			'class' => 'SKU',
+			'filter' => 'relation',
 			'relation' => true,
-			'relationFilter' => true,
 			'key' => 'availabilities'
 		],
 		'download' => [

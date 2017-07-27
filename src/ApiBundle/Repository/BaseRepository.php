@@ -46,13 +46,14 @@ class BaseRepository extends EntityRepository
 		$this->createRelations($this->class, true);
 		$this->createFilters($this->class, $parameters);
 
-		$className = 'ApiBundle\\EntityMap\\Product';
-		$item = new $className();
-return $item->getRelations(true);
+/*return [
+	'relations' => $this->relations,
+	'filters' => $this->filters
+];*/
 
-return $this->filters;
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addFilters($queryBuilder);
 
 		$query = $queryBuilder
 					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
@@ -99,30 +100,46 @@ return $this->filters;
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
-		$relations = $item->getRelations(true);
-		foreach ($request as $key => $value) {
-			if (array_key_exists($key, $relations)) {
-				$this->createFilter($key, $value, $relations[$key]['class']);
-			} else {
-				$this->createFilter($key, $value);
+		$relations = $item->getRelations();
+
+		foreach ($relations as $relation => $properties) {
+			if ($properties['filter'] === 'enum') {
+				if (array_key_exists($relation, $request)) {
+					$this->createFilter($properties['class'], 'id', $request[$relation]);
+
+					unset($request[$relation]);
+				}
 			}
+
+			if ($properties['filter'] === 'relation') {
+				$relationClassName = 'ApiBundle\\EntityMap\\' . $properties['class'];
+				$relationItem = new $relationClassName();
+
+				$relationFilters = $relationItem->getFilters();
+				foreach ($relationItem->getFilters() as $relationFilter) {
+					if (array_key_exists($relationFilter, $request)) {
+						$this->createFilter($properties['class'], $relationFilter, $request[$relationFilter]);
+
+						unset($request[$relationFilter]);
+					}
+				}
+			}
+		}
+
+		foreach ($request as $key => $value) {
+			$this->createFilter($class, $key, $value);
 		}
 	}
 
-	private function createFilter(string $key, $value, $relation = null) {
-		$parameter = $this->underscoreToCamelCase($key);
-
-		$compareKey = $this->class . 'Entity.' . $parameter;
-		if ($relation) {
-			$compareKey = $relation . 'Entity.id';
-		}
+	private function createFilter(string $class, string $key, $value) {
+		$compareKey = $class . 'Entity.' . $this->underscoreToCamelCase($key);
 
 		if (is_array($value)) {
 			if (array_key_exists('min', $value) || array_key_exists('max', $value)) {
 				if (array_key_exists('min', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $compareKey . ' >= :' . $parameter . '_min',
-						'parameter' => $parameter . '_min',
+						'where' => 'ApiBundle:' . $compareKey . ' >= :' . $key . '_min',
+						'parameter' => $key . '_min',
 						'value' => $value['min']
 					];
 
@@ -130,8 +147,8 @@ return $this->filters;
 				}
 				if (array_key_exists('max', $value)) {
 					$filter = [
-						'where' => 'ApiBundle:' . $compareKey . ' <= :' . $parameter . '_max',
-						'parameter' => $parameter . '_max',
+						'where' => 'ApiBundle:' . $compareKey . ' <= :' . $key . '_max',
+						'parameter' => $key . '_max',
 						'value' => $value['max']
 					];
 
@@ -139,8 +156,8 @@ return $this->filters;
 				}
 			} else {
 				$filter = [
-					'where' => 'ApiBundle:' . $compareKey . ' IN (:' . $parameter . ')',
-					'parameter' => $this->underscoreToCamelCase($key),
+					'where' => 'ApiBundle:' . $compareKey . ' IN (:' . $key . ')',
+					'parameter' => $key,
 					'value' => $value
 				];
 
@@ -148,13 +165,23 @@ return $this->filters;
 			}
 		} else {
 			$filter = [
-				'where' => 'ApiBundle:' . $compareKey . ' = :' . $parameter,
-				'parameter' => $this->underscoreToCamelCase($key),
+				'where' => 'ApiBundle:' . $compareKey . ' = :' . $key,
+				'parameter' => $key,
 				'value' => $value
 			];
 
 			array_push($this->filters, $filter);
 		}
+	}
+
+	private function addFilters($queryBuilder) {
+		foreach ($this->filters as $filter) {
+			$queryBuilder
+				->andWhere($filter['where'])
+				->setParameter($filter['parameter'], $filter['value']);
+		}
+
+		return $queryBuilder;
 	}
 
 	private function underscoreToCamelCase(string $string) : string {

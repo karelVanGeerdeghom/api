@@ -28,8 +28,11 @@ class SKU extends Base
 			'labels' => ['ColumnTranslation']
 		],
 		'sortorder' => [],
-		'halal' => [],
+		'halal' => [
+			'filter' => 'boolean'
+		],
 		'kosher' => [
+			'filter' => 'boolean',
 			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS

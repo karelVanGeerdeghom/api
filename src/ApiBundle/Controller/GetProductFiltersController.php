@@ -54,18 +54,18 @@ class GetProductFiltersController extends Controller
 
 		$products = $repository->findByFilters($filters);
 		foreach ($products as $id => $product) {
-			foreach ($product->getFilters() as $filter) {
-				$values = $product->getByFilter($filter);
+			foreach ($product->getFilterTypes() as $filterType) {
+				$values = $product->getByFilterType($filterType);
 
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {
 						$answer[$key] = [
 							'key' => $this->getColumnTranslationLabel($key, $columnTranslations),
-							'type' => $filter
+							'type' => $filterType
 						];
 					}
 
-					switch ($filter) {
+					switch ($filterType) {
 						case 'boolean':
 							if (!array_key_exists('options', $answer[$key])) {
 								$answer[$key]['options'] = 'false';
