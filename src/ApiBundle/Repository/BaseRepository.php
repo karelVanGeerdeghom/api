@@ -41,12 +41,41 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
+	public function findByFilters(array $filters) : array {
+		$this->createFilterRelations($this->class);
+
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+
+		$query = $queryBuilder
+					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
+					->setParameter('id', [9887])
+					->getQuery();
+
+		return [
+			'product' => $query->getResult(Query::HYDRATE_ARRAY)
+		];
+	}
+
 	public function createRelations(string $class) {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
 		foreach ($item->getRelations() as $relation => $properties) {
 			$this->createRelation($class, $relation, $properties['class']);
+
+			$this->createRelations($properties['class']);
+		}
+	}
+
+	public function createFilterRelations(string $class) {
+		$className = 'ApiBundle\\EntityMap\\' . $class;
+		$item = new $className();
+
+		foreach ($item->getFilterRelations() as $relation => $properties) {
+			$this->createRelation($class, $relation, $properties['class']);
+
+			$this->createFilterRelations($properties['class']);
 		}
 	}
 
@@ -58,8 +87,6 @@ class BaseRepository extends EntityRepository
 		];
 
 		array_push($this->relations, $data);
-
-		$this->createRelations($joiner);
 	}
 
 	private function addRelations($queryBuilder) {
