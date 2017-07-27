@@ -20,11 +20,9 @@ trait Convert
 		$data = $this->camelCaseToUnderscore($data);
 		$data = $this->nullifyData($data);
 
-		$item = $this->getClass($class);
-		$export = $item
-					->set($data)
-					->setLabels($this->getLabels($item->getTable()))
-					->export();
+		$item = $this->getClass($class)->set($data);
+		// $item->setLabels($this->getLabels($item->getTable()));
+		$export = $item->export();
 
 		foreach ($subItemData as $subClass => $subItems) {
 			$export[$subClass] = $this->convertAll(ucfirst($subClass), $subItems);
