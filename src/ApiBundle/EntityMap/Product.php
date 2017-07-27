@@ -176,6 +176,12 @@ class Product extends Base
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE,
 		// RELATIONS
+		'sku' => [
+			'class' => 'SKU',
+			'filter' => 'relation',
+			'relation' => true,
+			'key' => 'availabilities'
+		],
 		'application' => [
 			'class' => 'Application',
 			'filter' => 'enum',
@@ -188,16 +194,16 @@ class Product extends Base
 			'relation' => true,
 			'key' => 'colors'
 		],
+		'download' => [
+			'relation' => 'download',
+			'class' => 'ProductDownload',
+			'key' => 'downloads'
+		],
 		'season' => [
 			'class' => 'Season',
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'seasons'
-		],
-		'sku' => [
-			'class' => 'SKU',
-			'relation' => true,
-			'key' => 'availabilities'
 		],
 		'segment' => [
 			'class' => 'Segment',

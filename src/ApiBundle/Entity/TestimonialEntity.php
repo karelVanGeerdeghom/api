@@ -42,6 +42,28 @@ class TestimonialEntity
      */
     private $id;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\AuthorEntity", inversedBy="testimonial", fetch="EAGER")
+     * @ORM\JoinTable(name="TestimonialAuthor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Testimonial_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Author_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $author;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->author = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 }
 

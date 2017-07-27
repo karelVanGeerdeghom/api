@@ -16,9 +16,10 @@ class Author extends Base
 			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS
-		'downloads' => [
+		'download' => [
 			'relation' => 'download',
-			'class' => 'Download'
+			'class' => 'AuthorDownload',
+			'key' => 'downloads'
 		]
 	];
 }

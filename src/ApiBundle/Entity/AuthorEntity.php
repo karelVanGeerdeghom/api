@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AuthorEntity
  *
  * @ORM\Table(name="Author")
- * @ORM\Entity(repositoryClass="ApiBundle\Repository\AuthorEntityRepository")
+ * @ORM\Entity
  */
 class AuthorEntity
 {
@@ -45,8 +45,8 @@ class AuthorEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadEntity", inversedBy="author", fetch="EAGER")
-     * @ORM\JoinTable(name="authordownload",
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\AuthorDownloadEntity", inversedBy="author", fetch="EAGER")
+     * @ORM\JoinTable(name="AuthorDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Author_id", referencedColumnName="id")
      *   },

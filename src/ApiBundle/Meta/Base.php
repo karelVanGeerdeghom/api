@@ -31,6 +31,8 @@ class Base
 		if (count($arguments) === 1) {
 			$this->setMultiple($arguments[0]);
 		}
+
+		return $this;
 	}
 
 	public function get($data = null) {
@@ -71,6 +73,8 @@ class Base
 
 	public function setLabels($labels = null) {
 		$this->labels = $labels;
+
+		return $this;
 	}
 
 	public function getLabels() : ?array {

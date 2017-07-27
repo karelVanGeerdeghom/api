@@ -11,6 +11,13 @@ class Testimonial extends Base
 		'Brand_id' => [],
 		'Country_id' => [],
 		// TRANSLATIONS
-		'text_tid' => self::TRANSLATION
+		'text_tid' => self::TRANSLATION,
+		// RELATIONS
+		'author' => [
+			'class' => 'Author',
+			'filter' => 'enum',
+			'relation' => true,
+			'key' => 'authors'
+		]
 	];
 }
