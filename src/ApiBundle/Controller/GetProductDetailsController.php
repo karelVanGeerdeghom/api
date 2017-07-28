@@ -13,13 +13,10 @@ class GetProductDetailsController extends Controller
 	use Convert;
 
 	public function getAction() {
+		$entityName = 'Product';
+
 		$ids = [9887];
-
-		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
-		$items = $repository->findByIds($ids);
-
-		$products = $this->convertAll(ucfirst('product'), $items['product']);
-
-		return $products;
+		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
+		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

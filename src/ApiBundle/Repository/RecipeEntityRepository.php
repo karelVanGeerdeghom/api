@@ -4,7 +4,7 @@ namespace ApiBundle\Repository;
 
 use ApiBundle\Repository\BaseRepository;
 
-class ProductEntityRepository extends BaseRepository
+class RecipeEntityRepository extends BaseRepository
 {
-	protected $class = 'Product';
+	protected $class = 'Recipe';
 }
