@@ -55,7 +55,7 @@ class GetProductFiltersController extends Controller
 		$products = $repository->findByFilters($filters);
 		foreach ($products as $id => $product) {
 			foreach ($product->getFilterTypes() as $filterType) {
-				$values = $product->getByFilterType($filterType);
+				$values = $product->getFiltersByType($filterType);
 
 				foreach ($values as $key => $value) {
 					if (!array_key_exists($key, $answer)) {

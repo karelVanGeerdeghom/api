@@ -5,8 +5,12 @@ namespace ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
+use ApiBundle\Meta\Transform;
+
 class BaseRepository extends EntityRepository
 {
+	use Transform;
+
 	protected $relations = [];
 	protected $filters = [];
 
@@ -22,7 +26,7 @@ class BaseRepository extends EntityRepository
 					->getQuery();
 
 		return [
-			'product' => $query->getResult(Query::HYDRATE_ARRAY)
+			strtolower($this->class) => $query->getResult(Query::HYDRATE_ARRAY)
 		];
 	}
 
@@ -38,7 +42,7 @@ class BaseRepository extends EntityRepository
 					->getQuery();
 
 		return [
-			'product' => $query->getResult(Query::HYDRATE_ARRAY)
+			strtolower($this->class) => $query->getResult(Query::HYDRATE_ARRAY)
 		];
 	}
 
@@ -46,22 +50,15 @@ class BaseRepository extends EntityRepository
 		$this->createRelations($this->class, true);
 		$this->createFilters($this->class, $parameters);
 
-/*return [
-	'relations' => $this->relations,
-	'filters' => $this->filters
-];*/
-
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addFilters($queryBuilder);
 
 		$query = $queryBuilder
-					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
-					->setParameter('id', [9887])
 					->getQuery();
 
 		return [
-			'product' => $query->getResult(Query::HYDRATE_ARRAY)
+			strtolower($this->class) => $query->getResult(Query::HYDRATE_ARRAY)
 		];
 	}
 
@@ -182,11 +179,5 @@ class BaseRepository extends EntityRepository
 		}
 
 		return $queryBuilder;
-	}
-
-	private function underscoreToCamelCase(string $string) : string {
-		return lcfirst(preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
-			return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
-		}, $string));
 	}
 }

@@ -32,7 +32,7 @@ class SKU extends Base
 			'filter' => 'boolean'
 		],
 		'kosher' => [
-			'filter' => 'boolean',
+			'filter' => 'enum',
 			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS

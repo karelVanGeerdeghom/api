@@ -232,7 +232,7 @@ class old.BaseRepository extends EntityRepository
 
 	private function convertOne(array $data) {
 		$data = $this->camelCaseToUnderscore($data);
-		$data = $this->nullifyData($data);
+		$data = $this->nullify($data);
 
 		$this->convertRelations($data);
 
@@ -278,12 +278,12 @@ class old.BaseRepository extends EntityRepository
 		}
 	}
 
-	private function nullifyData(array $data) {
+	private function nullify(array $data) {
 		$result = [];
 
 		foreach ($data as $key => $value) {
 			if (is_array($value)) {
-				$result[$key] = $this->nullifyData($value);
+				$result[$key] = $this->nullify($value);
 			} else {
 				$result[$key] = $value === '-1' || $value === -1 ? null : $value;
 			}

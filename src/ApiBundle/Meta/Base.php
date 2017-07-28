@@ -97,10 +97,26 @@ class Base
 		return $relations;
 	}
 
+	public function getRelationClass(string $relation) : string {
+		return $this->attributes[$relation]['class'];
+	}
+
+	public function getFilters() {
+		$filters = [];
+
+		foreach (array_keys($this->attributes) as $attribute) {
+			if ($this->$attribute->getFilterType()) {
+				array_push($filters, $attribute);
+			}
+		}
+
+		return $filters;
+	}
+
 	public function getFilterTypes() : array {
 		$filterTypes = [];
 
-		foreach ($this->attributes as $attribute => $properties) {
+		foreach (array_keys($this->attributes) as $attribute) {
 			$filter = $this->$attribute->getFilterType();
 
 			if ($filter && !in_array($filter, $filterTypes)) {
@@ -111,26 +127,11 @@ class Base
 		return $filterTypes;
 	}
 
-	public function getByFilterType(string $filter) : array {
-		$results = [];
-
-		foreach ($this->attributes as $attribute => $properties) {
-			if ($this->$attribute->getFilterType() === $filter) {
-				$filterValue = $this->$attribute->get();
-				if ($filterValue) {
-					$results[$attribute] = $filterValue;
-				}
-			}
-		}
-
-		return $results;
-	}
-
-	public function getFilters() {
+	public function getFiltersByType(string $filterType) : array {
 		$filters = [];
 
-		foreach ($this->attributes as $attribute => $properties) {
-			if ($this->$attribute->getFilterType()) {
+		foreach (array_keys($this->attributes) as $attribute) {
+			if ($this->$attribute->getFilterType() === $filterType) {
 				array_push($filters, $attribute);
 			}
 		}

@@ -4,7 +4,22 @@ namespace ApiBundle\Meta;
 
 trait Label
 {
-	protected function getColumnTranslationLabel(string $column, array $columnTranslations) : string {
+	protected $appId;
+	protected $table;
+
+	protected function getLabels(string $table) : array {
+		$columnTranslation = $this->getDoctrine()->getRepository('ApiBundle:ColumntranslationEntity')->findByAppTable(5, $table);
+		$valueTranslation = $this->getDoctrine()->getRepository('ApiBundle:ValuetranslationEntity')->findByAppTable(5, $table);
+		$fieldDescription = $this->getDoctrine()->getRepository('ApiBundle:FielddescriptionEntity')->findByTable($table);
+
+		return [
+			'ColumnTranslation' => $columnTranslation,
+			'ValueTranslation' => $valueTranslation,
+			'FieldDescription' => $fieldDescription
+		];
+	}
+
+	protected function getColumnTranslationLabel(string $table, string $column, array $columnTranslations) : string {
 		if (array_key_exists($column, $columnTranslations)) {
 			return 't(' . $columnTranslations[$column] . ')';
 		}
