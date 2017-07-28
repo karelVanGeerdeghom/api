@@ -23,6 +23,7 @@ class TestController extends Controller
 		}
 
 		$entityName = 'Product';
+
 		$entityClass = 'ApiBundle\\EntityMap\\' . $entityName;
 		$entityMap = new $entityClass();
 		$entityFilterData = [];

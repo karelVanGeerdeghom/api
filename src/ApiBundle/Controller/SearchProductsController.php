@@ -9,8 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SearchProductsController extends Controller
 {
 	public function getAction() {
-		$answer = [];
-
 		$filters = $_GET;
 		if (count($filters) === 0) {
 			$filters = [
@@ -18,8 +16,6 @@ class SearchProductsController extends Controller
 			];
 		}
 
-		$repository = $this->getDoctrine()->getRepository('ApiBundle:ProductEntity');
-
-		return $repository->findIdsByFilters($filters);
+		return $this->getDoctrine()->getRepository('ApiBundle:ProductEntity')->findIdsByFilters($filters);
 	}
 }

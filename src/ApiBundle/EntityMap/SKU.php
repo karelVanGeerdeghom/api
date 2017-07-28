@@ -43,11 +43,13 @@ class SKU extends Base
 		],
 		'packaging' => [
 			'class' => 'Packaging',
+			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'packagings'
 		],
 		'shape' => [
 			'class' => 'Shape',
+			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'shapes'
 		]

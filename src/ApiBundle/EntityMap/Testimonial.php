@@ -15,7 +15,6 @@ class Testimonial extends Base
 		// RELATIONS
 		'author' => [
 			'class' => 'Author',
-			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'authors'
 		]

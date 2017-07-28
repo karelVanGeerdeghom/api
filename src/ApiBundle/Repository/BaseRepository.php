@@ -46,9 +46,9 @@ class BaseRepository extends EntityRepository
 		];
 	}
 
-	public function findByFilters(array $parameters) : array {
+	public function findByFilters(array $filters) : array {
 		$this->createRelations($this->class, true);
-		$this->createFilters($this->class, $parameters);
+		$this->createFilters($this->class, $filters);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
@@ -60,6 +60,22 @@ class BaseRepository extends EntityRepository
 		return [
 			strtolower($this->class) => $query->getResult(Query::HYDRATE_ARRAY)
 		];
+	}
+
+	public function findIdsByFilters(array $filters) : array {
+		$this->createRelations($this->class, true);
+		$this->createFilters($this->class, $filters);
+
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addFilters($queryBuilder);
+
+		$query = $queryBuilder
+					->distinct()
+					->select('ApiBundle:' . $this->class . 'Entity.id')
+					->getQuery();
+
+		return $this->toIdArray($query->getResult(Query::HYDRATE_ARRAY));
 	}
 
 	private function createRelations(string $class, bool $isFilter = false) {

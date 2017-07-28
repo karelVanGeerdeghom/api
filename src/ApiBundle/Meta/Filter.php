@@ -51,9 +51,13 @@ trait Filter
 									$answer[$key]['options'][strtolower($value)] = $value;
 								}
 								if (is_array($value)) {
+									if (count($value) === count($value, COUNT_RECURSIVE)) {
+										$value = [$value];
+									}
+
 									foreach ($value as $relation) {
 										if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
-											$answer[$key]['options'][$relation['id']] = $relation['titleTid'];
+											$answer[$key]['options'][$relation['id']] = $relation['id'];
 										}
 									}
 								}

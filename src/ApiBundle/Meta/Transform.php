@@ -71,4 +71,14 @@ trait Transform
 			return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
 		}, $string));
 	}
+
+	protected function toIdArray($data) {
+		$ids = [];
+
+		foreach ($data as $row) {
+			array_push($ids, $row['id']);
+		}
+
+		return $ids;
+	}
 }
