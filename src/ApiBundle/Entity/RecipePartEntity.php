@@ -55,24 +55,17 @@ class RecipePartEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DirectionsEntity", inversedBy="customerrecipepart", fetch="EAGER")
-     * @ORM\JoinTable(name="CustomerrecipepartDirections",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="Customerrecipepart_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="Directions_id", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionsEntity", mappedBy="customerrecipepart", cascade={"persist"})
+     * @ORM\OrderBy({"sortorder" = "ASC"})
      */
-    private $directions;
+    private $recipepartdirections;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->directions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepartdirections = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

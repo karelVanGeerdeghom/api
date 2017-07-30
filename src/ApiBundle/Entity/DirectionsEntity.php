@@ -31,9 +31,9 @@ class DirectionsEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipePartEntity", mappedBy="directions", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionsEntity", mappedBy="directions", cascade={"persist"})
      */
-    private $customerrecipepart;
+    private $recipepartdirections;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -55,7 +55,7 @@ class DirectionsEntity
      */
     public function __construct()
     {
-        $this->customerrecipepart = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepartdirections = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ingredient = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
