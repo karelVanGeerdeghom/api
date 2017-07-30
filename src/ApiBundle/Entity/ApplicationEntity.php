@@ -42,6 +42,20 @@ class ApplicationEntity
      */
     private $id;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationDownloadEntity", inversedBy="application", fetch="EAGER")
+     * @ORM\JoinTable(name="ApplicationDownload",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Application_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Download_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $download;
 
 }
 

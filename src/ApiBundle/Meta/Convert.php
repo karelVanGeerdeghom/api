@@ -25,14 +25,14 @@ trait Convert
 		$data = $this->nullify($data);
 
 		$item = $this->getClass($class)->set($data);
-		// $item->setLabels($this->getLabels($item->getTable()));
-		$item = $item->export();
+	//	$item->setLabels($this->getLabels($item->getTable()));
+		$export = $item->export();
 
 		foreach ($subItemData as $subClass => $subItems) {
-			$item[$subClass] = $this->convertAll(ucfirst($subClass), $subItems);
+			$export[$item->getRelationKey($subClass)] = $this->convertAll(ucfirst($subClass), $subItems);
 		}
 
-		return $item;
+		return $export;
 	}
 
 	protected function getClass($class) {
@@ -45,7 +45,7 @@ trait Convert
 		$subItems = [];
 
 		foreach ($data as $key => $value) {
-			if (is_array($value)) {
+			if (is_array($value) && count($value) > 0) {
 				if (count($value) !== count($value, COUNT_RECURSIVE)) {
 					$subItems[$key] = $value;
 				} else {

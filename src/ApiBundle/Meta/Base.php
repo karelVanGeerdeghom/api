@@ -11,6 +11,11 @@ class Base
 		'labels' => ['ColumnTranslation']
 	];
 
+	const BOOLEAN_VALUE = [
+		'filter' => 'boolean',
+		'labels' => ['ColumnTranslation']
+	];
+
 	protected $table = null;
 	protected $labels = null;
 	protected $attributes = [];
@@ -81,6 +86,14 @@ class Base
 		return $this->labels;
 	}
 
+	public function getRelationKey($relation) {
+		foreach ($this->attributes as $attribute => $properties) {
+			if ($attribute === $relation) {
+				return $this->$attribute->getKey();
+			}
+		}
+	}
+
 	public function getRelations(bool $isFilter = false) : array {
 		$relations = [];
 
@@ -89,7 +102,8 @@ class Base
 				$relations[$attribute] = [
 					'class' => $this->$attribute->getClass(),
 					'key' => $this->$attribute->getKey(),
-					'filter' => $this->$attribute->getFilterType()
+					'filter' => $this->$attribute->getFilterType(),
+					'order' => $this->$attribute->getOrder()
 				];
 			}
 		}

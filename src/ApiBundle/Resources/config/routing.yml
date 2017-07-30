@@ -18,6 +18,10 @@ get_author_details:
     path: /GetAuthorDetails
     defaults: { _controller: ApiBundle:GetAuthorDetails:get }
 
+get_recipe_details:
+    path: /GetRecipeDetails
+    defaults: { _controller: ApiBundle:GetRecipeDetails:get }
+
 test:
     path: /test
     defaults: { _controller: ApiBundle:Test:test }

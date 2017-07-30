@@ -24,11 +24,6 @@ class Product extends Base
 		'labels' => ['ColumnTranslation']
 	];
 
-	const BOOLEAN_VALUE = [
-		'filter' => 'boolean',
-		'labels' => ['ColumnTranslation']
-	];
-
 	const ENUM_VALUE = [
 		'filter' => 'enum',
 		'labels' => ['ColumnTranslation', 'ValueTranslation']
@@ -194,7 +189,7 @@ class Product extends Base
 		],
 		// FILTER RELATION
 		'application' => [
-			'class' => 'Application',
+			'class' => 'ProductApplication',
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'applications'

@@ -23,6 +23,7 @@ class BaseRepository extends EntityRepository
 		$query = $queryBuilder
 					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
 					->setParameter('id', $ids)
+					->orderBy('ApiBundle:RecipePartEntity.sortorder', 'ASC')
 					->getQuery();
 
 		return [
@@ -83,17 +84,18 @@ class BaseRepository extends EntityRepository
 		$item = new $className();
 
 		foreach ($item->getRelations($isFilter) as $relation => $properties) {
-			$this->createRelation($class, $relation, $properties['class']);
+			$this->createRelation($class, $relation, $properties['class'], $properties['order']);
 
 			$this->createRelations($properties['class'], $isFilter);
 		}
 	}
 
-	private function createRelation(string $joinee, string $relation, string $joiner) {
+	private function createRelation(string $joinee, string $relation, string $joiner, $order) {
 		$data = [
 			'select' => 'ApiBundle:' . $joiner . 'Entity',
 			'join' => 'ApiBundle:' . $joinee . 'Entity.' . $relation,
-			'to' => 'ApiBundle:' . $joiner . 'Entity'
+			'to' => 'ApiBundle:' . $joiner . 'Entity',
+			'order' => $order
 		];
 
 		array_push($this->relations, $data);
@@ -104,6 +106,10 @@ class BaseRepository extends EntityRepository
 			$queryBuilder = $queryBuilder
 								->addSelect($relation['select'])
 								->leftJoin($relation['join'], $relation['to']);
+
+			if ($relation['order']) {
+			//	$queryBuilder->orderBy($relation['select'] . '.' . $relation['order'], 'ASC');
+			}
 		}
 
 		return $queryBuilder;

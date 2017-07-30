@@ -138,14 +138,61 @@ class RecipeEntity
      *
      * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartEntity", mappedBy="customerrecipe", cascade={"persist"})
      */
-    private $customerrecipepart;
+    private $recipepart;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeApplicationEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\JoinTable(name="CustomerrecipeApplication",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Application_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $application;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeAuthorEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\JoinTable(name="CustomerrecipeAuthor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Author_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $author;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeDownloadEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\JoinTable(name="CustomerrecipeDownload",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="Download_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $download;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->customerrecipepart = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepart = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->application = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->author = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

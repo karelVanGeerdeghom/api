@@ -45,7 +45,7 @@ class RecipePartEntity
     /**
      * @var \ApiBundle\Entity\RecipeEntity
      *
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\RecipeEntity", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\RecipeEntity")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
      * })

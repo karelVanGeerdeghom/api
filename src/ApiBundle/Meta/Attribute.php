@@ -15,6 +15,7 @@ class Attribute
 	private $group = null;
 	private $key = null;
 	private $labels = null;
+	private $order = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -41,6 +42,10 @@ class Attribute
 
 	public function getValueLabel($labels = null) {
 		$value = $this->translation && $this->value ? 't(' . $this->value . ')' : $this->value;
+
+		if ($this->relation) {
+			$value = [];
+		}
 
 		if ($labels && $this->labels) {
 			$value = [
@@ -99,5 +104,9 @@ class Attribute
 
 	public function getGroup() : ?string {
 		return $this->group;
+	}
+
+	public function getOrder() : ?string {
+		return $this->order;
 	}
 }

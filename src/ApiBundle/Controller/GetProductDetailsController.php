@@ -15,8 +15,9 @@ class GetProductDetailsController extends Controller
 	public function getAction() {
 		$entityName = 'Product';
 
-		$ids = [9887];
+		$ids = [9886];
 		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
+
 		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

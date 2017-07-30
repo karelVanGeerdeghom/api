@@ -12,6 +12,12 @@ class Application extends Base
 		// TRANSLATIONS
 		'title_tid' => self::TRANSLATION,
 		// VALUES
-		'type' => []
+		'type' => [],
+		// RELATIONS
+		'download' => [
+			'class' => 'ApplicationDownload',
+			'relation' => true,
+			'key' => 'downloads'
+		]
 	];
 }

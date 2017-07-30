@@ -12,19 +12,15 @@ class Recipe extends Base
 		'id' => [],
 		'Brand_id' => [],
 		// TRANSLATIONS
-		'title_tid' => ['translation' => true],
-		'assembly_tid' => ['translation' => true],
-		'dosage_tid' => ['translation' => true],
+		'title_tid' => self::TRANSLATION,
+		'assembly_tid' => self::TRANSLATION,
+		'dosage_tid' => self::TRANSLATION,
 		'url_tid' => ['translation' => true],
 		'seo_title_tid' => ['translation' => true],
 		'seo_description_tid' => ['translation' => true],
 		// VALUES
-		'premium' => [
-			'filter' => 'boolean'
-		],
-		'new' => [
-			'filter' => 'boolean'
-		],
+		'premium' => self::BOOLEAN_VALUE,
+		'new' => self::BOOLEAN_VALUE,
 		'dietaryneed_vegan' => [
 			'filter' => 'boolean'
 		],
@@ -42,13 +38,30 @@ class Recipe extends Base
 		],
 		//
 		'level' => [
-			'filter' => 'float'
+			'filter' => 'float',
+			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS
 		'recipepart' => [
 			'class' => 'RecipePart',
 			'relation' => true,
-			'key' => 'recipeparts'
+			'key' => 'recipeparts',
+			'order' => 'sortorder'
+		],
+		'application' => [
+			'class' => 'RecipeApplication',
+			'relation' => true,
+			'key' => 'applications'
+		],
+		'author' => [
+			'class' => 'RecipeAuthor',
+			'relation' => true,
+			'key' => 'authors'
+		],
+		'download' => [
+			'class' => 'RecipeDownload',
+			'relation' => true,
+			'key' => 'downloads'
 		],
 	];
 }
