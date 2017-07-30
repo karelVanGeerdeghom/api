@@ -23,7 +23,6 @@ class BaseRepository extends EntityRepository
 		$query = $queryBuilder
 					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
 					->setParameter('id', $ids)
-					->orderBy('ApiBundle:RecipePartEntity.sortorder', 'ASC')
 					->getQuery();
 
 		return [

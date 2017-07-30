@@ -137,6 +137,7 @@ class RecipeEntity
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartEntity", mappedBy="customerrecipe", cascade={"persist"})
+     * @ORM\OrderBy({"sortorder" = "ASC"})
      */
     private $recipepart;
 
