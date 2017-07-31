@@ -29,7 +29,6 @@ trait Convert
 		$item->set($data);
 	//	$item->setLabels($this->getLabels($item->getTable()));
 		$export = $item->export();
-	//	$export = [];
 
 		foreach ($subItemData as $subClass => $subItems) {
 			$export[$item->getRelationKey($subClass)] = $this->convertAll($item->getRelationClass($subClass), $subItems);

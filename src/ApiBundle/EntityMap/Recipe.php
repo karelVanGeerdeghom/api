@@ -36,17 +36,11 @@ class Recipe extends Base
 		'dietaryneed_gluten_free' => [
 			'filter' => 'boolean'
 		],
-		//
 		'level' => [
 			'filter' => 'float',
 			'labels' => ['ColumnTranslation']
 		],
 		// RELATIONS
-		'recipepart' => [
-			'class' => 'RecipePart',
-			'relation' => true,
-			'key' => 'recipeparts'
-		],
 		'application' => [
 			'class' => 'RecipeApplication',
 			'relation' => true,
@@ -62,5 +56,10 @@ class Recipe extends Base
 			'relation' => true,
 			'key' => 'downloads'
 		],
+		'recipepart' => [
+			'class' => 'RecipePart',
+			'relation' => true,
+			'key' => 'recipeparts'
+		]
 	];
 }

@@ -14,7 +14,6 @@ class RecipePart extends Base
 		'title_tid' => self::TRANSLATION,
 		// VALUES
 		'web_id' => [],
-		'sortorder' => [],
 		// RELATIONS
 		'recipepartdirection' => [
 			'class' => 'RecipePartDirection',
