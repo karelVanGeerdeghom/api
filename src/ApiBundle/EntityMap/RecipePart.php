@@ -16,10 +16,13 @@ class RecipePart extends Base
 		'web_id' => [],
 		'sortorder' => [],
 		// RELATIONS
-		'recipepartdirections' => [
-			'class' => 'RecipePartDirections',
+		'recipepartdirection' => [
+			'class' => 'RecipePartDirection',
 			'relation' => true,
-			'key' => 'recipepartdirections'
+			'key' => 'recipepartdirections',
+			'skip' => [
+				'to' => 'direction'
+			]
 		]
 	];
 }

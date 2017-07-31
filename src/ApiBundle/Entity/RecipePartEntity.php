@@ -55,17 +55,17 @@ class RecipePartEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionsEntity", mappedBy="customerrecipepart", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionEntity", mappedBy="customerrecipepart", cascade={"persist"})
      * @ORM\OrderBy({"sortorder" = "ASC"})
      */
-    private $recipepartdirections;
+    private $recipepartdirection;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->recipepartdirections = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepartdirection = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

@@ -45,8 +45,17 @@ trait Convert
 		$subItems = [];
 
 		foreach ($data as $key => $value) {
+
+
 			if (is_array($value) && count($value) > 0) {
-				if (count($value) !== count($value, COUNT_RECURSIVE)) {
+				// if ($key === 'direction') {
+				// 	print count($value) . '<br>';
+				// 	print count($value, COUNT_RECURSIVE) . '<br>';
+				// 	print json_encode($value) . '<br><br><br>';
+				// }
+
+				if (is_array(array_values($value)[0])) {
+				// if (count($value) !== count($value, COUNT_RECURSIVE)) {
 					$subItems[$key] = $value;
 				} else {
 					$subItems[$key] = [$value];

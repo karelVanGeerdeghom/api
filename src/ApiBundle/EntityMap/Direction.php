@@ -4,7 +4,7 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class Directions extends Base
+class Direction extends Base
 {
 	protected $attributes = [
 		'id' => [],

@@ -5,12 +5,12 @@ namespace ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DirectionsEntity
+ * DirectionEntity
  *
  * @ORM\Table(name="Directions")
  * @ORM\Entity
  */
-class DirectionsEntity
+class DirectionEntity
 {
     /**
      * @var integer
@@ -31,9 +31,9 @@ class DirectionsEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionsEntity", mappedBy="directions", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionEntity", mappedBy="directions", cascade={"persist"})
      */
-    private $recipepartdirections;
+    private $recipepartDirection;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -55,7 +55,7 @@ class DirectionsEntity
      */
     public function __construct()
     {
-        $this->recipepartdirections = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepartDirection = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ingredient = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

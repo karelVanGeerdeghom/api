@@ -4,15 +4,15 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class RecipePartDirections extends Base
+class RecipePartDirection extends Base
 {
 	protected $attributes = [
 		'id' => [],
 		// VALUES
 		'sortorder' => [],
 		// RELATIONS
-		'directions' => [
-			'class' => 'Directions',
+		'direction' => [
+			'class' => 'Direction',
 			'relation' => true,
 			'key' => 'directions'
 		],

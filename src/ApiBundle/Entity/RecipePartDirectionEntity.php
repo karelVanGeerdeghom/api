@@ -5,12 +5,12 @@ namespace ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * RecipePartDirectionsEntity
+ * RecipePartDirectionEntity
  *
  * @ORM\Table(name="CustomerrecipepartDirections")
  * @ORM\Entity
  */
-class RecipePartDirectionsEntity
+class RecipePartDirectionEntity
 {
     /**
      * @var integer
@@ -39,14 +39,14 @@ class RecipePartDirectionsEntity
     private $customerrecipepart;
 
     /**
-     * @var \ApiBundle\Entity\DirectionsEntity
+     * @var \ApiBundle\Entity\DirectionEntity
      *
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\DirectionsEntity", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\DirectionEntity", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Directions_id", referencedColumnName="id")
      * })
      */
-    private $directions;
+    private $direction;
 
 
 }
