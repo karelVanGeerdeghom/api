@@ -89,10 +89,6 @@ class Base
 	public function getRelationKey($relation) {
 		foreach ($this->attributes as $attribute => $properties) {
 			if ($attribute === $relation) {
-				if (array_key_exists('skip', $properties)) {
-					return $properties['skip']['key'];
-				}
-
 				return $this->$attribute->getKey();
 			}
 		}
@@ -119,7 +115,7 @@ class Base
 		return $this->attributes[$relation]['class'];
 	}
 
-	public function skipRelation(string $relation) : ?string {
+	public function getSkipTo(string $relation) : ?string {
 		if (array_key_exists('skip', $this->attributes[$relation])) {
 			return $this->attributes[$relation]['skip']['to'];
 		}

@@ -37,7 +37,6 @@ class Attribute
 	public function getKeyLabel() : string {
 		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
 		$key = $this->key ? $this->key : $key;
-		// $key = $this->skip ? $this->skip['key'] : $key;
 
 		return strtolower($key);
 	}
@@ -89,6 +88,10 @@ class Attribute
 	}
 
 	public function getKey(): ?string {
+		if ($this->skip) {
+			return $this->skip['key'];
+		}
+
 		return $this->key;
 	}
 

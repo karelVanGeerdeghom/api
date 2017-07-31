@@ -32,7 +32,7 @@ trait Convert
 	//	$export = [];
 
 		foreach ($subItemData as $subClass => $subItems) {
-			$skip = $item->skipRelation($subClass);
+			$skip = $item->getSkipTo($subClass);
 
 			if ($skip) {
 				$skipItems = [];
