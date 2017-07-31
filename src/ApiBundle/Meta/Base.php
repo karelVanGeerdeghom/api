@@ -102,8 +102,7 @@ class Base
 				$relations[$attribute] = [
 					'class' => $this->$attribute->getClass(),
 					'key' => $this->$attribute->getKey(),
-					'filter' => $this->$attribute->getFilterType(),
-					'order' => $this->$attribute->getOrder()
+					'filter' => $this->$attribute->getFilterType()
 				];
 			}
 		}
@@ -112,20 +111,16 @@ class Base
 	}
 
 	public function getRelationClass(string $relation) : string {
+		if (array_key_exists('skip', $this->attributes[$relation])) {
+			return $this->attributes[$relation]['skip']['class'];
+		}
+
 		return $this->attributes[$relation]['class'];
 	}
 
 	public function getSkipTo(string $relation) : ?string {
 		if (array_key_exists('skip', $this->attributes[$relation])) {
 			return $this->attributes[$relation]['skip']['to'];
-		}
-
-		return null;
-	}
-
-	public function getSkipClass(string $relation) : ?string {
-		if (array_key_exists('skip', $this->attributes[$relation])) {
-			return $this->attributes[$relation]['skip']['class'];
 		}
 
 		return null;
@@ -202,17 +197,17 @@ class Base
 		$results = [];
 
 		foreach ($attributes as $attribute) {
-			$reference = &$results;
+				$reference = &$results;
 
-			if ($this->$attribute->getGroup()) {
-				if (!array_key_exists($this->$attribute->getGroup(), $results)) {
-					$results[$this->$attribute->getGroup()] = [];
+				if ($this->$attribute->getGroup()) {
+					if (!array_key_exists($this->$attribute->getGroup(), $results)) {
+						$results[$this->$attribute->getGroup()] = [];
+					}
+
+					$reference = &$results[$this->$attribute->getGroup()];
 				}
 
-				$reference = &$results[$this->$attribute->getGroup()];
-			}
-
-			$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
+				$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
 		}
 
 		return $results;

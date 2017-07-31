@@ -19,11 +19,10 @@ class RecipePart extends Base
 		'recipepartdirection' => [
 			'class' => 'RecipePartDirection',
 			'relation' => true,
-			'key' => 'recipepartdirections',
+			'key' => 'directions',
 			'skip' => [
 				'to' => 'direction',
-				'class' => 'Direction',
-				'key' => 'directions'
+				'class' => 'Direction'
 			]
 		]
 	];

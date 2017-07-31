@@ -45,8 +45,7 @@ class Recipe extends Base
 		'recipepart' => [
 			'class' => 'RecipePart',
 			'relation' => true,
-			'key' => 'recipeparts',
-			'order' => 'sortorder'
+			'key' => 'recipeparts'
 		],
 		'application' => [
 			'class' => 'RecipeApplication',

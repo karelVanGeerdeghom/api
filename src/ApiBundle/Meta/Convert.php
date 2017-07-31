@@ -32,22 +32,7 @@ trait Convert
 	//	$export = [];
 
 		foreach ($subItemData as $subClass => $subItems) {
-			$skip = $item->getSkipTo($subClass);
-
-			if ($skip) {
-				$skipItems = [];
-
-				foreach ($subItems as $subItem) {
-					array_push($skipItems, $subItem[$skip]);
-				}
-
-				$skipClass = $item->getSkipClass($subClass);
-
-				$export[$item->getRelationKey($subClass)] = $this->convertAll($skipClass, $skipItems);
-				unset($export[$subClass . 's']);
-			} else {
-				$export[$item->getRelationKey($subClass)] = $this->convertAll($item->getRelationClass($subClass), $subItems);
-			}
+			$export[$item->getRelationKey($subClass)] = $this->convertAll($item->getRelationClass($subClass), $subItems);
 		}
 
 		return $export;
@@ -62,8 +47,21 @@ trait Convert
 	protected function extractSubItemData($item, array &$data) : array {
 		$subItems = [];
 
+
 		foreach ($data as $key => $value) {
 			if (is_array($value) && count($value) > 0) {
+				$skipTo = $item->getSkipTo($key);
+				if ($skipTo) {
+					$skipItems = [];
+
+					foreach ($value as $skipItem) {
+						array_push($skipItems, $skipItem[$skipTo]);
+					}
+
+					$value = $skipItems;
+				}
+
+
 				if (is_array(array_values($value)[0])) {
 					$subItems[$key] = $value;
 				} else {
