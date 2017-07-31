@@ -16,6 +16,7 @@ class Attribute
 	private $key = null;
 	private $labels = null;
 	private $order = null;
+	private $skip = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -36,6 +37,7 @@ class Attribute
 	public function getKeyLabel() : string {
 		$key = $this->translation ? substr($this->id, 0, -4) : $this->id;
 		$key = $this->key ? $this->key : $key;
+		// $key = $this->skip ? $this->skip['key'] : $key;
 
 		return strtolower($key);
 	}

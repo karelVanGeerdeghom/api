@@ -21,7 +21,9 @@ class RecipePart extends Base
 			'relation' => true,
 			'key' => 'recipepartdirections',
 			'skip' => [
-				'to' => 'direction'
+				'to' => 'direction',
+				'class' => 'Direction',
+				'key' => 'directions'
 			]
 		]
 	];
