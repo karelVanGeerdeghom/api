@@ -31,7 +31,7 @@ class DirectionEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionEntity", mappedBy="directions", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionEntity", mappedBy="direction", cascade={"persist"})
      */
     private $recipepartDirection;
 
