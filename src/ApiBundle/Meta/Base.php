@@ -110,17 +110,13 @@ class Base
 		return $relations;
 	}
 
-	public function getRelationClass(string $relation) : string {
-		if (array_key_exists('skip', $this->attributes[$relation])) {
-			return $this->attributes[$relation]['skip']['class'];
-		}
-
-		return $this->attributes[$relation]['class'];
+	public function getRelationClass(string $relation, bool $isSkip = false) : string {
+		return $this->$relation->getClass($isSkip);
 	}
 
 	public function getSkipTo(string $relation) : ?string {
-		if (array_key_exists('skip', $this->attributes[$relation])) {
-			return $this->attributes[$relation]['skip']['to'];
+		if ($this->$relation->getSkipTo()) {
+			return $this->$relation->getSkipTo();
 		}
 
 		return null;

@@ -9,13 +9,13 @@ class Attribute
 
 	private $relation = false;
 	private $translation = false;
+	private $skip = false;
 
 	private $class = null;
 	private $filter = null;
 	private $group = null;
 	private $key = null;
 	private $labels = null;
-	private $skip = null;
 
 	function __construct($id, $data) {
 		$this->id = $id;
@@ -83,8 +83,20 @@ class Attribute
 		return $value;
 	}
 
-	public function getClass() : ?string {
+	public function getClass(bool $isSkip = false) : ?string {
+		if ($isSkip && $this->skip) {
+			return $this->skip['class'];
+		}
+
 		return $this->class;
+	}
+
+	public function getSkipTo(): ?string {
+		if ($this->skip) {
+			return $this->skip['to'];
+		}
+
+		return null;
 	}
 
 	public function getFilterType() : ?string {
