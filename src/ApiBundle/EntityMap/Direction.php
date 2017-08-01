@@ -4,17 +4,17 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\Meta\Base;
 
-class Directions extends Base
+class Direction extends Base
 {
 	protected $attributes = [
 		'id' => [],
 		// TRANSLATIONS
 		'title_tid' => self::TRANSLATION,
 		// RELATIONS
-		'ingredient' => [
-			'class' => 'Ingredient',
+		'directioningredient' => [
+			'class' => 'DirectionIngredient',
 			'relation' => true,
-			'key' => 'ingredients'
+			'key' => 'direction_ingredients'
 		],
 	];
 }

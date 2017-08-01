@@ -102,8 +102,7 @@ class Base
 				$relations[$attribute] = [
 					'class' => $this->$attribute->getClass(),
 					'key' => $this->$attribute->getKey(),
-					'filter' => $this->$attribute->getFilterType(),
-					'order' => $this->$attribute->getOrder()
+					'filter' => $this->$attribute->getFilterType()
 				];
 			}
 		}
@@ -111,8 +110,16 @@ class Base
 		return $relations;
 	}
 
-	public function getRelationClass(string $relation) : string {
-		return $this->attributes[$relation]['class'];
+	public function getRelationClass(string $relation, bool $isSkip = false) : string {
+		return $this->$relation->getClass($isSkip);
+	}
+
+	public function getSkipTo(string $relation) : ?string {
+		if ($this->$relation->getSkipTo()) {
+			return $this->$relation->getSkipTo();
+		}
+
+		return null;
 	}
 
 	public function getFilters() {
@@ -186,17 +193,17 @@ class Base
 		$results = [];
 
 		foreach ($attributes as $attribute) {
-			$reference = &$results;
+				$reference = &$results;
 
-			if ($this->$attribute->getGroup()) {
-				if (!array_key_exists($this->$attribute->getGroup(), $results)) {
-					$results[$this->$attribute->getGroup()] = [];
+				if ($this->$attribute->getGroup()) {
+					if (!array_key_exists($this->$attribute->getGroup(), $results)) {
+						$results[$this->$attribute->getGroup()] = [];
+					}
+
+					$reference = &$results[$this->$attribute->getGroup()];
 				}
 
-				$reference = &$results[$this->$attribute->getGroup()];
-			}
-
-			$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
+				$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
 		}
 
 		return $results;

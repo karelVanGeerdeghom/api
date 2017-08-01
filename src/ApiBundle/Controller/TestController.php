@@ -18,7 +18,7 @@ class TestController extends Controller
 		$filters = $_GET;
 		if (count($filters) === 0) {
 			$filters = [
-				'Brand_id' => 16
+				'Brand_id' => 5
 			];
 		}
 

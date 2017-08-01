@@ -23,8 +23,6 @@ class Packaging extends Base
 		'3_2_type_tid' => self::TRANSLATION,
 		// VALUES
 		'packagingid' => [],
-		'unique_packaging' => [
-			'filter' => 'boolean',
-		]
+		'unique_packaging' => []
 	];
 }

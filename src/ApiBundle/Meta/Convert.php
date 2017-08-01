@@ -19,17 +19,19 @@ trait Convert
 	}
 
 	protected function convertOne(string $class, array $data) {
-		$subItemData = $this->extractSubItemData($data);
+		$item = $this->getClass($class);
+
+		$subItemData = $this->extractSubItemData($item, $data);
 
 		$data = $this->camelCaseToUnderscore($data);
 		$data = $this->nullify($data);
 
-		$item = $this->getClass($class)->set($data);
+		$item->set($data);
 	//	$item->setLabels($this->getLabels($item->getTable()));
 		$export = $item->export();
 
 		foreach ($subItemData as $subClass => $subItems) {
-			$export[$item->getRelationKey($subClass)] = $this->convertAll(ucfirst($subClass), $subItems);
+			$export[$item->getRelationKey($subClass)] = $this->convertAll($item->getRelationClass($subClass, true), $subItems);
 		}
 
 		return $export;
@@ -41,16 +43,30 @@ trait Convert
 		return new $class();
 	}
 
-	protected function extractSubItemData(array &$data) : array {
+	protected function extractSubItemData($item, array &$data) : array {
 		$subItems = [];
+
 
 		foreach ($data as $key => $value) {
 			if (is_array($value) && count($value) > 0) {
-				if (count($value) !== count($value, COUNT_RECURSIVE)) {
+				$skipTo = $item->getSkipTo($key);
+				if ($skipTo) {
+					$skipItems = [];
+
+					foreach ($value as $skipItem) {
+						array_push($skipItems, $skipItem[$skipTo]);
+					}
+
+					$value = $skipItems;
+				}
+
+
+				if (is_array(array_values($value)[0])) {
 					$subItems[$key] = $value;
 				} else {
 					$subItems[$key] = [$value];
 				}
+
 				unset($data[$key]);
 			}
 		}

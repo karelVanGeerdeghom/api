@@ -27,7 +27,6 @@ class SKU extends Base
 		'sku' => [
 			'labels' => ['ColumnTranslation']
 		],
-		'sortorder' => [],
 		'halal' => [
 			'filter' => 'boolean'
 		],

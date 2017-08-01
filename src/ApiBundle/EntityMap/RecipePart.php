@@ -14,12 +14,15 @@ class RecipePart extends Base
 		'title_tid' => self::TRANSLATION,
 		// VALUES
 		'web_id' => [],
-		'sortorder' => [],
 		// RELATIONS
-		'directions' => [
-			'class' => 'Directions',
+		'recipepartdirection' => [
+			'class' => 'RecipePartDirection',
 			'relation' => true,
-			'key' => 'directions'
+			'key' => 'directions',
+			'skip' => [
+				'to' => 'direction',
+				'class' => 'Direction'
+			]
 		]
 	];
 }

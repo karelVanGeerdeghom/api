@@ -171,23 +171,6 @@ class Product extends Base
 		'texture' => self::ENUM_VALUE,
 		'vegetable_fat' => self::ENUM_VALUE,
 		// RELATIONS
-		'sku' => [
-			'class' => 'SKU',
-			'filter' => 'relation',
-			'relation' => true,
-			'key' => 'availabilities'
-		],
-		'download' => [
-			'class' => 'ProductDownload',
-			'relation' => true,
-			'key' => 'downloads'
-		],
-		'testimonial' => [
-			'class' => 'Testimonial',
-			'relation' => true,
-			'key' => 'testimonials'
-		],
-		// FILTER RELATION
 		'application' => [
 			'class' => 'ProductApplication',
 			'filter' => 'enum',
@@ -199,6 +182,11 @@ class Product extends Base
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'colors'
+		],
+		'download' => [
+			'class' => 'ProductDownload',
+			'relation' => true,
+			'key' => 'downloads'
 		],
 		'season' => [
 			'class' => 'Season',
@@ -212,6 +200,12 @@ class Product extends Base
 			'relation' => true,
 			'key' => 'segments'
 		],
+		'sku' => [
+			'class' => 'SKU',
+			'filter' => 'relation',
+			'relation' => true,
+			'key' => 'availabilities'
+		],
 		'subbrand' => [
 			'class' => 'Subbrand',
 			'filter' => 'enum',
@@ -223,6 +217,11 @@ class Product extends Base
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'techniques'
+		],
+		'testimonial' => [
+			'class' => 'Testimonial',
+			'relation' => true,
+			'key' => 'testimonials'
 		]
 	];
 }

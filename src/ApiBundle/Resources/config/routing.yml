@@ -22,6 +22,14 @@ get_recipe_details:
     path: /GetRecipeDetails
     defaults: { _controller: ApiBundle:GetRecipeDetails:get }
 
+get_recipe_filters:
+    path: /GetRecipeFilters
+    defaults: { _controller: ApiBundle:GetRecipeFilters:get }
+
+search_recipes:
+    path: /SearchRecipes
+    defaults: { _controller: ApiBundle:SearchRecipes:get }
+
 test:
     path: /test
     defaults: { _controller: ApiBundle:Test:test }
