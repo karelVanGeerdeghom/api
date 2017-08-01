@@ -18,7 +18,7 @@ class GetRecipeDetailsController extends Controller
 		$ids = [1685];
 	//	$ids = [555];
 		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
-
+return $entities;
 		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

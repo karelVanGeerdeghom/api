@@ -36,27 +36,11 @@ class DirectionEntity
     private $recipepartDirection;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\IngredientEntity", inversedBy="directions", fetch="EAGER")
-     * @ORM\JoinTable(name="DirectionsIngredient",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="Directions_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="Ingredient_id", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $ingredient;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->recipepartDirection = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ingredient = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

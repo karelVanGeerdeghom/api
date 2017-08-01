@@ -9,12 +9,6 @@ class Direction extends Base
 	protected $attributes = [
 		'id' => [],
 		// TRANSLATIONS
-		'title_tid' => self::TRANSLATION,
-		// RELATIONS
-		'ingredient' => [
-			'class' => 'Ingredient',
-			'relation' => true,
-			'key' => 'ingredients'
-		],
+		'title_tid' => self::TRANSLATION
 	];
 }
