@@ -33,14 +33,23 @@ class DirectionEntity
      *
      * @ORM\OneToMany(targetEntity="ApiBundle\Entity\RecipePartDirectionEntity", mappedBy="direction", cascade={"persist"})
      */
-    private $recipepartDirection;
+    private $recipepartdirection;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\DirectionIngredientEntity", mappedBy="directions", cascade={"persist"})
+     * @ORM\OrderBy({"sortorder" = "ASC"})
+     */
+    private $directioningredient;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->recipepartDirection = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recipepartdirection = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directioningredient = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }
