@@ -36,13 +36,6 @@ class DirectionIngredientEntity
     /**
      * @var integer
      *
-     * @ORM\Column(name="Ingredient_id", type="integer", nullable=true)
-     */
-    private $ingredientId;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -59,6 +52,15 @@ class DirectionIngredientEntity
      */
     private $directions;
 
+    /**
+     * @var \ApiBundle\Entity\IngredientEntity
+     *
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\IngredientEntity", fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Ingredient_id", referencedColumnName="id")
+     * })
+     */
+    private $ingredient;
 
 }
 

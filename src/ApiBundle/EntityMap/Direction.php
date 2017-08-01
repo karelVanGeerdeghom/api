@@ -14,7 +14,7 @@ class Direction extends Base
 		'directioningredient' => [
 			'class' => 'DirectionIngredient',
 			'relation' => true,
-			'key' => 'directioningredients'
+			'key' => 'direction_ingredients'
 		],
 	];
 }

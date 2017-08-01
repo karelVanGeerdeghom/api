@@ -10,6 +10,12 @@ class DirectionIngredient extends Base
 		'id' => [],
 		'Quantitylabel_id' => [],
 		'quantity' => [],
-		'sortorder' => []
+		'sortorder' => [],
+		// RELATIONS
+		'ingredient' => [
+			'class' => 'Ingredient',
+			'relation' => true,
+			'key' => 'ingredient'
+		]
 	];
 }
