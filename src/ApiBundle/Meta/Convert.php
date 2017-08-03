@@ -46,7 +46,6 @@ trait Convert
 	protected function extractSubItemData($item, array &$data) : array {
 		$subItems = [];
 
-
 		foreach ($data as $key => $value) {
 			if (is_array($value) && count($value) > 0) {
 				$skipTo = $item->getSkipTo($key);
