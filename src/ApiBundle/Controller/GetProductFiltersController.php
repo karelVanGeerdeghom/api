@@ -23,17 +23,9 @@ class GetProductFiltersController extends Controller
 
 		$entityName = 'Product';
 
-		$entityClass = 'ApiBundle\\EntityMap\\' . $entityName;
-		$entityMap = new $entityClass();
-		$entityFilterData = [];
-		foreach ($entityMap->getFilterTypes() as $filterType) {
-			$entityFilterData[$filterType] = $entityMap->getFiltersByType($filterType);
-		}
-
 		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByFilters($filters);
-
 		foreach ($entities[strtolower($entityName)] as $entityData) {
-			$this->getFilters($answer, $entityData, $entityMap, $entityFilterData);
+			$this->getFilters($answer, $entityData, $entityName);
 		}
 
 		return $answer;

@@ -8,7 +8,14 @@ trait Filter
 {
 	use Transform;
 
-	protected function getFilters(array &$answer, array $entityData, $entityMap, array $entityFilterData) : void {
+	protected function getFilters(array &$answer, array $entityData, string $entityName) : void {
+		$entityClass = 'ApiBundle\\EntityMap\\' . $entityName;
+		$entityMap = new $entityClass();
+		$entityFilterData = [];
+		foreach ($entityMap->getFilterTypes() as $filterType) {
+			$entityFilterData[$filterType] = $entityMap->getFiltersByType($filterType);
+		}
+
 		foreach ($entityData as $key => $value) {
 			$key = $this->camelCaseToUnderscore($key);
 			if (!is_array($value)) {
@@ -72,7 +79,7 @@ trait Filter
 								}
 
 								foreach ($value as $relationEntityData) {
-									$this->getFilters($answer, $relationEntityData, $relationEntityMap, $relationEntityFilterData);
+									$this->getFilters($answer, $relationEntityData, $entityMap->getRelationClass($key));
 								}
 								
 								break;
