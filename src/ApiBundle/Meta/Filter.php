@@ -8,7 +8,7 @@ trait Filter
 {
 	use Transform;
 
-	protected function getFilters(&$answer, $entityData, $entityMap, $entityFilterData) {
+	protected function getFilters(array &$answer, array $entityData, $entityMap, array $entityFilterData) : void {
 		foreach ($entityData as $key => $value) {
 			$key = $this->camelCaseToUnderscore($key);
 			if (!is_array($value)) {

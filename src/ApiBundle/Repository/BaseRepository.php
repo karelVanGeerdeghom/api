@@ -3,6 +3,7 @@
 namespace ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query;
 
 use ApiBundle\Meta\Transform;
@@ -78,7 +79,7 @@ class BaseRepository extends EntityRepository
 		return $this->toIdArray($query->getResult(Query::HYDRATE_ARRAY));
 	}
 
-	private function createRelations(string $class, bool $isFilter = false) {
+	private function createRelations(string $class, bool $isFilter = false) : void {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
@@ -89,7 +90,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function createRelation(string $joinee, string $relation, string $joiner) {
+	private function createRelation(string $joinee, string $relation, string $joiner) : void {
 		$data = [
 			'select' => 'ApiBundle:' . $joiner . 'Entity',
 			'join' => 'ApiBundle:' . $joinee . 'Entity.' . $relation,
@@ -99,7 +100,7 @@ class BaseRepository extends EntityRepository
 		array_push($this->relations, $data);
 	}
 
-	private function addRelations($queryBuilder) {
+	private function addRelations($queryBuilder) : QueryBuilder {
 		foreach ($this->relations as $relation) {
 			$queryBuilder = $queryBuilder
 								->addSelect($relation['select'])
@@ -109,7 +110,7 @@ class BaseRepository extends EntityRepository
 		return $queryBuilder;
 	}
 
-	private function createFilters(string $class, array $request) {
+	private function createFilters(string $class, array $request) : void {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
@@ -144,7 +145,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function createFilter(string $class, string $key, $value) {
+	private function createFilter(string $class, string $key, $value) : void {
 		$compareKey = $class . 'Entity.' . $this->underscoreToCamelCase($key);
 
 		if (is_array($value)) {
@@ -187,7 +188,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function addFilters($queryBuilder) {
+	private function addFilters($queryBuilder) : QueryBuilder {
 		foreach ($this->filters as $filter) {
 			$queryBuilder
 				->andWhere($filter['where'])

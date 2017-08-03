@@ -18,7 +18,7 @@ trait Convert
 		return $all;
 	}
 
-	protected function convertOne(string $class, array $data) {
+	protected function convertOne(string $class, array $data) : array {
 		$item = $this->getClass($class);
 
 		$subItemData = $this->extractSubItemData($item, $data);
@@ -37,7 +37,7 @@ trait Convert
 		return $export;
 	}
 
-	protected function getClass($class) {
+	protected function getClass(string $class) {
 		$class = 'ApiBundle\\EntityMap\\' . $class;
 
 		return new $class();

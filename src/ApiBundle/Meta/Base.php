@@ -26,7 +26,7 @@ class Base
 		}
 	}
 
-	public function set() {
+	public function set() : void {
 		$arguments = func_get_args();
 
 		if (count($arguments) === 2) {
@@ -36,8 +36,6 @@ class Base
 		if (count($arguments) === 1) {
 			$this->setMultiple($arguments[0]);
 		}
-
-		return $this;
 	}
 
 	public function get($data = null) {
@@ -76,17 +74,15 @@ class Base
 		return (new \ReflectionClass($this))->getShortName();
 	}
 
-	public function setLabels($labels = null) {
+	public function setLabels($labels = null) : void {
 		$this->labels = $labels;
-
-		return $this;
 	}
 
 	public function getLabels() : ?array {
 		return $this->labels;
 	}
 
-	public function getRelationKey($relation) {
+	public function getRelationKey(string $relation)  : string {
 		foreach ($this->attributes as $attribute => $properties) {
 			if ($attribute === $relation) {
 				return $this->$attribute->getKey();
@@ -122,7 +118,7 @@ class Base
 		return null;
 	}
 
-	public function getFilters() {
+	public function getFilters() : array {
 		$filters = [];
 
 		foreach (array_keys($this->attributes) as $attribute) {
@@ -160,13 +156,13 @@ class Base
 		return $filters;
 	}
 
-	private function setSingle(string $attribute, $value) {
+	private function setSingle(string $attribute, $value) : void {
 		if (array_key_exists($attribute, $this->attributes)) {
 			$this->$attribute->set($value);
 		}
 	}
 
-	private function setMultiple(array $data) {
+	private function setMultiple(array $data) : void {
 		foreach ($data as $attribute => $value) {
 			$this->setSingle($attribute, $value);
 		}
@@ -186,7 +182,7 @@ class Base
 	}
 
 	private function exportSingle(string $attribute) : array {
-		return $this->$attribute->getValueLabel($this->labels);
+		return $this->$attribute->getExportValue($this->labels);
 	}
 
 	private function exportMultiple(array $attributes) : array {
@@ -203,7 +199,7 @@ class Base
 					$reference = &$results[$this->$attribute->getGroup()];
 				}
 
-				$reference = array_merge($reference, [$this->$attribute->getKeyLabel() => $this->$attribute->getValueLabel($this->labels)]);
+				$reference = array_merge($reference, [$this->$attribute->getExportKey() => $this->$attribute->getExportValue($this->labels)]);
 		}
 
 		return $results;

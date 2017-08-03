@@ -17,7 +17,7 @@ class Attribute
 	private $key = null;
 	private $labels = null;
 
-	function __construct($id, $data) {
+	function __construct(string $id, array $data) {
 		$this->id = $id;
 
 		foreach ($data as $key => $value) {
@@ -25,7 +25,7 @@ class Attribute
 		}
 	}
 
-	public function set($value) {
+	public function set($value) : void {
 		$this->value = $value;
 	}
 
@@ -33,7 +33,7 @@ class Attribute
 		return $this->value;
 	}
 
-	public function getKeyLabel() : string {
+	public function getExportKey() : string {
 		if ($this->getTranslation()) {
 			return substr($this->id, 0, -4);
 		}
@@ -45,7 +45,7 @@ class Attribute
 		return strtolower($this->id);
 	}
 
-	public function getValueLabel($labels = null) {
+	public function getExportValue(array $labels = null) {
 		$value = $this->translation && $this->value ? 't(' . $this->value . ')' : $this->value;
 
 		if ($this->getRelation()) {

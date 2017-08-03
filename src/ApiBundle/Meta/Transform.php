@@ -72,7 +72,7 @@ trait Transform
 		}, $string));
 	}
 
-	protected function toIdArray($data) {
+	protected function toIdArray(array $data) : array {
 		$ids = [];
 
 		foreach ($data as $row) {
