@@ -94,8 +94,7 @@ class BaseRepository extends EntityRepository
 	private function createRelation(string $joinee, string $relation, string $joiner) : void {
 		$data = [
 			'select' => 'ApiBundle:' . $joiner . 'Entity',
-			'join' => 'ApiBundle:' . $joinee . 'Entity.' . $relation,
-			'to' => 'ApiBundle:' . $joiner . 'Entity'
+			'join' => 'ApiBundle:' . $joinee . 'Entity.' . $relation
 		];
 
 		array_push($this->relations, $data);
@@ -105,7 +104,7 @@ class BaseRepository extends EntityRepository
 		foreach ($this->relations as $relation) {
 			$queryBuilder = $queryBuilder
 								->addSelect($relation['select'])
-								->leftJoin($relation['join'], $relation['to']);
+								->leftJoin($relation['join'], $relation['select']);
 		}
 
 		return $queryBuilder;
