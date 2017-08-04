@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiBundle\Entity\AuthorEntity;
 
 /**
- * TestimonialAuthorEntity
+ * AuthorTestimonialEntity
  *
  * @ORM\Table(name="Author")
  * @ORM\Entity
  */
-class TestimonialAuthorEntity extends AuthorEntity {}
+class AuthorTestimonialEntity extends AuthorEntity {}

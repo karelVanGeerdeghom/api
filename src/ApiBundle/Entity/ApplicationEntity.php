@@ -45,7 +45,7 @@ class ApplicationEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationDownloadEntity", inversedBy="application", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadApplicationEntity", inversedBy="application", fetch="EAGER")
      * @ORM\JoinTable(name="ApplicationDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Application_id", referencedColumnName="id")

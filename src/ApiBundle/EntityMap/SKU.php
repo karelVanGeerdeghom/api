@@ -36,7 +36,7 @@ class SKU extends Base
 		],
 		// RELATIONS
 		'download' => [
-			'class' => 'SKUDownload',
+			'class' => 'DownloadSKU',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'

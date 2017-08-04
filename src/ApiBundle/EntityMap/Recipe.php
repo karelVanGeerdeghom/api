@@ -42,19 +42,19 @@ class Recipe extends Base
 		],
 		// RELATIONS
 		'application' => [
-			'class' => 'RecipeApplication',
+			'class' => 'ApplicationRecipe',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'applications'
 		],
 		'author' => [
-			'class' => 'RecipeAuthor',
+			'class' => 'AuthorRecipe',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'authors'
 		],
 		'download' => [
-			'class' => 'RecipeDownload',
+			'class' => 'DownloadRecipe',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'

@@ -144,7 +144,7 @@ class RecipeEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeApplicationEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationRecipeEntity", inversedBy="customerrecipe", fetch="EAGER")
      * @ORM\JoinTable(name="CustomerrecipeApplication",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
@@ -159,7 +159,7 @@ class RecipeEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeAuthorEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\AuthorRecipeEntity", inversedBy="customerrecipe", fetch="EAGER")
      * @ORM\JoinTable(name="CustomerrecipeAuthor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")
@@ -174,7 +174,7 @@ class RecipeEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\RecipeDownloadEntity", inversedBy="customerrecipe", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadRecipeEntity", inversedBy="customerrecipe", fetch="EAGER")
      * @ORM\JoinTable(name="CustomerrecipeDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Customerrecipe_id", referencedColumnName="id")

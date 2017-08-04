@@ -45,7 +45,7 @@ class AuthorEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\AuthorDownloadEntity", inversedBy="author", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadAuthorEntity", inversedBy="author", fetch="EAGER")
      * @ORM\JoinTable(name="AuthorDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Author_id", referencedColumnName="id")

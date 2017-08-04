@@ -15,7 +15,7 @@ class Application extends Base
 		'type' => [],
 		// RELATIONS
 		'download' => [
-			'class' => 'ApplicationDownload',
+			'class' => 'DownloadApplication',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'

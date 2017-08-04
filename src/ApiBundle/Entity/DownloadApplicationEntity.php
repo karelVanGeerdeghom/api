@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiBundle\Entity\DownloadEntity;
 
 /**
- * RecipeDownloadEntity
+ * DownloadApplicationEntity
  *
  * @ORM\Table(name="Download")
  * @ORM\Entity
  */
-class RecipeDownloadEntity extends DownloadEntity {}
+class DownloadApplicationEntity extends DownloadEntity {}

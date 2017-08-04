@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiBundle\Entity\ApplicationEntity;
 
 /**
- * ProductApplicationEntity
+ * ApplicationRecipeEntity
  *
  * @ORM\Table(name="Application")
  * @ORM\Entity
  */
-class ProductApplicationEntity extends ApplicationEntity {}
+class ApplicationRecipeEntity extends ApplicationEntity {}

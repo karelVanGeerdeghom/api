@@ -1067,7 +1067,7 @@ class ProductEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ProductApplicationEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ApplicationProductEntity", inversedBy="recipe", fetch="EAGER")
      * @ORM\JoinTable(name="RecipeApplication",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")
@@ -1097,7 +1097,7 @@ class ProductEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\ProductDownloadEntity", inversedBy="recipe", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadProductEntity", inversedBy="recipe", fetch="EAGER")
      * @ORM\JoinTable(name="RecipeDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Recipe_id", referencedColumnName="id")

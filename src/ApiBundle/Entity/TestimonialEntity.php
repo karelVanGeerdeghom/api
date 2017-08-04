@@ -45,7 +45,7 @@ class TestimonialEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\TestimonialAuthorEntity", inversedBy="testimonial", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\AuthorTestimonialEntity", inversedBy="testimonial", fetch="EAGER")
      * @ORM\JoinTable(name="TestimonialAuthor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Testimonial_id", referencedColumnName="id")

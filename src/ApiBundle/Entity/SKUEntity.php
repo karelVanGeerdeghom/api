@@ -138,7 +138,7 @@ class SKUEntity
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\SKUDownloadEntity", inversedBy="product", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\DownloadSKUEntity", inversedBy="product", fetch="EAGER")
      * @ORM\JoinTable(name="ProductDownload",
      *   joinColumns={
      *     @ORM\JoinColumn(name="Product_id", referencedColumnName="id")

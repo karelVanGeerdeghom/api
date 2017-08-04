@@ -4,4 +4,4 @@ namespace ApiBundle\EntityMap;
 
 use ApiBundle\EntityMap\Author;
 
-class TestimonialAuthor extends Author {}
+class AuthorTestimonial extends Author {}

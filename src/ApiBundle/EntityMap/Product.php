@@ -172,7 +172,7 @@ class Product extends Base
 		'vegetable_fat' => self::ENUM_VALUE,
 		// RELATIONS
 		'application' => [
-			'class' => 'ProductApplication',
+			'class' => 'ApplicationProduct',
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
@@ -186,7 +186,7 @@ class Product extends Base
 			'key' => 'colors'
 		],
 		'download' => [
-			'class' => 'ProductDownload',
+			'class' => 'DownloadProduct',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'
