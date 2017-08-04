@@ -56,9 +56,9 @@ class DirectionIngredientEntity
     private $ingredient;
 
     /**
-     * @var \ApiBundle\Entity\QuantitylabelEntity
+     * @var \ApiBundle\Entity\QuantitylabelIngredientEntity
      *
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\QuantitylabelEntity", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\QuantitylabelIngredientEntity", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Quantitylabel_id", referencedColumnName="id")
      * })

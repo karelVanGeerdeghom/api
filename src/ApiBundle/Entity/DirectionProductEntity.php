@@ -70,9 +70,9 @@ class DirectionProductEntity
     private $product;
 
     /**
-     * @var \ApiBundle\Entity\QuantitylabelEntity
+     * @var \ApiBundle\Entity\QuantitylabelProductEntity
      *
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\QuantitylabelEntity", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\QuantitylabelProductEntity", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Quantitylabel_id", referencedColumnName="id")
      * })

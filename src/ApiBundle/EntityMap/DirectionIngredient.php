@@ -18,7 +18,7 @@ class DirectionIngredient extends Base
 			'key' => 'ingredient'
 		],
 		'quantitylabel' => [
-			'class' => 'Quantitylabel',
+			'class' => 'QuantitylabelIngredient',
 			'fetch' => true,
 			'relation' => true,
 			'key' => 'quantitylabel'

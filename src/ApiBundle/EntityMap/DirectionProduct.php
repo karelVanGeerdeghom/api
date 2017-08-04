@@ -10,7 +10,6 @@ class DirectionProduct extends Base
 		'id' => [],
 		'quantity' => [],
 		'Productgroup_id' => [],
-		'Quantitylabel_id' => [],
 		'component_recipe' => [],
 		'sortorder' => [],
 		// RELATIONS
@@ -20,10 +19,11 @@ class DirectionProduct extends Base
 			'relation' => true,
 			'key' => 'product'
 		],
-		// 'quantitylabel' => [
-		// 	'class' => 'Quantitylabel',
-		// 	'relation' => true,
-		// 	'key' => 'quantitylabel'
-		// ]
+		'quantitylabel' => [
+			'class' => 'QuantitylabelProduct',
+			'fetch' => true,
+			'relation' => true,
+			'key' => 'quantitylabel'
+		]
 	];
 }
