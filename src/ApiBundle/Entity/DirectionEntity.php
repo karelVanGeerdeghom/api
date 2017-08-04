@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * DirectionEntity
  *
  * @ORM\Table(name="Directions")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ApiBundle\Repository\DirectionEntityRepository")
  */
 class DirectionEntity
 {
