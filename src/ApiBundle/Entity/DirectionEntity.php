@@ -44,12 +44,21 @@ class DirectionEntity
     private $directioningredient;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\DirectionProductEntity", mappedBy="directions", cascade={"persist"})
+     * @ORM\OrderBy({"sortorder" = "ASC"})
+     */
+    private $directionproduct;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->recipepartdirection = new \Doctrine\Common\Collections\ArrayCollection();
         $this->directioningredient = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directionproduct = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }

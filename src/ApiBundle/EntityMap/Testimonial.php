@@ -15,6 +15,7 @@ class Testimonial extends Base
 		// RELATIONS
 		'author' => [
 			'class' => 'Author',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'authors'
 		]

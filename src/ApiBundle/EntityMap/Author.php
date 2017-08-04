@@ -18,6 +18,7 @@ class Author extends Base
 		// RELATIONS
 		'download' => [
 			'class' => 'AuthorDownload',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'
 		]

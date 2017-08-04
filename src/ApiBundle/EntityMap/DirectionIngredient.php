@@ -8,17 +8,18 @@ class DirectionIngredient extends Base
 {
 	protected $attributes = [
 		'id' => [],
-		'Quantitylabel_id' => [],
 		'quantity' => [],
 		'sortorder' => [],
 		// RELATIONS
 		'ingredient' => [
 			'class' => 'Ingredient',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'ingredient'
 		],
 		'quantitylabel' => [
 			'class' => 'Quantitylabel',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'quantitylabel'
 		]

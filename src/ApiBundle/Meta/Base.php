@@ -98,7 +98,8 @@ class Base
 				$relations[$attribute] = [
 					'class' => $this->$attribute->getClass(),
 					'key' => $this->$attribute->getKey(),
-					'filter' => $this->$attribute->getFilterType()
+					'filter' => $this->$attribute->getFilterType(),
+					'fetch' => $this->$attribute->getFetch()
 				];
 			}
 		}

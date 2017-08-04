@@ -13,8 +13,15 @@ class Direction extends Base
 		// RELATIONS
 		'directioningredient' => [
 			'class' => 'DirectionIngredient',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'direction_ingredients'
 		],
+		'directionproduct' => [
+			'class' => 'DirectionProduct',
+			'fetch' => true,
+			'relation' => true,
+			'key' => 'direction_ingredients'
+		]
 	];
 }

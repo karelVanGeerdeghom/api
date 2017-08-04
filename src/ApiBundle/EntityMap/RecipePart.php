@@ -17,6 +17,7 @@ class RecipePart extends Base
 		// RELATIONS
 		'recipepartdirection' => [
 			'class' => 'RecipePartDirection',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'directions',
 			'skip' => [

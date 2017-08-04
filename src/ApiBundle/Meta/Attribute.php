@@ -12,6 +12,7 @@ class Attribute
 	private $skip = false;
 
 	private $class = null;
+	private $fetch = null;
 	private $filter = null;
 	private $group = null;
 	private $key = null;
@@ -97,6 +98,10 @@ class Attribute
 		}
 
 		return null;
+	}
+
+	public function getFetch() {
+		return $this->fetch;
 	}
 
 	public function getFilterType() : ?string {

@@ -18,7 +18,7 @@ class TestController extends Controller
 		$entityName = 'Direction';
 
 		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds([16181]);
-
+return $entities;
 		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

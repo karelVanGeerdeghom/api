@@ -37,17 +37,20 @@ class SKU extends Base
 		// RELATIONS
 		'download' => [
 			'class' => 'SKUDownload',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'
 		],
 		'packaging' => [
 			'class' => 'Packaging',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'packagings'
 		],
 		'shape' => [
 			'class' => 'Shape',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'shapes'

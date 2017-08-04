@@ -173,53 +173,62 @@ class Product extends Base
 		// RELATIONS
 		'application' => [
 			'class' => 'ProductApplication',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'applications'
 		],
 		'color' => [
 			'class' => 'Color',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'colors'
 		],
 		'download' => [
 			'class' => 'ProductDownload',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'downloads'
 		],
 		'season' => [
 			'class' => 'Season',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'seasons'
 		],
 		'segment' => [
 			'class' => 'Segment',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'segments'
 		],
 		'sku' => [
 			'class' => 'SKU',
+			'fetch' => true,
 			'filter' => 'relation',
 			'relation' => true,
 			'key' => 'availabilities'
 		],
 		'subbrand' => [
 			'class' => 'Subbrand',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'subbrands'
 		],
 		'technique' => [
 			'class' => 'Technique',
+			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
 			'key' => 'techniques'
 		],
 		'testimonial' => [
 			'class' => 'Testimonial',
+			'fetch' => true,
 			'relation' => true,
 			'key' => 'testimonials'
 		]

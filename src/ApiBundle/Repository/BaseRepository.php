@@ -85,8 +85,9 @@ class BaseRepository extends EntityRepository
 
 		foreach ($item->getRelations($isFilter) as $relation => $properties) {
 			$this->createRelation($class, $relation, $properties['class']);
-
-			$this->createRelations($properties['class'], $isFilter);
+			if ($properties['fetch']) {
+				$this->createRelations($properties['class'], $isFilter);
+			}			
 		}
 	}
 
