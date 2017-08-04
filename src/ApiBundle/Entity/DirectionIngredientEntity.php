@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class DirectionIngredientEntity
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="Quantitylabel_id", type="integer", nullable=false)
-     */
-    private $quantitylabelId;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="quantity", type="string", length=255, nullable=false)
@@ -61,6 +54,16 @@ class DirectionIngredientEntity
      * })
      */
     private $ingredient;
+
+    /**
+     * @var \ApiBundle\Entity\QuantitylabelEntity
+     *
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\QuantitylabelEntity", fetch="EAGER")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Quantitylabel_id", referencedColumnName="id")
+     * })
+     */
+    private $quantitylabel;
 
 }
 
