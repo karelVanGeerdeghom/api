@@ -14,10 +14,10 @@ class DirectionProduct extends Base
 		'sortorder' => [],
 		// RELATIONS
 		'product' => [
-			'class' => 'Product',
+			'class' => 'ProductIngredient',
 			'fetch' => false,
 			'relation' => true,
-			'key' => 'product'
+			'key' => 'ingredient'
 		],
 		'quantitylabel' => [
 			'class' => 'QuantitylabelProduct',

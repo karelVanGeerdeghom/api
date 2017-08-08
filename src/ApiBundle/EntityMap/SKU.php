@@ -46,6 +46,7 @@ class SKU extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'oneOneAmountTid',
 			'key' => 'packagings'
 		],
 		'shape' => [
@@ -53,6 +54,7 @@ class SKU extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'descriptionTid',
 			'key' => 'shapes'
 		]
 	];

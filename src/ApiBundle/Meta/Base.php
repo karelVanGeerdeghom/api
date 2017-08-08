@@ -90,6 +90,14 @@ class Base
 		}
 	}
 
+	public function getRelationDisplay(string $relation) : string {
+		foreach ($this->attributes as $attribute => $properties) {
+			if ($attribute === $relation) {
+				return $this->$attribute->getDisplay();
+			}
+		}
+	}
+
 	public function getRelations(bool $isFilter = false) : array {
 		$relations = [];
 

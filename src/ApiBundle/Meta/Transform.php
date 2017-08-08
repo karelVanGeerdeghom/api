@@ -25,6 +25,7 @@ trait Transform
 			'madeWith100percentPurecocoaButter'	=> 'made_with_100percent_purecocoa_butter',
 			'utzMassBalanceFull100percent'		=> 'utz_mass_balance_full_100percent',
 			'brandId'							=> 'Brand_id',
+			'recipeid'							=> 'Recipeid',
 			'countryId'							=> 'Country_id',
 			'gpcInfoTid'						=> 'GPC_info_tid',
 			'sapTid'							=> 'SAP_tid',

@@ -15,6 +15,7 @@ class Attribute
 	private $fetch = null;
 	private $filter = null;
 	private $group = null;
+	private $display = null;
 	private $key = null;
 	private $labels = null;
 
@@ -35,12 +36,12 @@ class Attribute
 	}
 
 	public function getExportKey() : string {
-		if ($this->getTranslation()) {
-			return substr($this->id, 0, -4);
-		}
-
 		if ($this->getKey()) {
 			return $this->getKey();
+		}
+
+		if ($this->getTranslation()) {
+			return substr($this->id, 0, -4);
 		}
 
 		return strtolower($this->id);
@@ -108,7 +109,11 @@ class Attribute
 		return $this->filter;
 	}
 
-	public function getKey(): ?string {
+	public function getDisplay() : ?string {
+		return $this->display;
+	}
+
+	public function getKey() : ?string {
 		return $this->key;
 	}
 

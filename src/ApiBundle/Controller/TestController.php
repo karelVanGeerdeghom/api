@@ -15,10 +15,11 @@ class TestController extends Controller
 	use Convert;
 
 	public function testAction() {
-		$entityName = 'Direction';
+		$entityName = 'Recipe';
+		$ids = [1685];
 
-		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds([16181]);
-return $entities;
+		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
+
 		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

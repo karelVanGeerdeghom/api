@@ -34,6 +34,7 @@ class Product extends Base
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
+		'Recipeid' => [],
 		// TRANSLATIONS
 		'content_tid' => ['translation' => true],
 		'search_keywords_tid' => ['translation' => true],
@@ -176,6 +177,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'applications'
 		],
 		'color' => [
@@ -183,6 +185,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'colors'
 		],
 		'download' => [
@@ -196,6 +199,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'seasons'
 		],
 		'segment' => [
@@ -203,6 +207,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'segments'
 		],
 		'sku' => [
@@ -217,6 +222,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'subbrands'
 		],
 		'technique' => [
@@ -224,6 +230,7 @@ class Product extends Base
 			'fetch' => true,
 			'filter' => 'enum',
 			'relation' => true,
+			'display' => 'titleTid',
 			'key' => 'techniques'
 		],
 		'testimonial' => [

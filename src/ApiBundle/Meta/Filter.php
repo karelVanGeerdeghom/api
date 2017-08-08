@@ -35,6 +35,7 @@ trait Filter
 						switch ($filterType) {
 							case 'boolean':
 								$answer[$key]['options'] = 'true';
+
 								break;
 							case 'float':
 								if (!array_key_exists('options', $answer[$key])) {
@@ -49,6 +50,7 @@ trait Filter
 								if ($answer[$key]['options']['max'] === '' || $value > $answer[$key]['options']['max']) {
 									$answer[$key]['options']['max'] = (string)$value;
 								}
+
 								break;
 							case 'enum':
 								if (!array_key_exists('options', $answer[$key])) {
@@ -64,10 +66,11 @@ trait Filter
 
 									foreach ($value as $relation) {
 										if (!array_key_exists($relation['id'], $answer[$key]['options'])) {
-											$answer[$key]['options'][$relation['id']] = $relation['id'];
+											$answer[$key]['options'][$relation['id']] = 't(' . $relation[$entityMap->getRelationDisplay($key)] . ')';
 										}
 									}
 								}
+
 								break;
 							case 'relation':
 								$relationEntityClass = 'ApiBundle\\EntityMap\\' . $entityMap->getRelationClass($key);
