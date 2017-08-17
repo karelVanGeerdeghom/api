@@ -16,23 +16,10 @@ class BaseRepository extends EntityRepository
 	protected $snapshots = [];
 	protected $itemTranslations = [];
 	protected $filters = [];
-
 	protected $parameters = [];
 
 	public function findByIds(array $ids) : array {
-		$this->createParameter('appId', 10);
-		$this->createParameter('languageId', 1);
-		$this->createParameter('countryId', 1);
-
-		$this->createRelations($this->class);
-		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
-
-		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
-		$queryBuilder = $this->addRelations($queryBuilder);
-		$queryBuilder = $this->addSnapshots($queryBuilder);
-		$queryBuilder = $this->addItemTranslations($queryBuilder);
-		$queryBuilder = $this->addParameters($queryBuilder);
+		$queryBuilder = $this->prepareQueryBuilder();
 
 		$query = $queryBuilder
 					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
@@ -45,19 +32,7 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findByBrand(string $brandId) : array {
-		$this->createParameter('appId', 10);
-		$this->createParameter('languageId', 1);
-		$this->createParameter('countryId', 1);
-
-		$this->createRelations($this->class);
-		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
-
-		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
-		$queryBuilder = $this->addRelations($queryBuilder);
-		$queryBuilder = $this->addSnapshots($queryBuilder);
-		$queryBuilder = $this->addItemTranslations($queryBuilder);
-		$queryBuilder = $this->addParameters($queryBuilder);
+		$queryBuilder = $this->prepareQueryBuilder();
 
 		$query = $queryBuilder
 					->where('ApiBundle:' . $this->class . 'Entity.brandId = :brandId')
@@ -70,21 +45,10 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findByFilters(array $filters) : array {
-		$this->createParameter('appId', 10);
-		$this->createParameter('languageId', 1);
-		$this->createParameter('countryId', 1);
+		$queryBuilder = $this->prepareQueryBuilder(true);
 
-		$this->createRelations($this->class, true);
-		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
 		$this->createFilters($this->class, $filters);
-
-		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
-		$queryBuilder = $this->addRelations($queryBuilder);
-		$queryBuilder = $this->addSnapshots($queryBuilder);
-		$queryBuilder = $this->addItemTranslations($queryBuilder);
 		$queryBuilder = $this->addFilters($queryBuilder);
-		$queryBuilder = $this->addParameters($queryBuilder);
 
 		$query = $queryBuilder
 					->getQuery();
@@ -95,32 +59,38 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findIdsByFilters(array $filters) : array {
+		$queryBuilder = $this->prepareQueryBuilder(true);
+
+		$this->createFilters($this->class, $filters);
+		$queryBuilder = $this->addFilters($queryBuilder);
+
+		$query = $queryBuilder
+					->distinct()
+					->select('ApiBundle:' . $this->class . 'Entity.id')
+					->getQuery();
+
+		return $this->toIdArray($query->getResult(Query::HYDRATE_ARRAY));
+	}
+
+	// <QUERYBUILDER>
+	private function prepareQueryBuilder(bool $isFilter = false) : QueryBuilder {
 		$this->createParameter('appId', 10);
 		$this->createParameter('languageId', 1);
 		$this->createParameter('countryId', 1);
 
-		$this->createRelations($this->class, true);
+		$this->createRelations($this->class, $isFilter);
 		$this->createSnapshots($this->class);
 		$this->createItemTranslations($this->class);
-		$this->createFilters($this->class, $filters);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addSnapshots($queryBuilder);
 		$queryBuilder = $this->addItemTranslations($queryBuilder);
-		$queryBuilder = $this->addFilters($queryBuilder);
 		$queryBuilder = $this->addParameters($queryBuilder);
 
-		$query = $queryBuilder
-					->distinct()
-					->select('ApiBundle:' . $this->class . 'Entity.id')
-					->setParameter('appId', 10)
-					->setParameter('languageId', 1)
-					->setParameter('countryId', 1)
-					->getQuery();
-
-		return $this->toIdArray($query->getResult(Query::HYDRATE_ARRAY));
+		return $queryBuilder;
 	}
+	// </QUERYBUILDER>
 
 	// <RELATIONS>
 	private function createRelations(string $class, bool $isFilter = false) : void {
