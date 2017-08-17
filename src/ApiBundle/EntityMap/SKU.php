@@ -7,8 +7,8 @@ use ApiBundle\Meta\Base;
 class SKU extends Base
 {
 	protected $table = 'Product';
-
 	protected $snapshot = true;
+	protected $itemTranslation = true;
 
 	protected $attributes = [
 		'id' => [],

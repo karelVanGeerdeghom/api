@@ -14,22 +14,29 @@ class BaseRepository extends EntityRepository
 
 	protected $relations = [];
 	protected $snapshots = [];
+	protected $itemTranslations = [];
 	protected $filters = [];
 
+	protected $parameters = [];
+
 	public function findByIds(array $ids) : array {
+		$this->createParameter('appId', 10);
+		$this->createParameter('languageId', 1);
+		$this->createParameter('countryId', 1);
+
 		$this->createRelations($this->class);
 		$this->createSnapshots($this->class);
+		$this->createItemTranslations($this->class);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addSnapshots($queryBuilder);
+		$queryBuilder = $this->addItemTranslations($queryBuilder);
+		$queryBuilder = $this->addParameters($queryBuilder);
 
 		$query = $queryBuilder
 					->andWhere('ApiBundle:' . $this->class . 'Entity.id IN (:id)')
 					->setParameter('id', $ids)
-					->setParameter('appId', 10)
-					->setParameter('languageId', 1)
-					->setParameter('countryId', 1)
 					->getQuery();
 
 		return [
@@ -38,19 +45,23 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findByBrand(string $brandId) : array {
+		$this->createParameter('appId', 10);
+		$this->createParameter('languageId', 1);
+		$this->createParameter('countryId', 1);
+
 		$this->createRelations($this->class);
 		$this->createSnapshots($this->class);
+		$this->createItemTranslations($this->class);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addSnapshots($queryBuilder);
+		$queryBuilder = $this->addItemTranslations($queryBuilder);
+		$queryBuilder = $this->addParameters($queryBuilder);
 
 		$query = $queryBuilder
 					->where('ApiBundle:' . $this->class . 'Entity.brandId = :brandId')
 					->setParameter('brandId', $brandId)
-					->setParameter('appId', 10)
-					->setParameter('languageId', 1)
-					->setParameter('countryId', 1)
 					->getQuery();
 
 		return [
@@ -59,19 +70,23 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findByFilters(array $filters) : array {
+		$this->createParameter('appId', 10);
+		$this->createParameter('languageId', 1);
+		$this->createParameter('countryId', 1);
+
 		$this->createRelations($this->class, true);
 		$this->createSnapshots($this->class);
+		$this->createItemTranslations($this->class);
 		$this->createFilters($this->class, $filters);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addSnapshots($queryBuilder);
+		$queryBuilder = $this->addItemTranslations($queryBuilder);
 		$queryBuilder = $this->addFilters($queryBuilder);
+		$queryBuilder = $this->addParameters($queryBuilder);
 
 		$query = $queryBuilder
-					->setParameter('appId', 10)
-					->setParameter('languageId', 1)
-					->setParameter('countryId', 1)
 					->getQuery();
 
 		return [
@@ -80,14 +95,21 @@ class BaseRepository extends EntityRepository
 	}
 
 	public function findIdsByFilters(array $filters) : array {
+		$this->createParameter('appId', 10);
+		$this->createParameter('languageId', 1);
+		$this->createParameter('countryId', 1);
+
 		$this->createRelations($this->class, true);
 		$this->createSnapshots($this->class);
+		$this->createItemTranslations($this->class);
 		$this->createFilters($this->class, $filters);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
 		$queryBuilder = $this->addSnapshots($queryBuilder);
+		$queryBuilder = $this->addItemTranslations($queryBuilder);
 		$queryBuilder = $this->addFilters($queryBuilder);
+		$queryBuilder = $this->addParameters($queryBuilder);
 
 		$query = $queryBuilder
 					->distinct()
@@ -154,13 +176,13 @@ class BaseRepository extends EntityRepository
 	}
 
 	private function addSnapshots(QueryBuilder $queryBuilder) : QueryBuilder {
-		foreach ($this->snapshots as $entity) {
-			$subQueryBuilder = $this->getEntityManager()->getRepository('ApiBundle:Snapshot' . $entity)->createQueryBuilder('ApiBundle:Snapshot' . $entity);
+		foreach ($this->snapshots as $class) {
+			$subQueryBuilder = $this->getEntityManager()->getRepository('ApiBundle:Snapshot' . $class)->createQueryBuilder('ApiBundle:Snapshot' . $class);
 			$subQuery = $subQueryBuilder
-						->where('ApiBundle:' . $entity . 'Entity.id = ApiBundle:Snapshot' . $entity . '.id')
-						->andWhere('ApiBundle:Snapshot' . $entity . '.appId = :appId')
-						->andWhere('ApiBundle:Snapshot' . $entity . '.languageId = :languageId')
-						->andWhere('ApiBundle:Snapshot' . $entity . '.countryId = :countryId');
+						->where('ApiBundle:' . $class . 'Entity.id = ApiBundle:Snapshot' . $class . '.id')
+						->andWhere('ApiBundle:Snapshot' . $class . '.appId = :appId')
+						->andWhere('ApiBundle:Snapshot' . $class . '.languageId = :languageId')
+						->andWhere('ApiBundle:Snapshot' . $class . '.countryId = :countryId');
 
 			$queryBuilder->andWhere($queryBuilder->expr()->not($queryBuilder->expr()->exists($subQuery->getDQL())));
 		}
@@ -168,6 +190,58 @@ class BaseRepository extends EntityRepository
 		return $queryBuilder;
 	}
 	// </SNAPSHOTS>
+
+	// <ITEMTRANSLATIONS>
+	private function createItemTranslations(string $class) : void {
+		$className = 'ApiBundle\\EntityMap\\' . $class;
+		$item = new $className();
+
+		if ($item->hasItemTranslation()) {
+			$this->createItemTranslation($class, $item->getTable());
+		}
+
+		foreach ($item->getRelations() as $relation => $properties) {
+			if ($properties['fetch']) {
+				$this->createItemTranslations($properties['class']);
+			}
+		}
+	}
+
+	private function createItemTranslation(string $class, string $table) : void {
+		$this->itemTranslations[$class] = $table;
+	}
+
+	private function addItemTranslations(QueryBuilder $queryBuilder) : QueryBuilder {
+		foreach ($this->itemTranslations as $class => $table) {
+			$this->createParameter($class . 'Table', $table);
+
+			$subQueryBuilder = $this->getEntityManager()->getRepository('ApiBundle:ItemTranslation' . $class . 'Entity')->createQueryBuilder('ApiBundle:ItemTranslation' . $class . 'Entity');
+			$subQuery = $subQueryBuilder
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.table = :' . $class . 'Table')
+							->andWhere('ApiBundle:' . $class . 'Entity.id = ApiBundle:ItemTranslation' . $class . 'Entity.tableId')
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.languageId = :languageId')
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.countryId = :countryId');
+
+			$queryBuilder->andWhere($queryBuilder->expr()->exists($subQuery->getDQL()));
+		}
+
+		return $queryBuilder;
+	}
+	// </ITEMTRANSLATIONS>
+
+	// <PARAMETERS>
+	private function createParameter(string $key, string $value) : void {
+		$this->parameters[$key] = $value;
+	}
+
+	private function addParameters(QueryBuilder $queryBuilder) : QueryBuilder {
+		foreach ($this->parameters as $key => $value) {
+			$queryBuilder->setParameter($key, $value);
+		}
+
+		return $queryBuilder;
+	}
+	// </PARAMETERS>
 
 	// <FILTERS>
 	private function createFilters(string $class, array $request) : void {

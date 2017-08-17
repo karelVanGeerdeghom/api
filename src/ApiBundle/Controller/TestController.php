@@ -32,7 +32,8 @@ class TestController extends Controller
 		}
 
 		$entityName = 'Product';
+		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByFilters($filters);
 
-		return $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByFilters($filters);
+		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
 	}
 }

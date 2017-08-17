@@ -30,8 +30,8 @@ class Product extends Base
 	];
 
 	protected $table = 'Recipe';
-
 	protected $snapshot = true;
+	protected $itemTranslation = true;
 
 	protected $attributes = [
 		'id' => [],

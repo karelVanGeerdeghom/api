@@ -18,6 +18,7 @@ class Base
 
 	protected $table = null;
 	protected $snapshot = false;
+	protected $itemTranslation = false;
 	protected $labels = null;
 	protected $attributes = [];
 
@@ -77,6 +78,10 @@ class Base
 
 	public function hasSnapshot() : bool {
 		return $this->snapshot;
+	}
+
+	public function hasItemTranslation() : bool {
+		return $this->itemTranslation;
 	}
 
 	public function setLabels($labels = null) : void {
