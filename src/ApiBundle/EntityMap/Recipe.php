@@ -8,6 +8,8 @@ class Recipe extends Base
 {
 	protected $table = 'Customerrecipe';
 
+	protected $snapshot = true;
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],
