@@ -17,6 +17,7 @@ class Base
 	];
 
 	protected $table = null;
+	protected $snapshot = false;
 	protected $labels = null;
 	protected $attributes = [];
 
@@ -72,6 +73,10 @@ class Base
 		}
 
 		return (new \ReflectionClass($this))->getShortName();
+	}
+
+	public function hasSnapshot() : bool {
+		return $this->snapshot;
 	}
 
 	public function setLabels($labels = null) : void {

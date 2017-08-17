@@ -31,6 +31,8 @@ class Product extends Base
 
 	protected $table = 'Recipe';
 
+	protected $snapshot = true;
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],

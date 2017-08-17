@@ -8,6 +8,8 @@ class SKU extends Base
 {
 	protected $table = 'Product';
 
+	protected $snapshot = true;
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],

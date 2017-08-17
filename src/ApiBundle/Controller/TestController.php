@@ -14,12 +14,25 @@ class TestController extends Controller
 {
 	use Convert;
 
+	// public function testAction() {
+	// 	$entityName = 'Recipe';
+	// 	$ids = [1685];
+
+	// 	$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
+
+	// 	return $this->convertAll($entityName, $entities[strtolower($entityName)]);
+	// }
+
 	public function testAction() {
-		$entityName = 'Recipe';
-		$ids = [1685];
+		$filters = $_GET;
+		if (count($filters) === 0) {
+			$filters = [
+				'Brand_id' => 18
+			];
+		}
 
-		$entities = $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByIds($ids);
+		$entityName = 'Product';
 
-		return $this->convertAll($entityName, $entities[strtolower($entityName)]);
+		return $this->getDoctrine()->getRepository('ApiBundle:' . $entityName . 'Entity')->findByFilters($filters);
 	}
 }
