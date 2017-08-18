@@ -22,8 +22,8 @@ class BaseRepository extends EntityRepository
 	public function findByIds(array $ids) : array {
 		$this->createSnapshots($this->class);
 		$this->createItemTranslations($this->class);
-print json_encode($this->snapshots) . '<br>';
-print json_encode($this->itemTranslations) . '<br>';
+// print json_encode($this->snapshots) . '<br>';
+// print json_encode($this->itemTranslations) . '<br>';
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 
