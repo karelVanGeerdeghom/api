@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Download extends Base
 {
+	protected $snapshot = true;
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],

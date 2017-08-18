@@ -20,11 +20,6 @@ class BaseRepository extends EntityRepository
 	protected $parameters = [];
 
 	public function findByIds(array $ids) : array {
-		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
-print json_encode($this->snapshots) . '<br>';
-print json_encode($this->itemTranslations) . '<br>';
-
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 
 		$this->createRelations($this->class);
@@ -90,6 +85,26 @@ print json_encode($this->itemTranslations) . '<br>';
 		return $this->toIdArray($query->getResult(Query::HYDRATE_ARRAY));
 	}
 
+	// <QUERYBUILDER>
+	private function prepareQueryBuilder(bool $isFilter = false) : QueryBuilder {
+		$this->createParameter('appId', 10);
+		$this->createParameter('languageId', 1);
+		$this->createParameter('countryId', 1);
+
+		$this->createRelations($this->class, $isFilter);
+		$this->createSnapshots($this->class);
+		$this->createItemTranslations($this->class, $isFilter);
+
+		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
+		$queryBuilder = $this->addRelations($queryBuilder);
+		$queryBuilder = $this->addSnapshots($queryBuilder);
+		$queryBuilder = $this->addItemTranslations($queryBuilder);
+		$queryBuilder = $this->addParameters($queryBuilder);
+
+		return $queryBuilder;
+	}
+	// </QUERYBUILDER>
+
 	// <RELATIONS>
 	private function createRelations(string $class, bool $isFilter = false) : void {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
@@ -142,6 +157,21 @@ print json_encode($this->itemTranslations) . '<br>';
 	private function createSnapshot(string $class) : void {
 		array_push($this->snapshots, $class);
 	}
+
+	private function addSnapshots(QueryBuilder $queryBuilder) : QueryBuilder {
+		foreach ($this->snapshots as $class) {
+			$subQueryBuilder = $this->getEntityManager()->getRepository('ApiBundle:Snapshot' . $class)->createQueryBuilder('ApiBundle:Snapshot' . $class);
+			$subQuery = $subQueryBuilder
+						->where('ApiBundle:' . $class . 'Entity.id = ApiBundle:Snapshot' . $class . '.id')
+						->andWhere('ApiBundle:Snapshot' . $class . '.appId = :appId')
+						->andWhere('ApiBundle:Snapshot' . $class . '.languageId = :languageId')
+						->andWhere('ApiBundle:Snapshot' . $class . '.countryId = :countryId');
+
+			$queryBuilder->andWhere($queryBuilder->expr()->not($queryBuilder->expr()->exists($subQuery->getDQL())));
+		}
+
+		return $queryBuilder;
+	}
 	// </SNAPSHOTS>
 
 	// <ITEMTRANSLATIONS>
@@ -150,7 +180,7 @@ print json_encode($this->itemTranslations) . '<br>';
 		$item = new $className();
 
 		if ($item->hasItemTranslation()) {
-			$this->createItemTranslation($class);
+			$this->createItemTranslation($class, $item->getTable());
 		}
 
 		foreach ($item->getRelations($isFilter) as $relation => $properties) {
@@ -160,8 +190,25 @@ print json_encode($this->itemTranslations) . '<br>';
 		}
 	}
 
-	private function createItemTranslation(string $class) : void {
-		array_push($this->itemTranslations, $class);
+	private function createItemTranslation(string $class, string $table) : void {
+		$this->itemTranslations[$class] = $table;
+	}
+
+	private function addItemTranslations(QueryBuilder $queryBuilder) : QueryBuilder {
+		foreach ($this->itemTranslations as $class => $table) {
+			$this->createParameter($class . 'Table', $table);
+
+			$subQueryBuilder = $this->getEntityManager()->getRepository('ApiBundle:ItemTranslation' . $class . 'Entity')->createQueryBuilder('ApiBundle:ItemTranslation' . $class . 'Entity');
+			$subQuery = $subQueryBuilder
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.table = :' . $class . 'Table')
+							->andWhere('ApiBundle:' . $class . 'Entity.id = ApiBundle:ItemTranslation' . $class . 'Entity.tableId')
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.languageId = :languageId')
+							->andWhere('ApiBundle:ItemTranslation' . $class . 'Entity.countryId = :countryId');
+
+			$queryBuilder->andWhere($queryBuilder->expr()->exists($subQuery->getDQL()));
+		}
+
+		return $queryBuilder;
 	}
 	// </ITEMTRANSLATIONS>
 

@@ -6,6 +6,7 @@ use ApiBundle\Meta\Base;
 
 class Author extends Base
 {
+	protected $snapshot = true;
 	protected $itemTranslation = true;
 
 	protected $attributes = [
