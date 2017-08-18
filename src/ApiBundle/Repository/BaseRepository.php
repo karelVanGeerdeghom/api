@@ -20,11 +20,6 @@ class BaseRepository extends EntityRepository
 	protected $parameters = [];
 
 	public function findByIds(array $ids) : array {
-		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
-// print json_encode($this->snapshots) . '<br>';
-// print json_encode($this->itemTranslations) . '<br>';
-
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 
 		$this->createRelations($this->class);
@@ -64,6 +59,11 @@ class BaseRepository extends EntityRepository
 
 		$this->createFilters($this->class, $filters);
 		$queryBuilder = $this->addFilters($queryBuilder);
+
+		// $this->createSnapshots($this->class);
+		// $this->createItemTranslations($this->class);
+		// print json_encode($this->snapshots) . '<br>';
+		// print json_encode($this->itemTranslations) . '<br>';
 
 		$query = $queryBuilder
 					->getQuery();
