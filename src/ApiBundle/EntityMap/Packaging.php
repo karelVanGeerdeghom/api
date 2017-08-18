@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Packaging extends Base
 {
+	protected $itemTranslation = true;
+
 	protected $attributes = [
 		'id' => [],
 		// TRANSLATIONS

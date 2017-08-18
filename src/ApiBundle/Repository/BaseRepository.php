@@ -16,6 +16,7 @@ class BaseRepository extends EntityRepository
 	protected $snapshots = [];
 	protected $itemTranslations = [];
 	protected $filters = [];
+
 	protected $parameters = [];
 
 	public function findByIds(array $ids) : array {
@@ -80,7 +81,7 @@ class BaseRepository extends EntityRepository
 
 		$this->createRelations($this->class, $isFilter);
 		$this->createSnapshots($this->class);
-		$this->createItemTranslations($this->class);
+		$this->createItemTranslations($this->class, $isFilter);
 
 		$queryBuilder = $this->createQueryBuilder('ApiBundle:' . $this->class . 'Entity');
 		$queryBuilder = $this->addRelations($queryBuilder);
@@ -162,7 +163,7 @@ class BaseRepository extends EntityRepository
 	// </SNAPSHOTS>
 
 	// <ITEMTRANSLATIONS>
-	private function createItemTranslations(string $class) : void {
+	private function createItemTranslations(string $class, bool $isFilter = false) : void {
 		$className = 'ApiBundle\\EntityMap\\' . $class;
 		$item = new $className();
 
@@ -170,7 +171,7 @@ class BaseRepository extends EntityRepository
 			$this->createItemTranslation($class, $item->getTable());
 		}
 
-		foreach ($item->getRelations() as $relation => $properties) {
+		foreach ($item->getRelations($isFilter) as $relation => $properties) {
 			if ($properties['fetch']) {
 				$this->createItemTranslations($properties['class']);
 			}
@@ -198,20 +199,6 @@ class BaseRepository extends EntityRepository
 		return $queryBuilder;
 	}
 	// </ITEMTRANSLATIONS>
-
-	// <PARAMETERS>
-	private function createParameter(string $key, string $value) : void {
-		$this->parameters[$key] = $value;
-	}
-
-	private function addParameters(QueryBuilder $queryBuilder) : QueryBuilder {
-		foreach ($this->parameters as $key => $value) {
-			$queryBuilder->setParameter($key, $value);
-		}
-
-		return $queryBuilder;
-	}
-	// </PARAMETERS>
 
 	// <FILTERS>
 	private function createFilters(string $class, array $request) : void {
@@ -302,4 +289,18 @@ class BaseRepository extends EntityRepository
 		return $queryBuilder;
 	}
 	// </FILTERS>
+
+	// <PARAMETERS>
+	private function createParameter(string $key, string $value) : void {
+		$this->parameters[$key] = $value;
+	}
+
+	private function addParameters(QueryBuilder $queryBuilder) : QueryBuilder {
+		foreach ($this->parameters as $key => $value) {
+			$queryBuilder->setParameter($key, $value);
+		}
+
+		return $queryBuilder;
+	}
+	// </PARAMETERS>
 }

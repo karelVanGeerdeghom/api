@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Segment extends Base
 {
+	protected $itemTranslation = true;
+
 	protected $attributes = [
 		'id' => [],
 		'Brand_id' => [],

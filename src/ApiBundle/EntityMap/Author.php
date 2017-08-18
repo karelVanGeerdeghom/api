@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Author extends Base
 {
+	protected $itemTranslation = true;
+
 	protected $attributes = [
 		'id' => [],
 		// TRANSLATIONS
