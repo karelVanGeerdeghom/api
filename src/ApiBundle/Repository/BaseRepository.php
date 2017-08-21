@@ -324,7 +324,7 @@ class BaseRepository extends EntityRepository
 	}
 	// </FILTERS>
 
-	private function validateItems($key, &$result) {
+	private function validateItems(string $key, array &$result) : void {
 		foreach ($result as &$value) {
 			if (is_array($value)) {
 				if ($this->validateItem($key, $value['id'])) {
@@ -346,7 +346,7 @@ class BaseRepository extends EntityRepository
 		}
 	}
 
-	private function validateItem($key, $id) {
+	private function validateItem(string $key, string $id) : bool {
 		if ((array_key_exists($key, $this->snapshotIds) && in_array($id, $this->snapshotIds[$key])) || (array_key_exists($key, $this->itemTranslationIds) && !in_array($id, $this->itemTranslationIds[$key]))) {
 			return true;
 		}
