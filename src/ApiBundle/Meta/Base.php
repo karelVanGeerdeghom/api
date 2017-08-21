@@ -16,6 +16,7 @@ class Base
 		'labels' => ['ColumnTranslation']
 	];
 
+	protected $class = null;
 	protected $table = null;
 	protected $snapshot = false;
 	protected $itemTranslation = false;
@@ -66,6 +67,14 @@ class Base
 		if ($data === null) {
 			return $this->exportMultiple(array_keys($this->attributes));
 		}
+	}
+
+	public function getClass() : string {
+		if ($this->class) {
+			return $this->class;
+		}
+
+		return (new \ReflectionClass($this))->getShortName();
 	}
 
 	public function getTable() : string {

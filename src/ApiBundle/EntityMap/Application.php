@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Application extends Base
 {
+	protected $class = 'Application';
+	protected $table = 'Application';
 	protected $itemTranslation = true;
 
 	protected $attributes = [

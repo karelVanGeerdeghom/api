@@ -6,6 +6,8 @@ use ApiBundle\Meta\Base;
 
 class Download extends Base
 {
+	protected $class = 'Download';
+	protected $table = 'Download';
 	protected $snapshot = true;
 
 	protected $attributes = [

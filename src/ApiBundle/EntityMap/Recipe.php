@@ -7,8 +7,8 @@ use ApiBundle\Meta\Base;
 class Recipe extends Base
 {
 	protected $table = 'Customerrecipe';
-
 	protected $snapshot = true;
+	protected $itemTranslation = true;
 
 	protected $attributes = [
 		'id' => [],
